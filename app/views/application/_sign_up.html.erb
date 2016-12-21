@@ -1,0 +1,30 @@
+<div id="mdlSignUp" class="ui manual fullscreen modal">
+  <i class="close icon"></i>
+  <h2 class="ui huge header">
+    <%= image_tag 'logoonly-512-matte-white.png' %>
+    <div class="content">
+      Join network101
+      <div class="sub header">Let's get started pimping out your channel!</div>
+    </div>
+  </h2>
+  <div class="content">
+    <div class="ui center aligned container">
+      <div id="btnConvince" class="ui large orange button">Get the full pimp-out treatment for free!</div>
+    </div>
+    <%= render 'sign_up_form' %>
+  </div>
+</div>
+<script>
+  $(function () {
+    $('#mdlSignUp').modal({
+    });
+
+    $('#mdlSignUp').modal('attach events', 'a[href="<%= new_user_registration_path %>"]');
+    $('a[href="<%= new_user_registration_path %>"]')
+      .click(function (e) {
+        e.preventDefault();
+      });
+  });
+</script>
+
+<%= render 'sign_up_modal', :show_selector => '#btnConvince' %>

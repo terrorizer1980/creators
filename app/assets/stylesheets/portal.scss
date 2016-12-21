@@ -1,0 +1,27 @@
+@import "jquery-ui";
+@import "jquery-ui/core";
+@import "jquery-ui/theme";
+@import "jquery-ui/datepicker";
+@import "jquery-ui/slider";
+@import "jquery-ui-timepicker-addon";
+@import "jquery.fileupload";
+@import "jquery.fileupload-ui";
+@import "gallery";
+
+.ui.sortable.table thead th a {
+  padding: 0.92857143em 0.71428571em;
+  margin: -0.92857143em -0.71428571em;
+}
+
+.ui.tiny.video .play {
+  opacity: 0.40;
+  -ms-transform: scale(0.45,0.45);
+  -webkit-transform: scale(0.45,0.45); 
+  transform: scale(0.45,0.45);
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+.ui.tiny.video .play:hover {
+  opacity: 1;
+}

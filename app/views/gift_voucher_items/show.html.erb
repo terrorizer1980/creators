@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @gift_voucher_item.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @gift_voucher_item.description %>
+</p>
+
+<p>
+  <strong>Gift voucher:</strong>
+  <%= @gift_voucher_item.gift_voucher %>
+</p>
+
+<p>
+  <strong>Product:</strong>
+  <%= @gift_voucher_item.product %>
+</p>
+
+<p>
+  <strong>Discount:</strong>
+  <%= @gift_voucher_item.discount %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @gift_voucher_item.quantity %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @gift_voucher_item.status %>
+</p>
+
+<%= link_to 'Edit', edit_gift_voucher_item_path(@gift_voucher_item) %> |
+<%= link_to 'Back', gift_voucher_items_path %>

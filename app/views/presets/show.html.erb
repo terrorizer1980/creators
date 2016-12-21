@@ -1,0 +1,83 @@
+
+  <h2 class="ui dividing header"><%= @preset.name %>
+    <div class="sub header">Preset for channel: <%= link_to @preset.channel.name, @preset.channel %></div>
+  </h2>
+  <h3 class="ui header">
+  Templates
+  </h3>
+
+  <div class="ui five column grid">
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="image">
+          <%= image_tag @intro.thumburl_url %>    
+        </div>
+        <div class="content">
+          <div class="header"><%= @intro.name %></div>
+          <div class="meta">Channel Intro id <%= @intro.id %></div>
+            Customize? <%= @preset.customizeintropervideo %>
+        </div>
+        <div class="ui bottom attached positive button">
+          <i class="paint brush icon"></i>Customize
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="image">
+          <%= image_tag @background.thumburl_url %>    
+        </div>
+        <div class="content">
+          <div class="header"><%= @background.name %></div>
+          <div class="meta">Motion Background id <%= @background.id %></div>
+        </div>
+        <div class="ui bottom attached positive button">
+          <i class="paint brush icon"></i>Customize
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="image">
+          <%= image_tag @l3.thumburl_url %>    
+        </div>
+        <div class="content">
+          <div class="header"><%= @l3.name %></div>
+          <div class="meta">Lower Third id <%= @l3.id %></div>
+        </div>
+        <div class="ui bottom attached positive button">
+          <i class="paint brush icon"></i>Customize
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="image">
+          <%= image_tag @endcard.thumburl_url %>    
+        </div>
+        <div class="content">
+          <div class="header"><%= @endcard.name %></div>
+          <div class="meta">Lower Third id <%= @endcard.id %></div>
+        </div>
+        <div class="ui bottom attached positive button">
+          <i class="paint brush icon"></i>Customize
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="image">
+          <%= image_tag @endcard.thumburl_url %>    
+        </div>
+        <div class="content">
+          <div class="header"><%= @endcard.name %></div>
+          <div class="meta">Lower Third id <%= @endcard.id %></div>
+        </div>
+        <div class="ui bottom attached positive button">
+          <i class="paint brush icon"></i>Customize
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= link_to 'Edit', edit_preset_path(@preset) %> |
+  <%= link_to 'Back', channel_presets_path(@preset.channel.slug) %>

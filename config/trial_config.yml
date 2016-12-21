@@ -1,0 +1,42 @@
+default: &default
+  :gift_voucher:
+    :name: Trial Goodies!
+    :message: Welcome to network101! We hope you like our service. To give you a chance to evaluate what we do, here are a few free goodies to get you started!
+    :to_text: New trial members
+    :from_text: The team at network101
+    :anonymous: true
+    :status: unclaimed
+  :gift_voucher_items:
+  - :product_name: Motion Graphic - Intro
+    :contents:
+      :name: Free Video Intro
+      :description: A Free Motion Graphic Intro. It's watermarked for now, but it'll be all yours when you sign up!
+      :discount: 100
+      :status: unclaimed
+  - :product_name: Motion Graphic - Lower-Third
+    :contents:
+      :name: Free Lower Third (1/3)
+      :description: A free Motion Graphic Lower Third
+      :discount: 100
+      :status: unclaimed
+  - :product_name: Motion Graphic - Lower-Third
+    :contents:
+      :name: Free Lower Third (2/3)
+      :description: Another free Motion Graphic Lower Third
+      :discount: 100
+      :status: unclaimed
+  - :product_name: Motion Graphic - Lower-Third
+    :contents:
+      :name: Free Lower Third (3/3)
+      :description: One more free Motion Graphic Lower Third
+      :discount: 100
+      :status: unclaimed
+
+development:
+  <<: *default
+  
+test:
+  <<: *default  
+
+production:
+  <<: *default

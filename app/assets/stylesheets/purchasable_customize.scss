@@ -1,0 +1,29 @@
+@import "spectrum";
+@import "rangeslider";
+@import "jquery.fileupload";
+@import "jquery.fileupload-ui";
+@import "gallery";
+.ui.aligned.form .inline.field > .progress {
+	display: block;
+	margin-left: 150px;
+	width: 225px;
+}
+.ui.aligned.form .inline.field > label {
+	width: 150px;
+}
+.ui.aligned.form .inline.field > .rangeslider {
+	display: inline-block;
+	margin-top: 6px;
+	width: 205px;
+	height: 10px;
+}
+.ui.aligned.form .inline.field > .rangeslider > .rangeslider__handle {
+	width: 15px;
+	height: 15px;
+	margin-top: 8px;
+}
+.ui.aligned.form .inline.field > .rangeslider > .rangeslider__fill {
+	background: #b1deff;
+	width: 205px;
+	height: 10px;
+}

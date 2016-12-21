@@ -1,0 +1,14 @@
+<h2>Previous Review</h2>
+
+<% if @last.nil? %>
+	This is the first review. Make it a good one!
+<% else %>
+	<div class="" ss="ui message">
+		<%= @last.slug %> was <%= @last.status %> on <%= @last.updated_at.strftime('%Y/%m/%d') %>
+	</div>
+
+	<div class="ui statistic">
+		<div class="value">123</div>
+		<div class="caption">something!</div>
+	</div>
+<% end %>

@@ -1,0 +1,3 @@
+[creators@exchange harv]$ sudo su - creators
+[creators@exchange ~]$ cd site/current
+[creators@exchange current]$ bundle exec rails c

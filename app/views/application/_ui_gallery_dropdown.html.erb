@@ -1,0 +1,32 @@
+<% if !defined?(gallery_type) || gallery_type == nil then gallery_type = 0 end %>
+<% if !defined?(channel_id) || channel_id == nil then channel_id = current_user.profile.selected_channel_id end %>
+<% if !defined?(dropdown_name) || dropdown_name == nil then dropdown_name = 'GalleryImage' end %>
+<% if !defined?(class_name) || class_name == nil then class_name = '' end %>
+<% currentGallery = current_user.user_galleries.where(gallery_type: gallery_type, channel_id: channel_id).first_or_create %>
+<div id="ddl<%=dropdown_name%>" class="ui top left pointing flex dropdown icon button <%= class_name %>">
+	<input type="hidden" name="<%=dropdown_name%>" style="display: none;" 
+		   value="<%#= if currentGallery.gallery_images.blank? then '' else currentGallery.gallery_images.first.url end%>" />
+	<i class="photo icon"></i>
+	<div class="menu">
+		<div class="ui icon search input">
+			<i class="search icon"></i>
+			<input type="text" placeholder="Search images...">
+		</div>
+		<div class="scrolling menu">
+			<% unless defined?(leave_empty) && leave_empty == 'true' %>
+				<% unless currentGallery.gallery_images.blank? %>
+					<% currentGallery.gallery_images.each do |gallery_image| %>
+						<div class="item" data-value="<%= gallery_image.url_url %>">
+							<img class="ui small image gallery-thumbnail" src="<%= gallery_image.url_url(:thumb_m).to_s %>">
+							<div><%= gallery_image.name %></div>
+						</div>
+					<% end %>
+				<% else %>
+					<div class="item disabled">
+						<div>No images found</div>
+					</div>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+</div>

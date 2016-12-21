@@ -1,0 +1,41 @@
+<%= console %>
+<div class="ui dividing header">Subscriptions</div>
+
+<h2>Managed Channels are $30/month, include 1000 Credits, and a Quarterly Channel Review.</h2>
+
+
+
+
+<table class="ui collapsing table">
+	<tr>
+		<td>
+			Do you have a channel?
+		</td>
+		<td><%= current_user.channels.youtube.count%></td>
+	</tr>
+	<tr>	
+		<td>
+			Did we do a Channel Review?
+		</td>
+		<td>
+			<% if current_user.reviews %>
+			<%= current_user.reviews.completed.count %>
+			<% else %>
+			NO
+			<% end %>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Custom Graphics?
+		</td>
+		<td>
+			YES
+		</td>
+	</tr>
+</table>
+if all true:<br>
+It's time to make the big decision.<p>
+if not all true:<br>
+You haven't tried everything, but I guess you're happy. Let's do this!<p>
+

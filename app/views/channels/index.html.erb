@@ -1,0 +1,20 @@
+<% if current_user.staff? %>
+  <h1>Client Channels (Staff View)</h1>
+<% else %>
+  <h1>My Channels</h1>
+<% end %>
+
+<div class="ui top attached tabular menu">
+  <a class="active item" data-tab="managed">Managed Channels</a>
+  <a class="item" data-tab="unmanaged">Unmanaged Channels</a>
+</div>
+<div class="ui bottom attached active tab segment" data-tab="managed">
+  <%= render 'channel_list', :channel_list => @managedchannels, :channel_list_title => 'managed channels' %>
+</div>
+<div class="ui bottom attached tab segment" data-tab="unmanaged">
+  <%= render 'channel_list', :channel_list => @unmanagedchannels, :channel_list_title => 'unmanaged channels' %>
+</div>
+<div class="ui hidden divider"></div>
+<%= link_to new_channel_path, class: 'ui positive button' do |btn| %>
+  <i class="add icon"></i>New Channel
+<% end %>

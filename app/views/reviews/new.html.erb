@@ -1,0 +1,35 @@
+<h1>Request Review</h1>
+
+<% if @channel.reviews.scheduled.present? %>
+	<div class="ui message">
+		<p>
+			Your next scheduled review for this channel is on: 
+			<%= @channel.reviews.scheduled.last.scheduled_for.strftime('%A, %b %d') %>.
+		</p>
+		<p>
+			At the moment, you can not request a change to the schedule, but we're working on it!
+		</p> 
+	</div>
+	<%= link_to 'Back to Reviews', channel_reviews_path(@channel), class: 'ui negative button' %>
+<% else %>
+
+	<div class="ui message">
+		For some reason, we haven't scheduled a review for you.  Please click the green button and we'll fix that right away. Sorry for the problem.
+	</div>
+
+	<%= form_for([@channel, @review], html: {class: 'ui form'}) do |f| %>
+	   
+	  <%= f.hidden_field :channel_id %>
+	  
+	  <div class="actions ui buttons">
+	  	<%= f.submit "Schedule a Review", class: 'ui positive button'%>
+	  	<div class="or"></div>
+	  	<%= link_to 'Cancel', channel_reviews_path(@channel), class: 'ui negative button' %>
+		</div>
+	
+	<% end %>
+
+<% end %>
+
+
+

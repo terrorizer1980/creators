@@ -1,0 +1,40 @@
+<div class="ui header">
+  Transaction <%= @tx.id %>
+</div>
+
+<p>
+  <strong>User:</strong>
+  <%= @tx.user.id %>
+</p>
+
+<p>
+  <strong>Txtype:</strong>
+  <%= @tx.txtype %>
+</p>
+
+<p>
+  <strong>Currency:</strong>
+  <%= @tx.currency %>
+</p>
+
+<p>
+  <strong>Direction:</strong>
+  <%= @tx.direction %>
+</p>
+
+<p>
+  <strong>Amount cents:</strong>
+  <%= @tx.amount_cents %>
+</p>
+
+<p>
+  <strong>Balance cents:</strong>
+  <%= @tx.balance_cents %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @tx.notes %>
+</p>
+
+<%= link_to 'Back', txes_path, class: 'ui button' %>

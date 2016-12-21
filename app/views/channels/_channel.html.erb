@@ -1,0 +1,35 @@
+<%## this is a bit hacky, and MAY not work in IE, but we can't render the form %>
+<%## with table elements inside or it doesn't submit. So instead, we render the %>
+<%## entire form inside the first cell and assign the other elements to it via %>
+<%## the html5 form element. I've read it doesn't work in IE, but the other way %>
+<%## doesn't work at all, so I guess it's ok until we work out a better way... %>
+
+<%# need to give the form an id so we can assign elements from outside the form tags %>
+<% form_id = 'frm_' + channel.id.to_s %>
+
+<%# need to keep the form variable from rails to generate the elements correctly %>
+<% frm = nil %>
+
+<tr>
+  <td>
+    <%= form_for channel, html: { id: form_id } do |f| %>
+      <%= f.label :name, channel.name %>
+      <%# the following allows us to redirect to a different page if the originating %>
+      <%# controller isn't the channel controller. The originating controller can specify %>
+      <%# the @channel_update_redirect_path variable to redirect to itself or elsewhere %>
+      <%# See the subscriptions_controller makes use of this %>
+      <%# See the channels_controller to see how it responds to the param %>
+      <% if defined? @channel_update_redirect_path %>
+        <input type="hidden" value="<%= @channel_update_redirect_path %>" name="redirect_path" id="redirect_path">
+      <% end %>
+      <% frm = f %>
+    <% end %>
+  </td>
+  <td>
+    <%= frm.collection_select :plan_id, @myplans, :id, :description, {}, { class: 'ui dropdown', form: form_id } %>
+  </td>
+  <td>
+    <%= frm.submit "Update", class: 'ui button', form: form_id %>
+  </td>
+
+</tr>

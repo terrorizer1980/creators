@@ -1,0 +1,53 @@
+<%= form_for([@channel, @preset], html: {class: 'ui form'}) do |f| %>
+  <% if @preset.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@preset.errors.count, "error") %> prohibited this preset from being saved:</h2>
+
+      <ul>
+      <% @preset.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="field">
+    <label>Preset Name</label>
+    <%= f.text_field :name, placeholder: "First Preset? A good name might be 'Default' or 'Main Preset'" %>
+  </div>
+
+  <h2 class="ui dividing header">
+  Motion Graphics 
+  </h2>
+  <div class="four fields">
+    <div class="field">
+      <label>Intro</label>
+      <%= f.collection_select :intro_template_id, MotionGraphic.intros.all, :id, :name , {}, {class: 'ui dropdown'} %>
+
+      <p>
+      <div class="inline field">
+        <div class="ui toggle checkbox">
+          <%= f.check_box :customizeintropervideo %>
+          <label>I want to have a custom overlay with each video</label>
+        </div>
+      </div>
+      </p>
+    </div>
+    <div class="field">
+      <label>Background</label>
+      <%= f.collection_select :background_template_id, MotionGraphic.backgrounds.all, :id, :name , {}, {class: 'ui dropdown'} %>
+    </div>
+    <div class="field">
+      <label>Lower Third</label>
+      <%= f.collection_select :l3_template_id, MotionGraphic.lower_thirds.all, :id, :name , {}, {class: 'ui dropdown'} %>
+    </div>
+    <div class="field">
+      <label>End Card</label>
+      <%= f.collection_select :endcard_template_id, MotionGraphic.end_cards.all, :id, :name , {}, {class: 'ui dropdown'} %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit class: 'ui positive button'%>
+  </div>
+<% end %>

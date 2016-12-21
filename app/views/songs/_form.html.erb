@@ -1,0 +1,69 @@
+<%= form_for(@song, html: {multipart: true, class: 'ui form'}) do |f| %>
+  <% if @song.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@song.errors.count, "error") %> prohibited this song from being saved:</h2>
+
+      <ul>
+      <% @song.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="two fields">
+    <div class="field">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :artist %>
+      <%= f.text_field :artist %>
+    </div>
+  </div>
+  <div class="field">
+    <%= f.label :content %>
+    <%= f.text_area :content %>
+  </div>
+  <div class="three fields">
+    <div class="field">
+      <label>Category</label>
+      <%= f.select :category, Song.categories.keys.to_a.map { |w| [w.titlecase, w] }, {}, {class: 'ui dropdown'} %>
+    </div>
+    <div class="field">
+      <label>Genre</label>
+      <%= f.select :genre, Song.genres.keys.to_a.map { |w| [w.titlecase, w] }, {}, {class: 'ui dropdown'} %>
+    </div>
+    <div class="field">
+      <label>Mood</label>
+      <%= f.select :mood, Song.moods.keys.to_a.map { |w| [w.titlecase, w] }, {}, {class: 'ui dropdown'} %>
+    </div>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <label>Video URL</label>
+      <%=f.text_field :vidurl %>
+    </div>
+    <div class="field">
+      <label>Publish Date</label>
+      <%= f.text_field :publish_at, class: 'datetimepicker', required: true %><br/><br/>
+    </div>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <label>Article Image Url</label>
+      <%= f.text_field :remote_thumburl_url %>
+    </div>
+    <div class="field">
+      <label>Published?</label>
+      <div class="ui checkbox">
+        <div class="ui toggle checkbox">
+          <%= f.check_box :approved %>
+          <%= f.label :approved %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit class: 'ui positive button'%>
+  </div>
+<% end %>

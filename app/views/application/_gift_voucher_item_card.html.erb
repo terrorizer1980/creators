@@ -1,0 +1,29 @@
+<% if defined? card_gift_voucher_item %>
+<div class="ui centered <%= card_gift_voucher_item.gift_voucher.claimed? || card_gift_voucher_item.claimed? ? 'red disabled' : 'blue' %> card">
+    <div class="image">
+      <%= image_tag card_gift_voucher_item.class.name.underscore + '_' + card_gift_voucher_item.product.name.gsub(/\s+/, "").underscore + '.png' %>
+    </div>
+    <div class="content">
+      <div class="header">
+        <%= card_gift_voucher_item.name.titlecase %>
+      </div>
+      <div class="description">
+        <%= card_gift_voucher_item.description %>
+      </div>
+    </div>
+    <div class="extra content">
+      <div class="right floated meta">
+        <%= card_gift_voucher_item.gift_voucher.claimed? ? 'Claimed' : card_gift_voucher_item.status.titlecase %>
+      </div>
+      <div class="meta">
+        Sent <%= time_ago_in_words_suffix(card_gift_voucher_item.created_at.to_s) %>
+      </div>
+      <div class="right floated meta">
+        <%= card_gift_voucher_item.discount %>% off
+      </div>
+      <div class="meta">
+        <%= card_gift_voucher_item.product.price %> credits
+      </div>
+    </div>
+  </div>
+<% end %>

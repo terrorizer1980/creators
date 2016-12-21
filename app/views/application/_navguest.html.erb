@@ -1,0 +1,28 @@
+<% unless defined?(navbarstyle) && navbarstyle != '' %>
+	<% 	navbarstyle = 'blue inverted' %>
+<% end %>
+
+<div id="mainMenuBar" class="ui <%= navbarstyle %> menu">
+	<div class="left menu">
+		<%= render "nav_static" %>
+	</div>
+
+	<div class="right menu">
+		<div class="item">
+			<%= link_to new_user_session_path, :class => 'toplevel text' do |lnk| %>
+				<i class="showable sign in icon"></i>
+				<label class="hideable">Sign in</label>
+			<% end %>
+    	</div>
+      <% unless current_uri = request.env['PATH_INFO'] == '/users/sign_up' %>
+		<div class="item">
+          <%= link_to new_user_registration_path, class: 'ui animated green fade button' do |lnk| %>
+				<div class="visible content">Try for Free</div>
+				<div class="hidden content">
+					Start Today!
+				</div>
+          <% end %>
+		</div>
+      <% end %>
+	</div>
+</div>

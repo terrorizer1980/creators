@@ -1,0 +1,13 @@
+<% unless defined?(homepath) && homepath != '' %>
+	<% 	homepath = root_path %>
+<% end %>
+
+<div class="logo toplevel item">
+	<%= link_to "network101", homepath %>
+</div>
+<div class="item">
+	<a href="/pages" class="toplevel text">
+		<i class="showable comment icon"></i>
+		<label class="hideable">Blog</label></a>
+	</a>
+</div>

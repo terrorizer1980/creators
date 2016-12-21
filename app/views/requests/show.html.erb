@@ -1,0 +1,27 @@
+<p>
+  <strong>User:</strong>
+  <%= @request.user.profile.nickname %>
+</p>
+
+<p>
+  <strong>Channel:</strong>
+  <%= @request.channel.name %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @request.reqtype %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @request.status %>
+</p>
+
+<p>
+  <strong>Assigned to:</strong>
+  <%= @assigned_to %>
+</p>
+
+<%= link_to 'Edit', edit_request_path(@request) %> |
+<%= link_to 'Back', requests_path %>

@@ -1,0 +1,32 @@
+.fileinput-button {
+	margin-left: -3px !important;
+	overflow: initial;
+}
+.dropzone.hover {
+	background: rgba(128, 255, 255, 0.5);
+}
+.ui.dropdown .menu>.item>.image.gallery-thumbnail {
+	display: block;
+	max-width: 150px;
+	max-height: 150px;
+}
+.ui.dropdown .menu .selected.item:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 149, 255, 0.15);
+}
+.ui.dropdown .menu .selected.item:after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 149, 255, 0.05);
+}

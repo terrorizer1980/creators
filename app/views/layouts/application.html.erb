@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		<%= @title ||= "network101 creator portal" %>
+	</title>
+  <%= render 'layouts/metasfonts' %>
+	<%= stylesheet_link_tag    'application', media: 'all' %>
+	<%= javascript_include_tag 'application' %>
+	<%= csrf_meta_tags %>
+	<%= yield :head %>
+    <script>
+      $(function() {
+          $('.special.card .image').dimmer({
+            on: 'hover'
+          });
+
+          $('.button.comingsoon').click(function (e) {
+              showModal('Coming soon!', 'Sorry this feature is not quite done yet! Were working hard on it and will have it done real soon!', null, 'OK, I can wait!', 'I am displeased', null);
+          });
+      });
+    var _prum = [['id', '5390dc5babe53d4f467b23c6'],['mark', 'firstbyte', (new Date()).getTime()]];
+    (function() {
+      var s = document.getElementsByTagName('script')[0]
+        , p = document.createElement('script');
+      p.async = 'async';
+      p.src = '//rum-static.pingdom.net/prum.min.js';
+      s.parentNode.insertBefore(p, s);
+    })();
+  </script>
+
+</head>
+
+<body>
+	<%= render 'messaging' %>
+	<%= render 'nav_select' %>
+
+	<div class="ui segment">
+		<%= yield %>
+	</div>
+</body>
+</html>

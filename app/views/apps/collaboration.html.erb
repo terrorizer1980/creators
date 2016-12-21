@@ -1,0 +1,61 @@
+<h1>The Collaboration Machine</h1>
+
+<div class="ui positive message">
+	Collaborating with and cross-promoting other channels are key ways for you to find new audiences, form working relationships with talented YouTube creators, and highlight amazing channels that your fans will love to subscribe to. Other YouTube creators can be a critical part of your community (and success) on YouTube.
+</div>
+<% unless current_user.channels.empty? %>
+
+<div class="ui segment">
+	<h3><%= link_to "Review My Matches", apps_collaboration_matches_path, class:"ui huge orange button" %></h3>
+	<p>
+		Every day, we search through our database to identify channels with a similar number of subscribers or average views, in the same category.  Check back regularly to see if we found anyone for you!
+	</p>
+</div>
+	<% unless @cc.empty? %>
+	<h3>My Channels</h3>
+
+
+	<table class="ui blue selectable table">
+		<thead>
+			<th></th>
+			<th>
+				Channel
+			</th>
+			<th>
+				Category
+			</th>
+			<th>
+				Average Views
+			</th>
+			<th>
+				Subscribers
+			</th>
+			<th>
+				Videos
+			</th>
+			<th>
+				Active?
+			</th>
+		</thead>
+		<tbody>
+			<%= render 'collab_initchanneltable'%>
+		</tbody>
+	</table>
+	<% end %>
+
+
+	<% unless @nc.empty? %>
+	<div class="ui message">
+	  <div class="header">
+	    Available Channels
+	  </div>
+	  <p>These are your channels. Click "Initialize" to bring these channels into the Collaboration Machine.</p>
+	</div>
+	<table class="ui blue selectable table">
+		<%= render 'collab_noninitchanneltable'%>
+	</table>
+	<% end %>
+
+<% else %>
+NO CHANNELS DEFINED. Please <%= link_to "add a channel", new_channel_path %> before continuing.
+<% end %>

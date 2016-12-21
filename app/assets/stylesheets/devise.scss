@@ -1,0 +1,10 @@
+@import "site";
+
+a, a:hover {
+	color: rgba(0, 0, 0, 0.87);
+}
+
+#mainMenuBar .logo.item,
+{
+	background-image: image-url('logoonly-512-matte-white.png');
+}

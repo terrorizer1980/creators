@@ -1,0 +1,194 @@
+<h1 class="ui header">Subscription Management</h1>    
+<table class = "ui basic collapsing table">
+<tr>
+  <td>You Signed up on</td>
+  <td><%= current_user.created_at.strftime('%Y-%m-%d') %>, <%= distance_of_time_in_words_to_now(current_user.created_at) %> ago</td>
+</tr>
+<tr>
+  <td>Your service level:</td>
+  <td><%= current_user.clientstatus.humanize %></td>
+</tr>
+<% unless @subscription.last_payment_date.nil? %>
+<tr>
+  <td>Your last payment:</td>
+  <td><%= @subscription.last_payment_date.strftime('%Y-%m-%d') %></td>
+</tr>
+<% end %>
+<% unless @subscription.next_billing_date.nil? %>
+<tr>
+  <td>Your next billing date:</td>
+  <td><%= @subscription.next_billing_date.strftime('%Y-%m-%d') %></td>
+</tr>
+<tr>
+  <td>Days remaining:</td>
+  <td><%= @daysremaining %></td>
+</tr>
+<% end %>
+</table>
+
+<% if @unmanagedchannels.exists? %>
+
+
+<div class="channels" id="unmanaged_channels">
+ <table class="ui blue collapsing table">
+    <thead>
+    <tr>
+      <th colspan="3">
+        Unmanaged Channels
+      </th>
+    </tr>
+    <tr>
+      <th>Channel</th>
+      <th>Plan</th>
+      <th>Manage?</th>
+    </tr>
+    </thead>
+    <tbody>
+      <%= render @unmanagedchannels.includes(:plan, :reviews) %>
+    </tbody>
+  </table>
+</div>
+
+<% end %>
+
+<% if @sp == @spsa %>
+  <div class="ui positive message">
+    Your services match your subscription. All good here!<br>
+    <% if current_user.subscription.last_payment_date.nil? %>
+    Billing Day: Nothing Billed Yet.
+    <% else %>
+    Billing Day: The <%= current_user.subscription.last_payment_date.strftime('%d').to_i.ordinalize %> of every month.
+    <% end %>
+  </div>
+<% else %>
+  
+  <div class="ui warning message">
+  <% if @sp < @spsa %>
+    <div class="header">You're paying too much! Let's fix that!<br>
+    <table class = "ui collapsing basic table">
+    <tr>
+      <td>Service Value</td>
+      <td><%= @sp %></td>
+    </tr>
+    <tr>
+      <td>Subscription Amount</td>
+      <td><%= @spsa %></td>
+    </tr>
+    </table>
+  <% else %>
+    <div class="header">
+      Check Out with PayPal
+  <% end %>  
+    </div>
+
+
+  <%if @subscription.paypal_recurring_profile_token.present? %>
+    <% if @subscription.last_payment_date.present? %>
+      <p>You already have a subscription (<%= @subscription.paypal_recurring_profile_token %>) for network101, but you made changes (added or removed a managed channel).</p>
+
+      <p>First we need to cancel it (painful, I know. Sorry, you can only have one subscription at a time with paypal so we need to bundle your managed channels into one bill for PayPal.)</p>
+
+      <%= link_to "Cancel Existing Paypal Subscription", paypal_cancellation_path(p: @subsprice, c: @managedchannels.count), class: 'ui violet button' %><br>
+      (You will receive a $<%= '%.2f' % @subscription.resubcredit %> credit)
+    <% else %>  
+      <p> Well, this is odd.  You have a recurring bill set up, but paypal has never successfully charged you.  I guess that means you're cancelling just after you set up your subscription. As you have never paid, your token balance will be reset, and any work in progress or scheduled will be cancelled.</p>
+      <%= link_to "Cancel Subscription", paypal_cancellation_path(p: @subsprice, c: @managedchannels.count), class: 'ui violet button' %>
+    <% end %>
+
+  <% elsif current_user.txes.paypal_auto.present? %>
+
+    <%= link_to "Resubscribe", paypal_checkout_path(p: @subsprice, c: @managedchannels.count), class: 'ui violet button' %>
+  <% else %>
+    <%= link_to "Subscribe", paypal_checkout_path(p: @subsprice, c: @managedchannels.count), class: 'ui violet button' %>
+  <% end %>
+  </div>
+<% end %>
+  <p>
+<% if @managedchannels.exists? %>
+  <table class="ui blue table">
+    <thead>
+    <tr>
+      <th colspan="4">
+        Managed Channels
+      </th>
+    </tr>
+    <tr>
+      <th>Channel</th>
+      <th>Plan</th>
+      <th>Subscription Price (<%= "monthly" || current_user.subscription.billingperiod %>)</th>
+      <th class="collapsing">Included in Subscription?</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <% @managedchannels.each do |c| %>
+    <tr>
+      <td>
+        <%= c.name %>
+      </td>
+      <td>
+        <%= c.plan.name %>
+      </td>
+      <td>
+       $  <%= c.plan.price / 100 %>
+      </td>
+      <td>
+        <%= c.subscription_id.present? %>
+      </td>
+
+    </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+<% end %>
+
+<% if Rails.env.development? %>
+<div class="ui dividing header">DEV STUFF</div>
+
+<pre>
+Case: bill is going up. 
+
+get days left in current billing cycle
+if billday > dayofmonth.today
+  remain = (billday - dom) / 30
+else
+  remain = (billday - dom + 30) / 30
+
+credit = old$ * remain
+
+TRIALAMT
+
+
+Case: bill going down (not to zero)
+
+Case: downgrade to free 
+ easy
+
+Your billing date: <%= current_user.subscription.created_at.strftime('%d') %>
+Today: <%= Date.today.day %>
+Bill Difference:
+</pre>
+
+The magic computer says your subscription includes: 
+<ul>
+  <li><%= @managedchannels.count %> Managed Channels</li>
+  <li><%= @subscredits %> Credits</li>
+  <li><%= @subsreviews %> Channel Reviews (quarterly)</li>
+</ul>
+... for a total of $ <%= @subsprice / 100 %> <%= "monthly" || @subscription.billingperiod %>
+<p>Internals:
+<% if @subscription %>
+<ul>
+  <li>
+    PPCT: <%= @subscription.paypal_customer_token %>
+  </li>
+  <li>PPRPT: <%= @subscription.paypal_recurring_profile_token %></li>
+  <li>PPSA: <%= @subscription.paypal_subscription_amount %></li>
+  <li>PPSD: <%= @subscription.paypal_subscription_description %></li>
+</ul>
+<% else %>
+No sub data yet 
+<% end %>
+</p>
+<% end %>

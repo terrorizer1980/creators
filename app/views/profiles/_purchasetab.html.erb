@@ -1,0 +1,30 @@
+<div class="ui header">My Purchases
+  <div class="sub header">Credit Balance: <%= 0 || current_user.txes.last.balance_credits %></div>
+</div>    
+
+<table class="ui blue selectable table">
+  <thead>
+    <th>ID</th>
+    <th>Date</th>
+    <th>Type</th>
+    <th>Credit Amount</th>
+    <th>Dollar Amount</th>
+    <th>Credit Balance</th>
+    <th>Dollar Balance</th>
+    <th>Detail</th> 
+  </thead>
+  <tbody>
+    <% @txes.each do |tx| %>
+    <tr>
+    <td><%= tx.id %></td>
+    <td><%= tx.created_at %></td>  
+    <td><%= tx.txtype.humanize %></td>
+    <td><%= tx.amount_credits %></td>
+    <td><%= tx.amount_cents.to_f / 100 %></td>
+    <td><%= tx.balance_credits %></td>
+    <td><%= tx.balance_cents.to_f / 100 %></td>
+    <td><%= tx.notes %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

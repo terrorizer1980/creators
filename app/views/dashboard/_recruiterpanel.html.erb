@@ -1,0 +1,45 @@
+<div class="ui bottom attached segment">
+  <h3>Your Recruitment Progress</h3>
+  <% if Rails.env.development? %>
+    Matched Users: <%= Referral.matched_users(current_user).length %>
+    Matched Channels: <%= Referral.matched_channels(current_user).length %>
+  <% end %>
+  <div class="ui four tiny hoizontal purple statistics">
+      <%= link_to referrals_path, class: 'statistic' do |lnk| %>
+          <div class="value">
+              <i class="pin icon"></i>
+            <%= current_user.referrals.initiated.length %>
+          </div>
+          <div class="label">
+              Initiated
+          </div>
+      <% end %>
+      <%= link_to referrals_path, class: 'statistic' do |lnk| %>
+          <div class="value">
+              <i class="thumbs up outline up icon"></i>
+            <%= current_user.referrals.trialling.length %>
+          </div>
+          <div class="label">
+              Trialling
+          </div>
+      <% end %>
+      <%= link_to referrals_path, class: 'statistic' do |lnk| %>
+          <div class="value">
+              <i class="thumbs down outline icon"></i>
+              <%= current_user.referrals.cancelled.length %>
+          </div>
+          <div class="label">
+              Cancelled
+          </div>
+      <% end %>
+      <%= link_to referrals_path, class: 'statistic' do |lnk| %>
+          <div class="value">
+              <i class="trophy icon"></i>
+            <%= current_user.referrals.successful.length %>
+          </div>
+          <div class="label">
+              Successful
+          </div>
+      <% end %>
+  </div>
+</div>

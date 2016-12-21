@@ -1,0 +1,36 @@
+<div class="card">
+		<% if staff_user.nil? || staff_user.profile.nil? %>
+			<div class="content">
+              <a class="header">No <%=staff_type_label.humanize %> has been assigned to your account yet.</a>
+			</div>
+			<% else %>
+				<div class="blurring dimmable image">
+					<div class="ui dimmer">
+						<div class="content">
+							<div class="center">
+								<div class="ui labeled icon inverted button comingsoon">
+									<i class="comment icon"></i>
+									Chat
+								</div>
+							</div>
+						</div>
+					</div>
+                  <%= image_tag staff_user.profile.avatar_url(:sidebar).nil? ? "/images/unknown-person1.gif" : staff_user.profile.avatar_url(:sidebar) %>
+				</div>
+				<div class="content">
+                  <%= !(defined? staff_type_label) || staff_type_label.nil?  ? staff_user.staffrole.humanize : staff_type_label.titlecase %>:
+					<a class="header">
+						<%= staff_user.profile.fname %>
+					</a>
+					<div class="description">
+						<%= staff_user.profile.bio %>
+					</div>
+				</div>
+				<div class="extra content">
+					<span class="right floated">
+						Contact: <a href="skype:<%= staff_user.profile.skype %>?call"><i class="skype icon"></i></a>
+						<a href="mailto:<%= staff_user.email %>"><i class="mail icon"></i></a>
+	  				</span>
+				</div>
+			<% end %>
+	</div>

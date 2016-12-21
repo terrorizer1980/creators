@@ -1,0 +1,22 @@
+
+  <div class="ui one column center aligned stackable page grid">
+    <div class="column twelve wide">
+      <%= image_tag 'logoonly-512-matte-white.png', class: 'ui centered small image'%>
+<h2>Forgot your password?</h2>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'ui form' }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Send me reset password instructions", class: 'ui positive button' %>
+  </div>
+<% end %>
+<div class="ui divider"></div>
+<%= render "devise/shared/links" %>
+</div>
+</div>

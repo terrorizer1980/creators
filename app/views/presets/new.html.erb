@@ -1,0 +1,8 @@
+
+	<h1 class="ui header>">New Preset
+		<div class="sub header">for channel: <%= @channel.name%></div>
+	</h1>
+
+	<%= render 'form' %>
+
+	<%= link_to 'Back', channel_presets_path(@channel) %>

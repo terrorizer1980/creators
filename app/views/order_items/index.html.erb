@@ -1,0 +1,47 @@
+<h1>Presets for <%= @purchasable.title %></h1>
+
+<table class="ui blue selectable table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Product</th>
+      <th>Selection</th>
+      <th>Customized?</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order_items.includes(:product, :purchasable).each do |order_item| %>
+      <tr>
+        <td><%= link_to order_item.name, [@purchasable, order_item] %></td>
+        <td><%= link_to order_item.product.name, [@purchasable, order_item] %></td>
+        <td><%= order_item.purchasable.title %></td>
+        <td><%= order_item.custom.present? ? 'YES' : 'NO' %></td>
+        <td>
+          <div class="ui tiny icon buttons">
+            <%= link_to [:edit, @purchasable, order_item], class: 'ui orange button' do |btn| %>
+                <i class="edit icon"></i>
+            <% end %>
+            <%= link_to [@purchasable, order_item], class: 'ui negative button', method: :delete, data: { confirm: 'Are you sure?' } do |btn| %>
+                <i class="trash icon"></i>
+            <% end %>
+            <%= link_to [:add_to_basket, @purchasable, order_item], class: 'ui positive button' do |btn| %>
+                <i class="shopping cart icon"></i>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to @purchasable, class: 'ui secondary labeled icon button' do | lnk | %>
+  <i class="arrow left icon"></i>
+  Back
+<% end %>
+<%= link_to [:new, @purchasable, :order_item], class: 'ui positive labeled icon button' do | lnk | %>
+  <i class="options icon"></i>
+  New Preset
+<% end %>
+
+<%= render 'reload_on_channel_change' %>

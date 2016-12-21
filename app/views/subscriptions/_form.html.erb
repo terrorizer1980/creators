@@ -1,0 +1,70 @@
+<%= form_for(@subscription, html: {class: 'ui form'}) do |f| %>
+  <% if @subscription.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
+
+      <ul>
+      <% @subscription.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :paypal_customer_token %>
+  <%= f.hidden_field :paypal_payment_token %>
+
+  <% if @subscription.payment_provided? %>
+  <p>Awesome!  To confirm, you will now be paying $<%= @details.params[:AMT] %> <%=@subscription.billingperiod %> in US Dollars.</p>
+  <p>We appreciate your business, and look forward to helping you grow your video empire.</p>
+
+  <div class="actions">
+    <%= f.submit "Confirm and Continue", class: 'ui huge positive button'%>
+  </div>
+
+  <div class="ui compact piled segment">
+    Information received from PayPal:
+    <ul>
+    <li>Acknowledged: <%=@details.params[:ACK] %></li>
+    <li>Email: <%=@details.params[:EMAIL] %></li>
+    <li>Payer Status: <%=@details.params[:PAYERSTATUS] %></li>
+    <li>First Name: <%=@details.params[:FIRSTNAME] %></li>
+    <li>Last Name: <%=@details.params[:LASTNAME] %></li>
+    <li>Country Code: <%=@details.params[:COUNTRYCODE] %></li>
+    <li>Billing Agreement Accepted Status: <%=@details.params[:BILLINGAGREEMENTACCEPTEDSTATUS] %></li>
+    </ul>
+  </div>
+  
+  <% else %>
+
+  <div class="field">
+    <label>Payment Method</label>
+    <%= f.number_field :paymethod %>
+  </div>
+  <div class="field">
+    <%= f.label :billingperiod %><br>
+    <%= f.number_field :billingperiod %>
+  </div>
+  <div class="field">
+    <%= f.label :paypal_customer_token %><br>
+    <%= f.text_field :paypal_customer_token %>
+  </div>
+  <div class="field">
+    <%= f.label :paypal_recurring_profile_token %><br>
+    <%= f.text_field :paypal_recurring_profile_token %>
+  </div>
+  <div class="field">
+    <%= f.label :paypal_subscription_amount %><br>
+    <%= f.text_field :paypal_subscription_amount %>
+  </div>
+  <div class="field">
+    <%= f.label :paypal_subscription_description %><br>
+    <%= f.text_field :paypal_subscription_description %>
+  </div>
+  
+
+  <div class="actions">
+    <%= f.submit class: 'ui button'%>
+  </div>
+  <% end %>
+<% end %>

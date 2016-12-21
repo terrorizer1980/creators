@@ -1,0 +1,3 @@
+class MotionGraphicProduct < Product
+  
+end

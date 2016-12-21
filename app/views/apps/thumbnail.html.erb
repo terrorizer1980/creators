@@ -1,0 +1,1172 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag    'thumbnail',  media: 'all' %>
+	<%= javascript_include_tag 'thumbnail' %>
+<% end %>
+
+<% if Rails.env.development? %>
+	<%#= console %>
+<% end %>
+
+<div id="appcontainer" class="ui segment pushable">
+	<div id="appsidebar" class="ui left wide uncover sidebar">
+		<div class="ui form">
+			<div class="ui styled fluid accordion">
+				<div class="active title">
+					<i class="dropdown icon"></i>
+					Background
+				</div>
+				<div id="backgroundGalleryDropzone" class="active content dropzone">
+                    <div class="inline field panel-input">
+                        <label>Image:</label>
+                        <div class="ui icon buttons">
+                              <% if !current_user.selected_channel.nil? && current_user.selected_channel.youtube? %>
+                                <div id="ddlThumbnailBackground" class="ui top left pointing dropdown icon button">
+                                  <input type="hidden" name="thumbnailbackground" style="display: none;" />
+                                  <i class="unhide icon"></i>
+                                  <div class="menu">
+                                      <div class="ui icon search input">
+                                          <i class="search icon"></i>
+                                          <input type="text" placeholder="Search videos...">
+                                      </div>
+                                      <div class="scrolling menu">
+                                        <% if current_user.selected_channel.videos.present? %>
+                                          <% current_user.selected_channel.videos.each do | video | %>
+                                        <div class="item" data-value="<%= video.thumbnail_best %>"><%= video.name %></div>
+                                          <% end %>
+                                        <% else %>
+                                          <div class="item disabled">
+                                            <div>No videos found</div>
+                                          </div>
+                                        <% end %>
+                                      </div>
+                                  </div>
+                              </div>
+                            <% end %>
+							<%= render 'ui_gallery_dropdown', :gallery_type => 1, :dropdown_name => 'Background1Image', :class_name => 'backgroundgallerydropdown' %>
+							<% unless @selected_channel.blank? %>
+                              <% user_gallery_background = UserGallery.thumbnail_background_gallery(current_user, current_user.selected_channel) %>
+                              <%= form_for([user_gallery_background, GalleryImage.new], :format => "json", :html => {multipart: true}) do |f| %>
+                                  <div class="popupsource ui icon button fileinput-button" data-content="Click to upload images, or drag the files(s) onto this form section.">
+                                      <i class="add icon"></i>
+                                      <%= f.file_field :url, :id => 'fupGalleryImageBackground', :multiple => true, :name => 'gallery_image[url]', style: 'width: 38px; height: 38px; overflow: hidden;' %>
+                                  </div>
+						      <% end %>
+							<% else %>
+								<div class="popupsource ui icon button" data-content="You must add a channel before you can upload gallery images.">
+									<i class="add icon"></i>
+								</div>
+							<% end %>
+                            <%= link_to user_gallery_background, class: 'popupsource ui icon button', target: '_blank', data: {content: "Click to manage this image gallery -- will open new window"} do | lnk | %>
+                              <i class="external icon"></i>
+                            <% end %>
+						</div>
+						<div id="prgGalleryImageBackground" class="ui bottom attached tiny progress" data-percent="0" style="display: none;">
+							<div class="bar" style="width: 0%"></div>
+						</div>
+					</div> 
+				</div>
+				<div class="title">
+					<i class="dropdown icon"></i>
+					Text
+				</div>
+				<div class="content">
+					<div class="inline field panel-input">
+						<label>Panel: </label>
+						<div id="ddlPanelPosition" class="ui top right pointing dropdown icon button">
+							<input type="hidden" name="textline1backgroundpostition" value="left" style="display: none;" />
+							<i class="block layout icon"></i>
+							<div class="menu">
+								<div class="item" data-value="left">Left</div>
+								<div class="item" data-value="right">Right</div>
+								<div class="item" data-value="center">Center</div>
+							</div>
+						</div>
+						<input id="cpkPanelColor" type="text" />
+						<input id="knbPanelSize" type="range" min="0" max="100" step="1" />
+					</div>
+					<div class="inline field text-input">
+						<label>Text 1:</label>
+						<input id="tbxTextLine1Text" type="text" placeholder="Your line 1 text" />
+						<div id="ddlTextLine1Font" class="ui top right pointing dropdown icon button">
+							<input type="hidden" name="textline1font" style="display: none;" />
+							<i class="font icon"></i>
+							<div class="menu">
+								<div class="ui icon search input">
+									<i class="search icon"></i>
+									<input type="text" placeholder="Search fonts...">
+								</div>
+								<div class="fontlist scrolling menu">
+								</div>
+							</div>
+						</div>
+						<input id="cpkTextLine1Color" type="text" />
+						<input id="knbTextLine1Size" type="range" min="0" max="100" step="1" />
+					</div>
+					<div class="inline field text-input">
+						<label>Text 2:</label>
+						<input id="tbxTextLine2Text" type="text" placeholder="Your line 2 text" />
+						<div id="ddlTextLine2Font" class="ui top right pointing dropdown icon button">
+							<input type="hidden" name="textline2font" style="display: none;" />
+							<i class="font icon"></i>
+							<div class="menu">
+								<div class="ui icon search input">
+									<i class="search icon"></i>
+									<input type="text" placeholder="Search fonts...">
+								</div>
+								<div class="fontlist scrolling menu">
+								</div>
+							</div>
+						</div>
+						<input id="cpkTextLine2Color" type="text" />
+						<input id="knbTextLine2Size" type="range" min="0" max="100" step="1" />
+					</div>
+					<div class="inline field text-input">
+						<label>
+							Text 3:
+						</label>
+						<input id="tbxTextLine3Text" type="text" placeholder="Your line 3 text" />
+						<div id="ddlTextLine3Font" class="ui top right pointing dropdown icon button">
+							<input type="hidden" name="textline3font" style="display: none;" />
+							<i class="font icon"></i>
+							<div class="menu">
+								<div class="ui icon search input">
+									<i class="search icon"></i>
+									<input type="text" placeholder="Search fonts...">
+								</div>
+								<div class="fontlist scrolling menu">
+								</div>
+							</div>
+						</div>
+						<input id="cpkTextLine3Color" type="text" />
+						<input id="knbTextLine3Size" type="range" min="0" max="100" step="1" />
+					</div>
+				</div>
+				<div class="title">
+					<i class="dropdown icon"></i>
+					Overlays
+				</div>
+				<div id="overlayGalleryDropzone" class="content dropzone">
+					<div class="inline field">
+						<label>Image 1:</label>
+						<div class="ui icon buttons">
+							<%= render 'ui_gallery_dropdown', :gallery_type => 0, :dropdown_name => 'Overlay1Image', :class_name => 'overlaygallerydropdown' %>
+							<% unless @selected_channel.blank? %>
+                          <% user_gallery_overlay = UserGallery.thumbnail_overlay_gallery(current_user, current_user.selected_channel) %>
+                          <%= form_for([user_gallery_overlay, GalleryImage.new], :format => "json", :html => {multipart: true}) do |f| %>
+									<div class="ui icon button fileinput-button">
+										<i class="add icon"></i>
+										<%= f.file_field :url, :id => 'fupGalleryImageOverlay', :multiple => true, :name => 'gallery_image[url]', style: 'width: 38px; height: 38px; overflow: hidden;' %>
+										<%= f.hidden_field :gallery_type, :value => '0' %>
+										<%= f.hidden_field :channel_id, :value => @selected_channel.id %>
+									</div>
+								<% end %>
+							<% else %>
+								<div class="popupsource ui icon button" data-content="You must add a channel before you can upload gallery images.">
+									<i class="add icon"></i>
+								</div>
+							<% end %>
+                            <%= link_to user_gallery_overlay, class: 'popupsource ui icon button', target: '_blank', data: {content: "Click to manage this image gallery -- will open new window"} do | lnk | %>
+                              <i class="external icon"></i>
+                            <% end %>
+							<div id="ddlOverlay1Position" class="ui top right pointing dropdown icon button">
+								<input type="hidden" name="overlay1postition" value="bottomright" style="display: none;" />
+								<i class="block layout icon"></i>
+								<div class="menu">
+									<div class="item" data-value="topleft">Top Left</div>
+									<div class="item" data-value="bottomleft">Bottom Left</div>
+									<div class="item" data-value="topright">Top Right</div>
+									<div class="item" data-value="bottomright">Bottom Right</div>
+								</div>
+							</div>
+						</div>
+						<div id="prgGalleryImageOverlay" class="ui bottom attached tiny progress" data-percent="0" style="display: none;">
+							<div class="bar" style="width: 0%"></div>
+						</div>
+						<input id="knbOverlay1Size" type="range" min="0" max="100" step="1" />
+					</div>
+				</div>
+				<div class="title">
+					<i class="dropdown icon"></i>
+					Load / Save / Export
+				</div>
+				<div class="content">
+					<div class="inline field">
+						<label>Load / Save Presets:</label>
+						<div class="divider"></div>
+						<%= form_for(@thumbnail_preset_new, url: {action: 'thumbnail_preset_save'}, html: {class: 'popupsource ui form', data: {content: @selected_channel.blank? ? 'You must add a channel before you can create or load presets.' : ''}}) do |f| %>
+							<%= f.hidden_field :channel_id, :value => (@selected_channel.blank? ? '' : @selected_channel.id) %>
+							<%= f.hidden_field :content, id: "txtFormState" %>
+							<div id="ddlPresetList" class="ui floating dropdown labeled search icon button overridable" style="width: 180px;">
+								<%= f.hidden_field :name %>
+								<i class="theme icon"></i>
+								<span class="text">Presets</span>
+								<div class="menu">
+									<% unless @current_thumbnail_presets.blank? %>
+										<% @current_thumbnail_presets.each do |thumbnail_preset| %>
+											<div class="item" data-value="<%= thumbnail_preset.name %>"><%= thumbnail_preset.name %></div>
+										<% end %>
+									<% else %>
+										<div class="item disabled">
+											<div>No presets found</div>
+										</div>
+									<% end %>
+								</div>
+							</div>
+							<div class="ui icon buttons">
+								<div id="btnSavePreset" class="ui icon disabled button">
+									<i class="save icon"></i>
+								</div>
+								<div id="btnLoadPreset" class="ui icon disabled button">
+									<i class="folder open icon"></i>
+								</div>
+								<div id="btnDeletePreset" class="ui icon disabled button">
+									<i class="trash icon"></i>
+								</div>
+							</div>
+						<% end %>
+					</div>
+					<div class="inline field">
+						<label>Save your Thumbnail:</label>
+						<div class="divider"></div>
+						<div class="ui positive buttons">
+							<a id="btnExportImage" class="ui labeled icon button">
+								<i class="file image outline icon"></i>
+								Export (PNG)
+							</a>
+					  		<div id="ddlExportImageOptions" class="ui combo top right pointing dropdown icon button">
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<div class="item"><i class="file image outline icon"></i>Export (PNG)</div>
+									<div class="item"><i class="file image outline icon"></i>Export (JPG)</div>
+								</div>
+					  		</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="canvaswrap" class="pusher">
+		<canvas id="canvas" width="1280" height="720" style="transform-origin: left top"></canvas>
+		<br />
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	var stylesheetsLoaded = false;
+	var scriptsLoaded = false;
+	var windowLoaded = false;
+	var fontsLoaded = false;
+	var canvasObjectsInitialized = false;
+	
+	var canvas, text1, text2, text3, rectangle, background, overlayimage1;
+	var blankText = '';
+	var fontList = ['Open Sans', 'Roboto', 'Oswald', 'Lato', 'Droid Sans', 'PT Sans', 'Droid Serif', 'Lora', 'Libre Baskerville', 'Josefin Slab', 'Arvo', 'Ubuntu', 'Raleway', 'Source Sans Pro', 'Lobster', 'PT Serif', 'Old Standard TT', 'Volkorn', 'Gravitas One', 'Merriweather', 'Exo', 'Nobile', 'Istok Web', 'Inconsolata', 'Montserrat', 'Playfair Display', 'Karla', 'Anonymous Pro', 'Alegreya', 'Lora', 'Muli', 'Neuton', 'Archivo Narrow', 'Questrial', 'Domine', 'Signika', 'Titillium Web', 'Fjalla One', 'Bitter', 'Dosis', 'Chivo', 'Arimo', 'Varela Round'];
+
+	function checkLoaded() {
+		if(windowLoaded && scriptsLoaded && stylesheetsLoaded && fontsLoaded) {
+
+			formatPanel();
+
+			console.log('Page loaded. Removing loading overlay');
+			$('#appcontainer').removeClass('loading');
+		}
+	}
+
+	$(window).load(function() {
+		windowLoaded = true;
+		checkLoaded();
+	});
+
+	(function (yourcode) {
+		yourcode(window.jQuery, window, document);
+	}(function ($, window, document) {
+		$(function () {
+			$('#appcontainer').addClass('loading');
+			
+			$(document).on('channel:change', function (e) {
+              if(window.location.search != null)
+                window.location = window.location.pathname;
+              else 
+				window.location.reload();
+				
+// 				TODO: Reload the form dynamically, something like the below:
+//				$('#appcontainer').addClass('loading');
+//				
+//				initCanvas();
+//				
+//				loadGalleryList('backgroundgallerydropdown', 1, function () {
+//					$('#appcontainer').removeClass('loading');
+//				});
+//				
+//				loadGalleryList('overlaygallerydropdown', 0, function () {
+//					$('#appcontainer').removeClass('loading');
+//				});
+//				
+//				loadPresetList();
+//				
+//				$('#appcontainer').removeClass('loading');
+			});
+			
+			stylesheetsLoaded = true;
+			scriptsLoaded = true;
+			checkLoaded();
+			
+			WebFont.load({
+				google: {
+					families: fontList
+				},
+				classes: false,
+				active: function() {
+					console.log('fonts loaded');
+					
+					initFontLists('fontlist', fontList);
+
+					fontsLoaded = true;
+					checkLoaded();
+				}
+			});
+			
+			initCanvas();
+			initColorPickers();
+			initKnobs();
+			initFormEvents();
+		});
+	}));
+	 
+	function initFontLists(selector, fontList) {
+		var itemHtml;
+		for (i = 0; i < fontList.length; i++) {
+			itemHtml = '<div class="item" style="font-family:' + fontList[i] + '" data-value="' + fontList[i] + '">' + fontList[i] + '</div>';
+			$('.fontlist').append(itemHtml);
+		}
+	}
+
+	function initFormEvents() {
+		$(window)
+			.resize(function () { 
+				fitCanvas(); 
+			});
+
+		$('.popupsource:not(.manual)')
+			.popup();
+
+		$('.ui.accordion:not(.manual)')
+			.accordion({
+				animateChildren: false
+			});
+
+		$('.ui.dropdown:not(.manual)')
+			.dropdown({
+				fullTextSearch: true
+		});
+		
+		$('.combo.dropdown:not(.manual)')
+		  .dropdown({
+			action: 'combo'
+		  });
+      
+        <% unless @vid.nil? %>
+          $('#ddlThumbnailBackground').dropdown('set selected', '<%= @vid.thumbnail_best %>');
+          loadBackgroundImage2($('#ddlThumbnailBackground').dropdown('get value'));
+        <% end %>
+		
+		$('#btnSavePreset').on('click', function () {
+			$('#appcontainer').addClass('loading');
+			
+			$('#txtFormState').val(JSON.stringify(getFormState()));
+			
+			$.ajax({
+				type: 'post',
+				url: 'thumbnail_preset_save',
+				data: $('#new_thumbnail_preset').serialize(),
+				success: function () {
+					loadPresetList();
+					showNotice('Thumnbnail Preset successfully saved.');
+				},
+				error: function(response, status, err) {
+					showAlert(status + ': ' + err);
+				},
+				complete: function(response, status) {
+					$('#appcontainer').removeClass('loading');
+				}
+			  });
+		});
+		
+		$('#btnDeletePreset').on('click', function () {
+			showModal('Please Confirm', 'You are about to permanently delete the selected thumbnail preset. Are you sure you want to do this?', null, 'Yep, kill it', 'Nope', function(modal) {
+				$('#appcontainer').addClass('loading');
+				$.ajax({
+					type: 'get',
+					url : 'thumbnail_preset_delete.json?name=' + $('#ddlPresetList').dropdown('get value'),
+					success: function () {
+						loadPresetList();
+						showNotice('Thumbnal Preset successfully deleted.');
+					},
+					error: function(response, status, err) {
+						showAlert(status + ': ' + err);
+					},
+					complete: function(response, status) {
+						$('#appcontainer').removeClass('loading');
+					}
+				});
+			});
+		});
+		
+		$('#btnLoadPreset').on('click', function () {
+			$('#appcontainer').addClass('loading');
+			$.ajax({
+				url : 'get_thumbnail_preset.json?name=' + $('#ddlPresetList').dropdown('get value'),
+				type: 'GET',
+				success: function(response, status) {
+					setFormState(response);
+				},
+				error: function(response, status, err) {
+					showAlert(status + ': ' + err);
+				},
+				complete: function(response, status) {
+                    $('#ddlThumbnailBackground').dropdown('restore defaults');
+                    $('#ddlBackground1Image').dropdown('restore defaults');
+                  
+					$('#appcontainer').removeClass('loading');
+				}
+			});
+		});
+		
+		$('#btnExportImage').on('click', function () {
+			var c = document.getElementById('canvas');
+			var w = window.open('', '_blank');
+			var imageData;
+			var currentPreset = $('#ddlPresetList').dropdown('get value');
+			
+			if(this.text == 'Export (JPG)') {
+				imageData = c.toDataURL('image/jpeg', 0.9);
+				this.href = imageData;
+				this.download = 'thumbnail' + (currentPreset?'-' + currentPreset:'') + '.jpg';
+			}
+			else {
+				imageData = c.toDataURL('image/png');
+				this.href = imageData;
+				this.download = 'thumbnail' + (currentPreset?'-' + currentPreset:'') + '.png';
+			}
+			w.document.write('<img src="' + imageData + '"/>');
+		});
+		
+		//For the last dropdowns
+		$(".ui.overridable.dropdown").each(function() {
+			var defaultText = false;
+			//Get the initial text, i.e. the default text if exists, and not blank
+			//Note this isn't the actual value for form submission, but the displayed value user sees
+			if ( $(this).find(".text").hasClass("default") && $(this).find(".text").text() )
+				defaultText = $(this).find(".text").text();
+
+			//Determine if <select></select> tag is used for semantic ui dropdown, or <div></div> is used instead
+			var isSelectTag = false;
+			if ( $(this).find("input:hidden").length < 1 || $(this).addBack().find( "select" ).length > 0 )
+				isSelectTag = true;
+
+			//This IF statement deals with semantic ui div format of dropdowns
+			if ( isSelectTag == false )
+			{
+				//Semantic UI disable force selection so option isn't auto-selected when user put a letter as input
+				$(this)
+					.dropdown({
+						forceSelection: false
+					});
+				
+				$(this).find("input:hidden").on('change', function() {
+					var value = $(this).val();
+					var channel_id = $('#thumbnail_preset_channel_id').val();
+					if(value != '' && channel_id != '') {
+						$('#btnSavePreset').removeClass('disabled');
+					
+						if($(this).parent().find('.message').length) {
+							$('#btnLoadPreset').addClass('disabled');
+							$('#btnDeletePreset').addClass('disabled');
+						}
+						else
+						{
+							$('#btnLoadPreset').removeClass('disabled');
+							$('#btnDeletePreset').removeClass('disabled');
+						}
+					}
+					else {
+						$('#btnLoadPreset').addClass('disabled');
+						$('#btnDeletePreset').addClass('disabled');
+						$('#btnSavePreset').addClass('disabled');
+					}
+				});
+
+				$search = $(this).find(".search");
+
+				$search.on("focus", function(event){
+					$(this).parent().find(".active").removeClass("active");
+				});
+
+				var originalText = $search.text();
+
+				//this refers to the main ui dropdown div
+				$search.on("blur", function(event){
+					
+					//this refers to the div with class search, which displays selected option or entered text
+					var text = $(this).val();
+
+					if ( originalText != text )
+					{
+						//If there was a existing default text to start with, and if input was blank
+						if ( $.trim(text)=="" && defaultText != false )
+						{
+							//Set default class for grey css effect, and set the default text
+							$(this).parent().find(".text").addClass("default").removeClass("filtered").text(defaultText);
+						}
+						//Set the hidden input value to whatever new value was entered into input
+						$(this).parent().find("input:hidden").val(text);
+
+						originalText = text;
+					}
+				});
+			}
+		});
+				
+		$('#fupGalleryImageOverlay')
+			.fileupload({
+				dropZone: $('#overlayGalleryDropzone'),
+				add: function(e, data) {
+					$('#prgGalleryImageOverlay').progress({
+						percent: 0
+					}).show();
+					
+					$('#appcontainer').addClass('loading');
+					
+					data.submit();
+				},
+				done: function(e, data) {
+					
+					$('#prgGalleryImageOverlay').progress({
+						percent: 0
+					}).hide();
+					
+					loadGalleryList('overlaygallerydropdown', 0, function () {
+						$('#appcontainer').removeClass('loading');
+					});
+					
+					
+				},
+				progressall: function (e, data) {
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					$('#prgGalleryImageOverlay').progress({
+						percent: progress
+					});
+				}
+		});
+		
+		$('#fupGalleryImageBackground')
+			.fileupload({
+				dropZone: $('#backgroundGalleryDropzone'),
+				add: function(e, data) {
+					$('#prgGalleryImageBackground').progress({
+						percent: 0
+					}).show();
+					
+					$('#appcontainer').addClass('loading');
+					
+					data.submit();
+				},
+				done: function(e, data) {
+					
+					$('#prgGalleryImageBackground').progress({
+						percent: 0
+					}).hide();
+					
+					loadGalleryList('backgroundgallerydropdown', 1, function () {
+						$('#appcontainer').removeClass('loading');
+					});
+					
+					
+				},
+				progressall: function (e, data) {
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					$('#prgGalleryImageBackground').progress({
+						percent: progress
+					});
+				}
+		});
+		
+		$('#prgGalleryImageOverlay').progress({
+			percent: 0
+		});
+
+		$('#ddlTextLine1Font').dropdown('set selected', fontList[0]);
+		$('#ddlTextLine2Font').dropdown('set selected', fontList[0]);
+		$('#ddlTextLine3Font').dropdown('set selected', fontList[0]);
+		
+		$('#tbxTextLine1Text').val('Customize me');
+		$('#tbxTextLine2Text').val('using the');
+		$('#tbxTextLine3Text').val('left sidebar!');
+
+		$('.message .close')
+		  .on('click', function() {
+			$(this)
+			  .closest('.message')
+			  .transition('fade');
+		  });
+
+		$('#appsidebar')
+			.sidebar({
+				context: $('#canvaswrap'),
+				dimPage: false
+			})
+			.sidebar('attach events', '#canvas')
+			.sidebar('show');
+		
+		$('#mainMenuBar').addClass('fixed');
+
+		$('#tbxTextLine1Text')
+			.on('change keyup paste mouseup', function () {
+				formatText();
+			});
+
+		$('#tbxTextLine2Text')
+			.on('change keyup paste mouseup', function () {
+				formatText();
+			});
+
+		$('#tbxTextLine3Text')
+			.on('change keyup paste mouseup', function () {
+				formatText();
+			});
+
+		$('#ddlPanelPosition').dropdown('setting', 'onChange', function (value) { formatPanel(); });
+		$('#ddlTextLine1Font').dropdown('setting', 'onChange', function (value) { formatText(); });
+		$('#ddlTextLine2Font').dropdown('setting', 'onChange', function (value) { formatText(); });
+		$('#ddlTextLine3Font').dropdown('setting', 'onChange', function (value) { formatText(); });
+		$('#ddlOverlay1Image').dropdown('setting', 'onChange', function (value) { formatOverlay(); });
+		$('#ddlOverlay1Position').dropdown('setting', 'onChange', function (value) { formatOverlay(); });
+      
+		$('#ddlBackground1Image').dropdown('setting', 'onChange', function (value) { 
+          loadBackgroundImage();
+          formatPanel();
+          $('#ddlThumbnailBackground').dropdown('restore defaults');
+        });
+      
+        $('#ddlThumbnailBackground').dropdown('setting', 'onChange', function (value) { 
+          loadBackgroundImage2($('#ddlThumbnailBackground').dropdown('get value'));
+          formatPanel();
+          $('#ddlBackground1Image').dropdown('restore defaults');
+        });
+
+		$('#btnBegin').click(function () {
+			$('#appcontainer').addClass('loading');
+
+			console.log('Load Thumb button clicked');
+
+			var imageUrl = 'http://i1.ytimg.com/vi/' + $('#tbxYouTubeID').val() + '/maxresdefault.jpg';
+			loadBackgroundImage2(imageUrl, function() {
+				$('#appcontainer').removeClass('loading');
+			});
+		});
+	}
+
+	function preloadImage(imageUrl, callback) {
+		var imgPreload = new Image();
+		var $imgPreload = $(imgPreload);
+		
+//		imgPreload.crossOrigin='anonymous';
+		
+		console.log('preloading: ' + imageUrl);
+		
+		try {
+			imgPreload.onload = function() {
+				console.log('load event: ' + imageUrl + ' - ' + status);
+				if (typeof callback === 'function')
+					callback.call(this, imgPreload, 1);
+			};
+
+			imgPreload.onerror = function() {
+				console.log('error event: ' + imageUrl + ' - ' + status);
+				
+				if (typeof callback === 'function')
+					callback.call(this, imgPreload, -1);
+			};
+		
+			$imgPreload.attr({
+				src: imageUrl
+			});
+
+			if (imgPreload.complete || imgPreload.readyState === 4) {
+
+				console.log('cached: ' + imageUrl);
+
+				if (typeof callback === 'function')
+					callback.call(this, imgPreload, 0);
+			}
+		}
+		catch(err) {
+			if (typeof callback === 'function')
+				callback.call(this, imgPreload, -1);
+		}
+	}
+
+	function initKnobs() {
+
+		$('#knbTextLine1Size').rangeslider({
+			polyfill: false,
+			onSlide: function (position, value) {
+				formatText();
+			}
+		}).val(85).change();
+
+		$('#knbTextLine2Size').rangeslider({
+			polyfill: false,
+			onSlide: function (position, value) {
+				formatText();
+			}
+		}).val(45).change();
+
+		$('#knbTextLine3Size').rangeslider({
+			polyfill: false,
+			onSlide: function (position, value) {
+				formatText();
+			}
+		}).val(100).change();
+
+		$('#knbPanelSize').rangeslider({
+			polyfill: false,
+			onSlide: function (position, value) {
+				formatPanel();
+			}
+		}).val(50).change();
+
+		$('#knbOverlay1Size').rangeslider({
+			polyfill: false,
+			onSlide: function (position, value) {
+				formatOverlay();
+			}
+		}).val(50).change();
+	}
+
+	function initColorPickers() {
+		$('#cpkTextLine1Color').spectrum({
+			color: '#fff',
+			preferredFormat: "hex3",
+			showInput: true,
+			showAlpha: true
+		}).on('move.spectrum hide.spectrum change.spectrum', function (e, color) {
+			formatText();
+		});
+
+		$('#cpkTextLine2Color').spectrum({
+			color: '#fff',
+			preferredFormat: "hex3",
+			showInput: true,
+			showAlpha: true
+		}).on('move.spectrum hide.spectrum change.spectrum', function (e, color) {
+			formatText();
+		});
+
+		$('#cpkTextLine3Color').spectrum({
+			color: '#fff',
+			preferredFormat: "hex3",
+			showInput: true,
+			showAlpha: true
+		}).on('move.spectrum hide.spectrum change.spectrum', function (e, color) {
+			formatText();
+		});
+
+		$('#cpkPanelColor').spectrum({
+			color: 'rgba(255,255,255,0.5)',
+			preferredFormat: "hex3",
+			showInput: true,
+			showAlpha: true,
+		}).on('move.spectrum hide.spectrum change.spectrum', function (e, color) {
+			formatPanel();
+		});
+	}
+
+	function initCanvas() {
+		canvas = oCanvas.create({
+			canvas: '#canvas'
+		});
+
+		fitCanvas();
+
+		initCanvasObjects();
+		addCanvasObjects();
+	}
+
+	function initCanvasObjects() {
+		background = canvas.display.image({
+			x: 0,
+			y: 0,
+			width: 1280,
+			height: 720,
+			origin: { x: 'left', y: 'top' },
+			tile: false,
+			tile_width: 0,
+			tile_height: 0,
+			image: '<%= asset_path('thumnail-bg-temp-3.jpg') %>'
+		});
+
+		rectangle = canvas.display.rectangle({
+			x: 0,
+			y: 0,
+			width: 380,
+			height: 720,
+		});
+
+		text1 = canvas.display.text({
+			origin: { x: 'left', y: 'top' },
+			text: blankText
+		});
+
+		text2 = canvas.display.text({
+			origin: { x: 'left', y: 'top' },
+			text: blankText
+		});
+
+		text3 = canvas.display.text({
+			origin: { x: 'left', y: 'top' },
+			text: blankText
+		});
+
+		overlayimage1 = canvas.display.image({
+			x: 0,
+			y: 0,
+			origin: { x: 'left', y: 'top' }
+		});
+		
+//		var dragOptions = { changeZindex: false };
+//		overlayimage1_dragOptions = { 
+//			start: function() { console.log('drag started') },
+//			move: function() { console.log('position: (' + this.x + ', ' + this.y + ')') },
+//			end: function() {console.log('drag ended')}
+//		}
+//	
+//		overlayimage1.dragAndDrop($.extend(overlayimage1_dragOptions, dragOptions));
+
+		canvasObjectsInitialized = true;
+	}
+
+
+	function addCanvasObjects() {
+		canvas.addChild(background);
+		canvas.addChild(rectangle);
+		canvas.addChild(text1);
+		canvas.addChild(text2);
+		canvas.addChild(text3);
+		canvas.addChild(overlayimage1);
+		console.log('Canvas objects initiallized correctly');
+	}
+	
+	var line1scale, line2scale, line3scale;
+
+	function formatText() {
+
+		if (canvasObjectsInitialized) {
+
+			setTextProperties(text1, 1);
+			setTextProperties(text2, 2);
+			setTextProperties(text3, 3);
+
+			line1scale = $('#knbTextLine1Size').val() / 100;
+			line2scale = $('#knbTextLine2Size').val() / 100;
+			line3scale = $('#knbTextLine3Size').val() / 100;
+
+			formatText2(16, [text1, text2, text3], [line1scale, line2scale, line3scale]);
+		}
+	}
+
+	function setTextProperties(textObj, index) {
+		var text, font, color, opactiy, scale;
+
+		text = $('#tbxTextLine' + index + 'Text').val();
+		font = $('#ddlTextLine' + index + 'Font').dropdown('get value');
+		color = $('#cpkTextLine' + index + 'Color').spectrum("get").toHexString();
+		opacity = $('#cpkTextLine' + index + 'Color').spectrum("get").getAlpha();
+
+		textObj.family = font;
+		textObj.text = (text == "" ? blankText : text);
+		textObj.fill = color;
+		textObj.opacity = opacity;
+
+		textObj.shadow = '5 5 10px rgba(0, 0, 0, 0.25)';
+
+		return textObj.family != font || textObj.text != (text == "" ? blankText : text) || textObj.fill != color || textObj.opacity != opacity;
+	}
+
+	function formatText2(xpadding, textObjs, lineScales) {
+
+		if (canvasObjectsInitialized) {
+
+			console.log('rendering text');
+
+			var maxwidth = rectangle.width - xpadding * 2;
+			var maxheight = rectangle.height;
+			var i, combinedHeight = 0, ypos;
+
+			for (i=0; i < textObjs.length; i++) {
+				setTextWidth(textObjs[i], maxwidth * (lineScales[i] > 1 ? 1 : lineScales[i]));
+				combinedHeight += textObjs[i].height;
+			}
+
+			ypos = (maxheight - combinedHeight) / 2;
+
+			for(i=0; i < textObjs.length; i++) {
+				textObjs[i].y = rectangle.y + ypos;
+				textObjs[i].x = rectangle.x + xpadding + (maxwidth - textObjs[i].width) / 2;
+				textObjs[i].redraw();
+				ypos += textObjs[i].height;
+			}
+		}
+		
+//		$('#txtFormState').val(JSON.stringify(getFormState()));
+	}
+
+	function setTextWidth(text, maxwidth) {
+		var i;
+		for (i = 1; i < 500; i++) {
+			text.size = i;
+			if (text.width >= maxwidth) break;
+		}
+	}
+	
+	function loadBackgroundImage() {
+		var backgroundImageUrl = $('#ddlBackground1Image').dropdown('get value');
+		loadBackgroundImage2(backgroundImageUrl);
+	}
+	
+	function loadBackgroundImage2(backgroundImageUrl, callback) {
+		
+		console.log('loading background image: ' + backgroundImageUrl);
+		
+		preloadImage(backgroundImageUrl, function(imgPreload, status) {
+			
+			console.log('status for ' + imgPreload.src + ': ' + status);
+			
+			if(status >= 0) {
+				background.tile = false;
+				background.tile_width = 0;
+				background.tile_height = 0;
+				background.image = imgPreload.src;
+				background.init();
+			}
+			else
+				if(backgroundImageUrl != null && backgroundImageUrl != '')
+					showAlert('Background image failed to load');
+
+			if (typeof callback === 'function')
+				callback.call(imgPreload);
+			});
+	}
+
+	function formatPanel() {
+		if(windowLoaded && scriptsLoaded && canvasObjectsInitialized)
+			formatPanel2($('#ddlPanelPosition').dropdown('get value'), $('#knbPanelSize').val() / 100, $("#cpkPanelColor").spectrum("get").toHexString(), $("#cpkPanelColor").spectrum("get").getAlpha());
+	}
+
+	function formatPanel2(position, backgroundCoverage, backgroundColor, backgroundOpacity) {
+		if(windowLoaded && scriptsLoaded && canvasObjectsInitialized) {
+
+			console.log('rendering panel');
+
+			rectangle.fill = backgroundColor;
+			rectangle.opacity = backgroundOpacity;
+
+			switch (position == '' ? 'left' : position) {
+				case 'left':
+					rectangle.shadow = '5 5 10px rgba(0, 0, 0, 0.25)';
+					rectangle.width = backgroundCoverage * background.width;
+					rectangle.height = background.height;
+					rectangle.x = 0;
+					rectangle.y = 0;
+					break;
+				case 'right':
+					rectangle.shadow = '-5 -5 10px rgba(0, 0, 0, 0.25)';
+					rectangle.width = backgroundCoverage * background.width;
+					rectangle.height = background.height;
+					rectangle.x = background.width - rectangle.width;
+					rectangle.y = 0;
+					break;
+				case 'center':
+					rectangle.shadow = '5 5 10px rgba(0, 0, 0, 0.25)';
+					rectangle.width = backgroundCoverage * background.width;
+					rectangle.height = backgroundCoverage * background.height;
+					rectangle.x = (background.width - rectangle.width) / 2;
+					rectangle.y = (background.height - rectangle.height) / 2;
+					break;
+			}
+			rectangle.redraw();
+
+			formatText();
+			formatOverlay();
+		}
+	}
+
+	function formatOverlay() {
+		formatOverlay2($('#ddlOverlay1Image').dropdown('get value'), $('#ddlOverlay1Position').dropdown('get value'), $('#knbOverlay1Size').val() / 100);
+	}
+
+	function formatOverlay2(imageUrl, imagePosition, imageScale) {
+		preloadImage(imageUrl, function(imgPreload, status) {
+			
+			if(status >= 0) {
+				console.log('loaded ' + imageUrl + ': ' + imgPreload.naturalWidth + ', ' + imgPreload.naturalHeight + ' - ' + imagePosition + ': ' + imageScale);
+				overlayimage1.image = imgPreload.src;
+				overlayimage1.width = imgPreload.naturalWidth * imageScale;
+				overlayimage1.height = imgPreload.naturalHeight * imageScale;
+
+				switch (imagePosition == '' ? 'bottomright' : imagePosition) {
+					case 'topleft':
+						overlayimage1.x = 0;
+						overlayimage1.y = 0;
+						break;
+					case 'bottomleft':
+						overlayimage1.x = 0;
+						overlayimage1.y = 720 - overlayimage1.height;
+						break;
+					case 'topright':
+						overlayimage1.x = 1280 - overlayimage1.width;
+						overlayimage1.y = 0;
+						break;
+					case 'bottomright':
+						overlayimage1.x = 1280 - overlayimage1.width;
+						overlayimage1.y = 720 - overlayimage1.height;
+						break;
+				}
+
+				overlayimage1.init();
+			}
+			else {
+				console.log('error loading image ' + imageUrl + ': ' + imgPreload.naturalWidth + ', ' + imgPreload.naturalHeight + ' - ' + imagePosition + ': ' + imageScale);
+				
+				if(imageUrl != '')
+					showAlert('Overlay image failed to load');
+			}
+		});
+	}
+
+	function fitCanvas() {
+		var parent = $('#appcontainer');
+		var parentWidth = parent.innerWidth();
+		var parentHeight = parent.innerHeight();
+
+		var excesswidth = 1280 - parentWidth;
+		var excessheight = 720 - parentHeight;
+		var scalefactor = 1;
+
+		if (excessheight > 0 || excesswidth > 0)
+			if (excessheight > excesswidth)
+				scalefactor = parentHeight / 720;
+			else
+				scalefactor = parentWidth / 1280;
+		if(scalefactor > 0.25)
+			$('#canvas').css('transform', 'scale(' + scalefactor + ',' + scalefactor + ')');
+	}
+	
+	function setFormState(state) {
+		
+		var background = state.background ? state.background : state.backgrounds[0];
+		
+		loadBackgroundImage2(background.url);
+		
+		// TODO: if the image is in ddlBackgroundImage select it
+		
+		var textarea = state.text ? state.text : state.textareas[0];
+		
+		$('#ddlPanelPosition').dropdown('set selected', textarea.panel.position);
+		$('#cpkPanelColor').spectrum('set', textarea.panel.color);
+		$('#knbPanelSize').val(textarea.panel.scale).change();
+		
+		$('#tbxTextLine1Text').val(textarea.lines[0].contents);
+		$('#ddlTextLine1Font').dropdown('set selected', textarea.lines[0].font);
+		$('#cpkTextLine1Color').spectrum('set', textarea.lines[0].color);
+		$('#knbTextLine1Size').val(textarea.lines[0].scale).change();
+		
+		$('#tbxTextLine2Text').val(textarea.lines[1].contents);
+		$('#ddlTextLine2Font').dropdown('set selected', textarea.lines[1].font);
+		$('#cpkTextLine2Color').spectrum('set', textarea.lines[1].color);
+		$('#knbTextLine2Size').val(textarea.lines[1].scale).change();
+		
+		$('#tbxTextLine3Text').val(textarea.lines[2].contents);
+		$('#ddlTextLine3Font').dropdown('set selected', textarea.lines[2].font);
+		$('#cpkTextLine3Color').spectrum('set', textarea.lines[2].color);
+		$('#knbTextLine3Size').val(textarea.lines[2].scale).change();
+			
+		var overlay = state.overlay ? state.overlay : state.overlays[0];
+		
+		$('#ddlOverlay1Image').dropdown('set selected', overlay.url);
+		$('#ddlOverlay1Position').dropdown('set selected', overlay.position);
+		$('#knbOverlay1Size').val(overlay.scale).change();
+		
+		formatPanel();
+	}
+	
+	function getFormState() {
+		return {
+			backgrounds: [{
+				url: background.image
+			}],
+			textareas: [{
+				panel: {
+					position: $('#ddlPanelPosition').dropdown('get value'),
+					color: $('#cpkPanelColor').spectrum('get').toHex8String(),
+					scale: $('#knbPanelSize').val()
+				},
+				lines: [
+					{ 
+						contents: $('#tbxTextLine1Text').val(),
+						font: $('#ddlTextLine1Font').dropdown('get value'),
+						color: $('#cpkTextLine1Color').spectrum('get').toHex8String(),
+						scale: $('#knbTextLine1Size').val() },
+					{ 
+						contents: $('#tbxTextLine2Text').val(),
+						font: $('#ddlTextLine2Font').dropdown('get value'),
+						color: $('#cpkTextLine2Color').spectrum('get').toHex8String(),
+						scale: $('#knbTextLine2Size').val() },
+					{ 
+						contents: $('#tbxTextLine3Text').val(),
+						font: $('#ddlTextLine3Font').dropdown('get value'),
+						color: $('#cpkTextLine3Color').spectrum('get').toHex8String(),
+						scale: $('#knbTextLine3Size').val() }
+				]
+			}],
+			overlays: [{
+				url: $('#ddlOverlay1Image').dropdown('get value'),
+				position: $('#ddlOverlay1Position').dropdown('get value'),
+				scale: $('#knbOverlay1Size').val() 
+			}]
+		}
+	}
+	
+	function loadPresetList() {
+		
+		$('#appcontainer').addClass('loading');
+		
+		$.ajax({
+				// TODO: provide selected channel_id to request
+				url : 'get_thumbnail_preset_list.json?channel_id=1',
+				type: 'GET',
+				success: function(response, status) {
+					$presetMenu = $('#ddlPresetList .menu');
+					$presetMenu.empty();
+					for(i=0; i<response.length; i++)
+						$('#ddlPresetList .menu')
+							.append('<div class="item" data-value="' + response[i].name + '">' + response[i].name + '</div>');
+				},
+				error: function(response, status, err) {
+					showAlert(status + ': ' + err);
+				},
+				complete: function(response, status) {
+					$('#appcontainer').removeClass('loading');
+				}
+			});
+	}
+
+</script>
+<% if @selected_channel.blank? %>
+	<%= render 'error_redirect', 
+		:heading => 'Wait, no channels?', 
+		:message => 'The Thumbnail Creator app stores its images and presets against a particular channel, but you have not yet defined any channels. <br/><br/>Would you like to go the the channel page and add one now?', 
+		:redirect_to => new_channel_path %>
+<% end %>

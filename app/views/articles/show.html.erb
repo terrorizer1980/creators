@@ -1,0 +1,31 @@
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <h1 class="ui header"><%= @article.title %>
+        <div class="sub header">
+          Filed in: <%= @article.category.titlecase %>
+        </div>
+      </h1>
+    </div>
+    
+<% if @article.vidurl? %>
+    <div class="right floated eight wide column">
+    	<div class="ui video" data-source="youtube" data-id="<%= @article.vidurl%>" data-image="<%= @article.thumburl_url.nil? ? '' : @article.thumburl_url.to_s %>"></div>
+    </div>
+    <div class="eight wide column">    
+<% else %>
+  <% unless @article.thumburl_url.nil? %>
+      <%=image_tag @article.thumburl_url %>
+    <div class="eight wide column">
+  <% else %>
+    <div class="sixteen wide column">
+  <% end %>
+  
+<% end %>
+      <%= @article.get_content_safe %>
+    </div>
+  </div>
+  <div class="ui hidden divider"></div>
+  <% if @article.user_id == current_user.id || current_user.admin? %>
+      <%= link_to 'Edit', edit_article_path(@article) %> |
+  <% end %>
+  <%= link_to 'Back', articles_path %>

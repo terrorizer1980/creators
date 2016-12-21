@@ -1,0 +1,28 @@
+<h1>My Purchases</h1>
+
+<table class="ui blue selectable table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Ordered</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do | order_typed | %>
+    <% order = order_typed.becomes(Order) %>
+      <tr>
+        <td><%=link_to order.id.to_s, order %> </td>
+        <td><%= time_ago_in_words_suffix order.created_at %></td>
+        <td>
+          <div class="ui tiny icon buttons">
+            <div class="ui <%=get_order_status_color(order.status) %> inverted button" style="width: 120px;">
+              <%= order.status.nil? ? 'None' : order.status.humanize %>
+            </div>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

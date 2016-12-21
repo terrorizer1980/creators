@@ -1,0 +1,42 @@
+<div>
+  <h2 class="ui dividing header">My Account
+  <div class="sub header">
+    Service Level: <%= current_user.clientstatus.humanize %>
+  </div>
+  </h2>
+
+<% if @freeloader == true %>
+  <div class="ui red inverted segment">
+    <h2 class="ui header">Premium Services Disabled</h2>
+    <p>You've used up all tokens and gifts, so premium services like custom motion graphics and channel reviews are no longer available to you.  Subscribing is easy, though - just go to one of your channels and sign up for a package!</p>
+    <%= link_to "Subscribe!", dashboard_subscribe_path, class: 'ui blue right floated button' %>
+  </div>
+
+<% else %>
+
+  <div class="ui two<%#= @gift_voucher_count != nil && @gift_voucher_count > 0 ? 'two' : 'one' %> small blue statistics">
+    <%= link_to subscriptions_path, :class => 'statistic' do %>
+      <div class="value">
+        <i class="ticket icon"></i>
+        <%= @credits %>
+      </div>
+      <div class="label">
+        Credits 
+      </div>
+    <% end %>
+    <%# TODO: Add a soft-sell link to buy credits, like below? %>
+    <%#= link_to 'Need more credits?', link_to subscriptions_path, :class => '' %>
+    <%# if @gift_voucher_count != nil && @gift_voucher_count > 0 %>
+      <%= link_to gift_vouchers_path, :class => 'statistic' do %>
+        <div class="value">
+          <i class="gift icon"></i>
+          <%= @gift_voucher_count %>
+        </div>
+        <div class="label">
+          Gifts
+        </div>
+      <% end %>
+    <%# end %>
+  </div>
+</div>
+<% end %>

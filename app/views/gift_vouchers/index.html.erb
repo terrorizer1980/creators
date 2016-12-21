@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Gift Vouchers</h1>
+<div class="ui positive icon message">
+  <i class="gift icon"></i>
+  <div class="content">
+    <div class="header">Gift Vouchers</div>
+    <p>To redeem a gift, simply view it and click "Appy to Basket". Then you can browse Creator Central, load up your shopping basket, and let the savings begin!</p>
+  </div>
+</div>
+
+<table class="ui blue selectable table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>From user</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @gift_vouchers.each do |gift_voucher| %>
+      <tr>
+        <td><%= link_to gift_voucher.name, gift_voucher %></td>
+        <td><%= gift_voucher.anonymous ? (gift_voucher.from_text) : (User.find(gift_voucher.from_user_id).profile.nickname + '(' + gift_voucher.from_text + ')') %></td>
+        <td><%= gift_voucher.message %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<!--
+<div class="ui hidden divider"></div>
+<%#= link_to orders_path, class: 'ui secondary labeled icon button' do | lnk | %>
+  <i class="left arrow icon"></i>
+  Back
+<%# end %>-->

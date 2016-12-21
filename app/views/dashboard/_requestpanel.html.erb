@@ -1,0 +1,38 @@
+<div class="ui raised segment">
+	<div class="ui big orange top ribbon label">Client Requests</div>
+	<div class="ui three statistics">
+	
+	
+	
+		<div class="ui red statistic">
+			<div class="value">
+				<%= Review.overdue.count %>
+			</div>
+			<div class="label">
+			Overdue!
+			</div>
+		</div>
+	
+
+		<div class="ui green statistic">
+			<div class="value">
+				<%= Review.duetoday.count %>
+			</div>
+			<div class="label">
+				Due Today
+			</div>
+		</div>
+
+		<div class="ui yellow statistic">
+			<div class="value">
+				<%= Review.duenwd.count %>
+			</div>
+			<div class="label">
+				Due NWD<br>
+
+			</div>
+		</div>
+
+
+	</div>
+</div>

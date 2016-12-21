@@ -1,0 +1,49 @@
+'site' = 
+	css:
+		-> semantic ui
+		-> Raleway styling
+		-> messaging
+	js:
+		-> jquery
+		-> semantic ui
+		-> messaging
+	
+
+'portal' = 'site' + 
+	css:
+		-> jquery-ui
+	js:
+		-> jquery-ui
+		-> datepicker initialization
+
+	
+'application' = 'site' + 'portal' +
+	css: (none)
+	js: (none)
+
+'pages' = 'site' + 
+	css:
+		-> skeleton hacks
+		-> icon image / scaling
+		-> Raleway styling
+	js: (none)
+	
+'apps' = 'site' + 
+	css:
+		-> uploader stuff
+		-> rangeslider
+		-> spectrum (colorpicker)
+
+	js:
+		-> uploader stuff
+		-> loadstylesheet
+		-> webfont
+		-> rangeslider
+		-> spectrum (colorpicker)
+		
+	
+'thumbnail' = 'apps' + 
+	css: 
+		-> thumbnail styles
+	js:
+		-> thumbnail app code

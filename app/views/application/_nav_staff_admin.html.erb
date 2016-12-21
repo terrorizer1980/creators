@@ -1,0 +1,34 @@
+<div class="ui dropdown item">
+	<span class="toplevel">
+		<i class="showable bar icon"></i>
+		<label class="hideable">Admin</label>
+	</span>
+	<i class="dropdown icon"></i>
+	<div class="menu">
+      <%= link_to admin_path, class: "item" do |lnk| %>
+          <i class="dashboard icon"></i>
+          <label>Admin Dashboard</label>
+      <% end %>
+      <%= link_to admin_users_path, class: "item" do |lnk| %>
+          <i class="spy icon"></i>
+          <label>Manage Users</label>
+      <% end %>
+      <%= link_to admin_orders_path, class: "item" do |lnk| %>
+          <i class="ticket card icon"></i>
+          <label>Client Orders</label>
+      <% end %>
+      <%= link_to admin_path, class: "item" do |lnk| %>
+          <i class="paypal card icon"></i>
+          <label>Payments &amp; Subscription</label>
+      <% end %>
+      <%= link_to admin_path, class: "item" do |lnk| %>
+          <i class="line chart icon"></i>
+          <label>Logs &amp; Analytics</label>
+      <% end %>
+      <%= link_to admin_ppipn_path, class: "item" do |lnk| %>
+          <i class="paypal icon"></i>
+          <label>Paypal Notifcations</label>
+      <% end %>
+
+	</div>
+</div>

@@ -1,0 +1,79 @@
+<h1>Client Orders</h1>
+<table class="ui blue selectable table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>User</th>
+      <th>Ordered</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order_typed| %>
+    <% order = order_typed.becomes(Order) %>
+      <tr>
+        <td><%= link_to order.id.to_s, order %> </td>
+        <td><%= link_to order.user.email, admin_user_path(order.user) %> </td>
+        <td><%= time_ago_in_words_suffix order.created_at %></td>
+        <td>
+          <div class="ui tiny icon buttons">
+            <%= link_to decrement_status_admin_order_path(order, format: :json), data: { remote: true, method: :put }, class: 'ui order_status decrementing ' + get_order_status_color(order.status) + ' icon button' do |lnk|%>
+              <i class="arrow circle left icon"></i>
+            <% end %>
+            <div class="ui <%=get_order_status_color(order.status) %> button" style="width: 120px;">
+              <%= order.status.nil? ? 'None' : order.status.humanize %>
+            </div>
+            <%= link_to increment_status_admin_order_path(order, format: :json), data: { remote: true, method: :put }, class: 'ui order_status incrementing  ' + get_order_status_color(order.status) + ' icon button' do |lnk|%>
+              <i class="arrow circle right icon"></i>
+            <% end %>
+          </div>
+        </td>
+        <td>
+          <div class="ui tiny icon buttons">
+            <%= link_to order, method: 'delete', data: { confirm: 'Are you sure you want to mark this order as done?' }, class: 'ui positive button' do |btn| %>
+                <i class="check icon"></i>
+            <% end %>
+            <%= link_to order, method: 'delete', data: { confirm: 'Are you sure you want to delete this order?' }, class: 'ui negative button' do |btn| %>
+                <i class="trash icon"></i>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+      $(function () {
+          $('.order_status')
+              .on('ajax:success',function(e, data, status, xhr) {
+                  response = JSON.parse(xhr.responseText)
+                  var 
+                      $this = $(this),
+                      $current = $this.hasClass('incrementing') ? $this.prev() : $this.next(),
+                      $left = $this.hasClass('incrementing') ? $this.prev().prev() : $this,
+                      $right = $this.hasClass('incrementing') ? $this : $this.next().next(),
+                      transition = 'vertical flip';
+
+                  $current
+                    .transition(transition, 250, function() {
+                      $current
+                        .html(response.curr_status)
+                        .removeClass('green olive yellow orange red violet blue')
+                        .addClass(response.curr_color);
+                      $left
+                        .removeClass('green olive yellow orange red violet blue')
+                        .addClass(response.curr_color);
+                      $right
+                        .removeClass('green olive yellow orange red violet blue')
+                        .addClass(response.curr_color);
+                    })
+                    .transition(transition, 250);
+
+              })
+              .on('ajax:error',function(e, xhr, status, error) {
+              });
+      });
+  </script>

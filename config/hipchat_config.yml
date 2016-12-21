@@ -1,0 +1,18 @@
+default: &default
+  :api_version: v2
+  :api_key: KkJdQVJ0rJmgHziWPQGyfRAAZHZluk2v6hEZnd3U
+  :user_name: 101_portal
+  :room_name: 101-Portal
+
+development:
+  <<: *default
+  :enabled: false
+  
+test:
+  <<: *default  
+  :enabled: false
+  
+
+production:
+  <<: *default
+  :enabled: true

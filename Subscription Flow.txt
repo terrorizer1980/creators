@@ -1,0 +1,61 @@
+Subscription Flow
+-----------------
+
+							              :user_id => 6,
+                          :paymethod => "paypal",
+                      :billingperiod => "monthly",
+              :paypal_customer_token => "BQ2Y35AQLGQBE",
+     :paypal_recurring_profile_token => nil,
+         :paypal_subscription_amount => nil,
+    :paypal_subscription_description => nil,
+                         :created_at => Thu, 13 Aug 2015 03:48:31 EDT -04:00,
+                         :updated_at => Thu, 13 Aug 2015 06:08:23 EDT -04:00
+
+subscription/index
+
+@subsprice = total value of managed subs
+
+does it match    subscription.paypal_subscription_amount ?
+
+yes? cool
+
+no ->  
+	@subscription.paypal_recurring_profile_token.present?
+	
+	yes -> 	THIS IS A CHANGE Cancel existing Subscription, loop back to new subscription
+					paypal_cancellation_path(p: @subsprice, c: @managedchannels.count),
+					(WORKS)
+
+	no -> 	THIS IS NEW
+					-> paypal_checkout_path(p: @subsprice, c: @managedchannels.count)
+					(DOESNT WORK YET)
+
+paypal/checkout (subscription#paypal_checkout)
+
+	sets  the following and redirects to paypal subscription (WORKS)
+
+			return_url:   edit_subscription_url(id: current_user.subscription.id),
+      cancel_url:   dashboard_url,
+      description:  ppsd, (descr)
+      amount:       ppsa, (amount)
+      currency:     "USD"
+
+  (authorize @ paypal)
+
+  paypal redirects to subscriptions/X/edit and sends token and payerID (WORKS)
+
+subscription/X/edit
+
+	reply from paypal ?token=EC-2XM04441SE1147840&PayerID=BQ2Y35AQLGQBE
+
+	get additional info using PPR method 
+	@details = @subscription.paypal.checkout_details
+
+	Confirm & Continue -> BROKEN PART
+
+  <%= f.hidden_field :paypal_customer_token %>
+  <%= f.hidden_field :paypal_payment_token %>
+	<input type="hidden" value="BQ2Y35AQLGQBE" name="subscription[paypal_customer_token]" id="subscription_paypal_customer_token">
+  <input type="hidden" value="EC-2XM04441SE1147840" name="subscription[paypal_payment_token]" id="subscription_paypal_payment_token">
+
+

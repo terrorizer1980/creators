@@ -1,0 +1,32 @@
+<h2 class="ui dividing header">My Channel Reviews</h2>
+
+
+<table class="ui basic table">
+	<thead>
+	<tr>
+		<th>Channel</th>
+		<th>Scheduled For</th>
+		<th colspan="2">Status</th>
+	</tr>
+	</thead>
+	<tbody>
+	<% @channels.each do |cr| %>
+	<tr>
+		
+      <td><%= link_to cr.name, channel_reviews_path(cr) %></td>
+	
+		<% if cr.reviews.present? %>
+          <td><%= link_to cr.reviews.last.scheduled_for.strftime('%Y/%m/%d'), cr.reviews.last %></td>
+          <td><%= link_to cr.reviews.last.status.titlecase, cr.reviews.last  %></td>
+		<% else %>
+		  <td>No Review Scheduled</td>
+		<% end %>
+	</tr>
+  <% end %>
+  <% if @channels.where(managed: false).present? %>
+	<tr>
+		<td colspan="999"><center>Unmanaged Channels are not listed</center></td>
+	</tr>
+	<% end %>
+	</tbody>
+</table>

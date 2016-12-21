@@ -1,0 +1,30 @@
+<%= form_for(@article_collection, html: {class: 'ui form'}) do |f| %>
+  <% if @article_collection.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@article_collection.errors.count, "error") %> prohibited this article_collection from being saved:</h2>
+
+      <ul>
+      <% @article_collection.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="two fields">
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
+    <div class="ui field">
+      <label>Category</label>
+      <%= f.select :category, ArticleCollection.categories.keys.to_a.map { |w| [w.titlecase, w] }, {}, {class: 'ui dropdown'} %>
+    </div>
+  </div>
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_field :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

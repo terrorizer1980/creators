@@ -1,0 +1,63 @@
+<h1 class="ui dividing header">Royalty Free Audio Tracks</h1>
+
+<% if @songs.present? %>
+  <table class="ui blue sortable celled selectable table">
+    <thead>
+      <tr>
+        <th></th>
+        <%= sortable_header_sui('title').html_safe %>
+        <%= sortable_header_sui('category').html_safe %>
+        <%= sortable_header_sui('artist').html_safe %>
+        <%= sortable_header_sui('mood').html_safe %>
+        <%= sortable_header_sui('genre').html_safe %>
+        <%= sortable_header_sui('user_id', 'Contributor').html_safe %>
+        <th>Description</th>
+        <% if can? :manage, Song %>
+          <th>Actions</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @songs.each do |song| %>
+        <tr>
+          <td style="width: 148px; height: 88px;">
+            <% if song.vidurl? %>
+              <div class="ui tiny video" data-source="youtube" data-id="<%= song.vidurl%>" data-image="<%= song.thumburl_url(:list).nil? ? '' : song.thumburl_url(:list).to_s %>"></div>
+            <% elsif !song.thumburl_url(:list).nil? %>
+              <%= link_to song, class: 'ui image' do |lnk| %>
+                <%= image_tag song.thumburl_url(:list) %>
+              <% end %>
+            <% end %>
+          </td>
+          <td><%= link_to song.title, song %></td>
+          <td><%= song.category.to_s.titlecase %></td>
+          <td><%= song.artist.to_s %></td>
+          <td><%= song.mood.to_s.titlecase %></td>
+          <td><%= song.genre.to_s.titlecase %></td>
+          <td><%= song.user.nickname %></td>
+          <td><%= song.get_summary_safe %></td>
+          <td>
+            <% if can? :manage, Song %>
+              <div class="ui tiny icon buttons">
+                <%= link_to [:edit, song], class: 'ui orange button' do |btn| %>
+                    <i class="edit icon"></i>
+                <% end %>
+                <%= link_to song, method: 'delete', data: { confirm: 'Are you sure you want to delete this song?' }, class: 'ui negative button' do |btn| %>
+                    <i class="trash icon"></i>
+                <% end %>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if defined? @songs.total_pages %>
+    <div class="ui hidden divider"></div>
+    <%= will_paginate @songs %>
+  <% end %>
+<% end %>
+<div class="ui hidden divider"></div>
+<% if can? :create, @song %>
+  <%= link_to 'New Song', new_song_path %>
+<% end %>

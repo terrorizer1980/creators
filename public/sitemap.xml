@@ -1,0 +1,41 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>https://www.101.net/</loc>
+		<changefreq>Weekly</changefreq>
+	</url>
+	<url>
+		<loc>https://www.101.net/pages</loc>
+		<changefreq>Daily</changefreq>
+	</url>
+
+	<url>
+		<loc>https://www.101.net/manifesto</loc>
+		<changefreq>Monthly</changefreq>
+	</url>
+	<url>
+		<loc>https://www.101.net/free_blogs</loc>
+		<changefreq>Monthly</changefreq>
+	</url>
+
+	<url>
+		<loc>https://www.101.net/users/sign_in</loc>
+		<changefreq>Monthly</changefreq>
+	</url>
+	<url>
+		<loc>https://www.101.net/users/sign_up</loc>
+		<changefreq>Monthly</changefreq>
+	</url>
+	<url>
+		<loc>https://www.101.net/users/password/new</loc>
+		<changefreq>Monthly</changefreq>
+	</url>
+	<url>
+		<loc>https://www.101.net/users/confirmation/new</loc>
+		<changefreq>Monthly</changefreq>
+	</url>
+	<url>
+		<loc>https://www.101.net/users/unlock/new</loc>
+		<changefreq>Monthly</changefreq>
+	</url>
+</urlset>
+

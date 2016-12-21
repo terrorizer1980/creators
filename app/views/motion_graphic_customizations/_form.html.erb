@@ -1,0 +1,217 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag    'motion_graphics_customize',  media: 'all' %>
+	<%= javascript_include_tag 'motion_graphics_customize' %>
+<% end %>
+<div class="ui grid">
+	<div class="eight wide column">
+		<%= form_for(@motion_graphic_customization, html: {multipart: true, class: 'ui aligned form', id:'frmCustomize'}) do |f| %>
+			<% if @motion_graphic_customization.errors.any? %>
+				<div id="error_explanation">
+					<h2><%= pluralize(@motion_graphic_customization.errors.count, "error") %> prohibited this motion_graphic_customization from being saved:</h2>
+
+					<ul>
+						<% @motion_graphic_customization.errors.full_messages.each do |message| %>
+							<li>
+								<%= message %>
+							</li>
+						<% end %>
+					</ul>
+				</div>
+			<% end %>
+			<div class="field">
+				<label>Motion Graphic</label>
+				<div id="ddlMotionGraphic" class="ui labeled icon button dropdown">
+					<%= f.hidden_field :motion_graphic_id, :value => @motion_graphic.id %>
+					<i class="setting icon"></i>
+					<span class="text">Select Motion Graphic</span>
+					<div class="menu">
+						<% mg_list = MotionGraphic.all %>
+						<% mg_list.each do | mg | %>
+						<div class="item" data-value="<%= mg.id %>"><%= mg.name %></div>
+						<% end %>
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<%= image_tag @motion_graphic.thumburl_url, width: '100%' %>
+			</div>
+			<div class="field" style="display:none;">
+				<label>Customization Data</label>
+				<%= f.text_area :custom_field_data %>
+			</div>
+			<div class="actions">
+				<%= f.submit %>
+			</div>
+		<% end %>
+		</div>
+		<div id="galleryDropzone" class="eight wide column dropzone">
+			<div id="divCustomForm" class="ui aligned form">
+			</div>
+			<br />
+			<div class="ui aligned form">
+				<%= form_for(GalleryImage.new, :url => gallery_images_path(:format => "json"), :html => {multipart: true}) do |f| %>
+					<div class="inline field">
+						<label>Add to Gallery:</label>
+						<div id="divGalleryDropDown" class="ui icon buttons">
+							<div class="ui icon button fileinput-button">
+								<i class="add icon"></i>
+								<%= f.file_field :url, :id => 'fupGalleryImage', :multiple => true, :name => 'gallery_image[url]', style: 'width: 38px; height: 38px; overflow: hidden;' %>
+								<%= f.hidden_field :gallery_type, :value => '2' %>
+							</div>
+						</div>
+						<div id="prgGalleryImage" class="ui bottom attached tiny progress" data-percent="0" style="display: none;">
+							<div class="bar" style="width: 0%"></div>
+						</div>
+					</div>
+				<% end %>
+			</div>
+	</div>
+</div>
+
+<script type="application/javascript">
+	
+	// when dom ready
+	$(function () {
+		var motion_graphics_path = '<%= motion_graphics_path %>';
+		$('#ddlMotionGraphic').dropdown('setting', 'onChange', function (value) {
+			updateForm(motion_graphics_path, value);
+		});
+		
+		$('#fupGalleryImage')
+			.fileupload({
+				dropZone: $('#galleryDropzone'),
+				add: function(e, data) {
+					try {
+						$('#prgGalleryImage').progress({
+							percent: 0
+						}).show();
+						
+						$('.ui.form').addClass('loading');
+						
+						console.log('uploading image');
+						data.submit();
+					}
+					catch(e) {
+						console.log('error: ' + e);
+						showAlert(e);
+					}
+					
+				},
+				done: function(e, data) {
+					try {
+						console.log('image upload done');
+						
+						$('#prgGalleryImage').progress({
+							percent: 0
+						}).hide();
+
+						loadGalleryList('gallerydropdown', 2, function () {
+							$('.ui.form').removeClass('loading');
+						});
+					}
+					catch(e) {
+						showAlert(e);
+					}
+				},
+				progressall: function (e, data) {
+					try {
+						var progress = parseInt(data.loaded / data.total * 100, 10);
+						
+						console.log('progress: ' + progress);
+						
+						$('#prgGalleryImage').progress({
+							percent: progress
+						});
+					}
+					catch(e) {
+						console.log(e);
+					}
+				}
+		});
+		
+		$('#prgGalleryImage').progress({
+			percent: 0
+		});
+		
+		updateForm(motion_graphics_path, $('#ddlMotionGraphic').dropdown('get value'));
+	});
+	
+	// utility functions
+	
+	function renderCustomFieldInputColor(value, parameters) {
+		return '<input class="colorPicker" type="text" value="' + value + '" />';
+	}
+	
+	function renderCustomFieldInputSlider(value, parameters) {
+		return '<input class="rangeSlider" type="text" value="' + value + '" />';
+	}
+	
+	function renderCustomFieldInputText(value, parameters) {
+		return '<input type="text" value="' + value + '" />';
+	}
+	
+	function renderCustomFieldInputImage(value, parameters) {
+		return '<div class="gallerydropdown"></div>';
+	}
+	
+	function renderCustomFieldInput(type, value, parameters) {
+		switch(type) {
+			case 'color':
+				return renderCustomFieldInputColor(value, parameters);
+			case 'slider':
+				return renderCustomFieldInputSlider(value, parameters);
+			case 'text':
+				return renderCustomFieldInputText(value, parameters);
+			case 'image':
+				return renderCustomFieldInputImage(value, parameters);
+			default:
+				return '<div>Unknown Type</div>';
+		}
+	}
+	
+	function createCustomizedForm(form_data) {
+		var i, currentField;
+		$('#divCustomForm').empty();
+		for (i=0; i<form_data.input_fields.length; i++) {
+			currentField = form_data.input_fields[i];
+			
+			$('#divCustomForm').append(
+				'<div class="inline field">' +
+				'<label>' + 
+					currentField.name + ': ' +
+				'</label>' + 
+				renderCustomFieldInput(currentField.type, currentField.default, currentField.parameters) + 
+				'</div>'
+			);
+		}
+		
+		renderGalleryDropDowns('gallerydropdown', 2, 'ddlGalleryImage');
+		$('.colorPicker').spectrum();
+		$('.rangeSlider').rangeslider({
+			polyfill: false
+		})
+	}
+	
+	function updateForm(motion_graphics_path, motion_graphic_id) {
+		$('.ui.form').addClass('loading');
+		var urlGetCustomFields = motion_graphics_path + '/' + motion_graphic_id + '/get_custom_fields.json';
+		$.ajax({
+				url : urlGetCustomFields,
+				type: 'GET',
+				success: function(response, status) {
+					try {
+						createCustomizedForm(response);
+					}
+					catch(e) {
+						showAlert(e);	
+					}
+				},
+				error: function(response, status, err) {
+					showAlert(status + ': ' + err);
+				},
+				complete: function(response, status) {
+					$('.ui.form').removeClass('loading');
+				}
+		});
+	}
+</script>

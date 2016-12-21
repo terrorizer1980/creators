@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Gift Voucher Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Gift voucher</th>
+      <th>Product</th>
+      <th>Discount</th>
+      <th>Quantity</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @gift_voucher_items.each do |gift_voucher_item| %>
+      <tr>
+        <td><%= gift_voucher_item.name %></td>
+        <td><%= gift_voucher_item.description %></td>
+        <td><%= gift_voucher_item.gift_voucher %></td>
+        <td><%= gift_voucher_item.product %></td>
+        <td><%= gift_voucher_item.discount %></td>
+        <td><%= gift_voucher_item.quantity %></td>
+        <td><%= gift_voucher_item.status %></td>
+        <td><%= link_to 'Show', gift_voucher_item %></td>
+        <td><%= link_to 'Edit', edit_gift_voucher_item_path(gift_voucher_item) %></td>
+        <td><%= link_to 'Destroy', gift_voucher_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Gift voucher item', new_gift_voucher_item_path %>

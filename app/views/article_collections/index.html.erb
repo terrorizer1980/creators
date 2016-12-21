@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Article Collections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Picture</th>
+      <th>Slug</th>
+      <th>Category</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @article_collections.each do |article_collection| %>
+      <tr>
+        <td><%= article_collection.name %></td>
+        <td><%= article_collection.description %></td>
+        <td><%= article_collection.picture %></td>
+        <td><%= article_collection.slug %></td>
+        <td><%= article_collection.category %></td>
+        <td><%= link_to 'Show', article_collection %></td>
+        <td><%= link_to 'Edit', edit_article_collection_path(article_collection) %></td>
+        <td><%= link_to 'Destroy', article_collection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Article collection', new_article_collection_path %>

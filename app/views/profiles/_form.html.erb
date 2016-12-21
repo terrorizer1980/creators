@@ -1,0 +1,128 @@
+<div class="ui segment">
+	<%= form_for(@profile, html: {class: 'ui form'}) do |f| %>
+	  <% if @profile.errors.any? %>
+		<div id="error_explanation">
+		  <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+		  <ul>
+		  <% @profile.errors.full_messages.each do |message| %>
+			<li><%= message %></li>
+		  <% end %>
+		  </ul>
+		</div>
+	  <% end %>
+
+	  <h4 class="ui dividing header">Public Information</h4>
+	  <div class="field">
+		<label>Nickname</label>
+		<%= f.text_field :nickname, placeholder: "Please use the same name as on the forum", required: true %>
+	  </div>
+
+	  <h4 class="ui dividing header">Personal Information</h4>
+	  <div class="two fields">
+		<div class="field">
+		  <label>Given (First) Name</label>
+		  <%= f.text_field :fname, required: true %>
+		</div>
+		<div class="field">
+		  <label>Surname</label>
+		  <%= f.text_field :lname, required: true %>
+		</div>
+	  </div>
+
+	  <div class="two fields">
+		<div class="field">
+		  <label>Avatar</label>
+		  <%= f.file_field :avatar %>
+		</div>
+		<div class="field">
+		  <label>Skype</label>
+		  <%= f.text_field :skype, placeholder: "Our preferred contact method" %>
+		</div>
+	  </div>
+	  <div class="two fields">
+		<div class="field">
+		  <label>Date of Birth</label>
+		  <%= f.text_field :birthday, class: 'birthdatepicker', required: true%>
+		</div>
+		<div class="field">
+		  	<label>Country</label>
+		  	<%= f.country_select :country_code, {priority_countries: ["US", "CA", "GB", "AU"]}, {class: 'ui dropdown manual'}, required: true %>
+		</div>  
+	  </div>
+
+	  <div class="field">
+		<label>Bio</label>
+		<%= f.text_area :bio, placeholder: "(Optional - one or two sentences)" %>
+	  </div>
+      <h4 class="ui dividing header">Recruiter Information</h4>
+	  <div class="two fields">
+		<div class="field">
+<!--
+		  <label>PayPal Address (for payout)</label>
+		  <%#= f.text_field :paypal, placeholder: "you@example.com" %>
+-->
+          <div class="ui positive icon message">
+            <i class="money icon"></i>
+            <div class="content">
+              <div class="header">Referral Program</div>
+              <p>If you'd like to be a network101 recruiter, please <%= link_to "read and agree to the Terms of Service", pages_recruiter_tos_path, id: 'lnkRecruiterTOS', target: '_blank' %> before continuing, and click the agree button on the right.</p>
+              <p>If you're not into it, no sweat, we'll just hide your recruiter panel for now.</p>
+            </div>
+          </div>
+		</div>
+		<div class="field">
+		  <label>network101's Referral Program TOS</label>
+		  	<input name="profile[recruitertos]" type="hidden" value="0">
+			
+			<div class="ui toggle checkbox">
+				<%= f.check_box :recruitertos %>
+			  	<label>Yes, I accept the terms</label>
+		  	</div>
+		</div>
+	  </div>
+
+	  <div class="actions">
+		  <div class="ui buttons">
+			  <%= link_to @profile.new_record? ? root_path : profile_path(@profile), class: 'ui secondary labeled icon button' do |btn| %>
+			<i class="arrow left icon"></i>
+			Cancel
+		  <% end %>
+		  <div class="or"></div>
+		  <%= button_tag(type: 'submit', class: 'ui positive right labeled icon button') do |btn| %>
+			<i class="save icon"></i>
+			Save
+		  <% end %>
+	  	</div>
+	  </div>
+	<% end %>
+</div>
+<div id="mdlRecruiterTOS" class="ui long fullscreen modal">
+  <div class="header">network101 Referral Program</div>
+  <div class="content">
+    <%= render 'pages/recruiter_tos_text' %>
+  </div>
+  <div class="actions">
+    <div class="ui positive approve labeled icon button">
+      <i class="check icon"></i>
+      Got it!
+    </div>
+  </div>
+</div>
+
+
+<script>
+	$(function () {
+		var value = $('#profile_country_code').dropdown('get value');
+		$('#profile_country_code').dropdown().find('.item').each(function(index) {
+			var countrycode = $(this).data('value');
+			$('<i></i>').prependTo(this).addClass('flag').addClass(countrycode.toLowerCase());
+		});
+		$('#profile_country_code').dropdown('restore defaults');
+		$('#profile_country_code').dropdown('set selected', value);
+      
+      $('#lnkRecruiterTOS').click(function (e) {
+        e.preventDefault();
+        $('#mdlRecruiterTOS').modal('show');
+      });
+	});
+</script>

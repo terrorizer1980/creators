@@ -1,0 +1,36 @@
+<div id="mdlConvince" class="ui manual modal">
+  <div class="header">
+    Our No BS Free Trial
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <%= image_tag 'logoonly-512-matte-white.png', class: 'ui small image' %>
+    </div>
+    <div class="description">
+      <p>We know we're making some pretty bold claims. So we're going to let you try us out on the house. Here's what your trial includes:
+      <ul>
+        <li>A comprehensive channel review by one of our advisors. We'll look at what you're doing well, and what can be improved. And when you subscribe, we will monitor and review your channel regularly.</li>
+        <li>A little taste of our post production services for a video of your choosing. We'll even throw in a nice customized intro for your channel from out template library (we'll watermark it during the trial, but it'll be all yours when you sign up).</li>
+        <li>Full access to our curated library of training articles and videos while you're building out your channel and first video</li>
+        <li>Access to our handy thumbnail generator application. It'll produce high quality video thumbnails for you in seconds.</li>
+      </ul>
+      Like any good drug dealer, the first dose is on us.  If you don't like the results, you can cancel at any time.</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui positive right labeled icon button">
+      Cool!
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
+<script>
+  $(function () {
+    $('#mdlConvince').modal({
+      allowMultiple: true
+    });
+    <% if defined? show_selector %>
+      $('#mdlConvince').modal('attach events', '<%=show_selector%>', 'show');
+    <% end %>
+  });
+</script>

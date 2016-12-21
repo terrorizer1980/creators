@@ -1,0 +1,120 @@
+<div class="ui stackable grid">
+  <div class="<%= @order.type != 'Wishlist' ? 'ten' : 'sixteen' %> wide column">
+    <h2 class="ui dividing header">Items in <%= @order.type %></h2>
+    <table class="ui blue selectable table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Selection</th>
+          <th>Customized?</th>
+          <th>Credits</th>
+          <% if @order.gift_voucher.present? %>
+            <th>Discount</th>
+            <th>Adj. Credits</th>
+          <% end %>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% total_items = 0 %>
+        <% total_credits = 0.0 %>
+        <% total_discount = 0.0 %>
+        <% current_discount = 0.0 %>
+        <% used_items = [] %>
+        
+        <% @order_items.includes(:product, :purchasable).each do |order_item| %>
+          <tr>
+            <td><%= link_to order_item.product.name, [order_item.purchasable, order_item] %></td>
+            <td><%= order_item.purchasable.title %><%#= link_to order_item.product.name, [@order, order_item] %></td>
+            <td><%= order_item.custom.present? ? 'YES' : 'NO' %></td>
+            <td><%= @order.to_subclass.locked ? order_item.cost : order_item.product.price %></td>
+            <% if @order.gift_voucher.present? %>
+              <% matched_gift_voucher_item = @order.gift_voucher.gift_voucher_items.where.not(:id => used_items).where.not(status: GiftVoucherItem.statuses['claimed']).find_by(product_id: order_item.product_id) %>
+              <%# matched_gift_voucher_item = @order.gift_voucher.gift_voucher_items.where.not(:id => used_items).where(:status => 'unclaimed').find_by(product_id: order_item.product_id) %>
+              <% if matched_gift_voucher_item != nil %>
+                <% current_discount = order_item.product.price * matched_gift_voucher_item.discount / 100 %>
+                <td><%= matched_gift_voucher_item.discount %>%</td>
+                <td><%= order_item.product.price - current_discount %></td>
+                <% total_discount += current_discount %>
+                <% used_items << matched_gift_voucher_item.id %>
+              <% else %>
+                <td>0%</td>
+                <td><%= order_item.product.price %></td>
+              <% end %>
+            <% end %>
+            <td>
+              <% unless @order.to_subclass.locked %>
+                <div class="ui tiny icon buttons">
+                  <%= link_to [order_item.purchasable, order_item], class: 'ui negative button', method: :delete, data: { confirm: 'Are you sure?' } do |btn| %>
+                      <i class="trash icon"></i>
+                  <% end %>
+                  <%= link_to [:edit, order_item.purchasable, order_item], class: 'ui orange button' do |btn| %>
+                      <i class="edit icon"></i>
+                  <% end %>
+                </div>
+              <% end %>
+            </td>
+
+          </tr>
+          <% total_items += 1 %>
+          <% total_credits += order_item.product.price %>
+        <% end %>
+        <tfoot>
+          <tr>
+            <th colspan="3"><%= total_items %> items in <%= @order.type.downcase %></td>
+              <th><%= '%.0f' % total_credits %></td>
+              <% if @order.gift_voucher.present? %>
+                <th><%= '%.0f' % ((total_credits == 0 ? 0 : (total_discount / total_credits)) * 100.0) %>%</th>
+                <th><%= '%.0f' % (total_credits - total_discount) %></th>
+              <% end %>
+              <th></th>
+          </tr>
+        </tfoot>
+      </tbody>
+    </table>
+  </div>
+  <% if @order.type != 'Wishlist' %>
+    <div class="six wide column">
+      <%= render 'account_summary' %>
+      <% if !@order.gift_voucher.nil? %>
+        <div class="ui blue icon message">
+          <i class="gift icon"></i>
+          <div class="content">
+            <div class="header">Selected Gift</div>
+            <p>The following gift is applied to this puchase: <%= link_to @order.gift_voucher.name + ' from ' + @order.gift_voucher.from_user_text, @order.gift_voucher %></p>
+            <% if @order.type == 'Basket' %>
+              <p><%= link_to 'Remove this gift from purchase', clear_gift_voucher_order_path(@order), method: 'put' %>.</p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<div class="ui hidden divider"></div>
+<% if @order.type == 'Purchase' %>
+<%= link_to current_user.admin? ? admin_orders_path : orders_path, class: 'ui secondary labeled icon button' do | lnk | %>
+    <i class="left arrow icon"></i>
+    Back
+  <% end %>
+<% end %>
+<% if @order.type == 'Basket' %>
+  <% can_buy = (@credits >= total_credits - total_discount) && total_items > 0  %>
+  <%= link_to [:purchase_items, @order], method: :post, class: 'ui ' + (can_buy ? '' : ' disabled ') + 'positive labeled icon button', data: { confirm: 'You are spending ' + (total_credits - total_discount).to_s + ' credits. Are you sure?' } do | lnk | %>
+    <i class="shopping cart icon"></i>
+    Buy Items
+  <% end %>
+  <% unless (@credits >= total_credits) %>
+    <%= link_to subscriptions_path, class: 'ui orange labeled icon button' do | lnk | %>
+      <i class="ticket icon"></i>
+      Top-up Credits
+    <% end %>
+  <% end %>
+  <% if @order.type == 'Basket' && @gift_voucher_count > 0 && @order.gift_voucher.nil? %>
+    <%=link_to gift_vouchers_path, class: 'ui blue button' do |lnk| %>
+      <i class="gift icon"></i>
+      Pay with a Gift!
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,21 @@
+<%= form_for(@ppipn) do |f| %>
+  <% if @ppipn.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ppipn.errors.count, "error") %> prohibited this ppipn from being saved:</h2>
+
+      <ul>
+      <% @ppipn.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :params %><br>
+    <%= f.text_area :params %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  txtype: 1
+  currency: 1
+  direction: 1
+  amount_cents: 1
+  balance_cents: 1
+  notes: MyString
+
+two:
+  user_id: 
+  txtype: 1
+  currency: 1
+  direction: 1
+  amount_cents: 1
+  balance_cents: 1
+  notes: MyString

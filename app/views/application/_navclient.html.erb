@@ -1,0 +1,16 @@
+<% unless defined?(navbarstyle) && navbarstyle != '' %>
+	<% 	navbarstyle = 'inverted blue' %>
+<% end %>
+
+<div id="mainMenuBar" class="ui <%= navbarstyle %> menu">
+	<div class="left menu">
+		<%= render "nav_static", :homepath => dashboard_path %>
+		<%= render "nav_creator_central" %>
+	</div>
+
+  <div class="right menu">
+      <%= render "nav_basket" %>
+	  <%= render "nav_channel_select" %>
+	  <%= render "nav_user" %>
+  </div>
+</div>

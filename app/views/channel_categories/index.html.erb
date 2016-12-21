@@ -1,0 +1,27 @@
+<h1>Channel Categories</h1>
+<%= link_to 'New Category', new_channel_category_path, id: 'new_channel_link', remote: true, class: 'ui small positive button' %>
+<table class="ui blue selectable table" id="cc_table">
+  <thead>
+    <tr>
+      <th>Slug</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @channel_categories.each do |channel_category| %>
+      <tr>
+        <td><%= channel_category.slug %></td>
+        <td><%= channel_category.description %></td>
+        <td><%= link_to 'Show', channel_category %></td>
+        <td><%= link_to 'Edit', edit_channel_category_path(channel_category) %></td>
+        <td><%= link_to 'Destroy', channel_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+

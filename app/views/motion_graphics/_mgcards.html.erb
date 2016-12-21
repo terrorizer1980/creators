@@ -1,0 +1,34 @@
+<div class="ui cards">
+  <% @motion_graphics.each do |motion_graphic| %>
+  <div class="ui card">
+    <%= link_to image_tag(motion_graphic.thumburl_url(:card).to_s), motion_graphic, class: 'image' %>
+    <div class="content">
+      <a class="header"><%= link_to motion_graphic.title, motion_graphic %></a>
+      <% if 1==2 %>
+      <div class="meta">
+        <span class="date">Tagged: <%= raw motion_graphic.tag_list.map { |tag| link_to tag, tag_path(tag)}.join(', ') %></span>
+      </div>
+      <% end %>
+      <div class="description">
+        <%= motion_graphic.get_content_safe %>
+      </div>
+    </div>
+    <% if can? :manage, motion_graphic %>
+      <div class="extra content">
+        <div class="ui right floated mini icon buttons">
+          <%= link_to [:edit, motion_graphic], class: 'ui orange icon button' do |lnk| %>
+            <i class="edit icon"></i>
+          <% end %>
+          <%= link_to motion_graphic, method: :delete, data: { confirm: 'Are you sure you want to delete this motion graphic?' }, class: 'ui red icon button' do |lnk| %>
+            <i class="trash icon"></i>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% end %>
+</div>
+<div class="ui hidden divider"></div>
+<% if defined? @motion_graphics.total_pages %>
+  <%= will_paginate @motion_graphics %>
+<% end %>

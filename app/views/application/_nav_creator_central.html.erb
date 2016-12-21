@@ -1,0 +1,25 @@
+<div class="ui dropdown item">
+	<span class="toplevel">
+		<i class="showable paint brush icon"></i>
+		<label class="hideable">Creator Central</label>
+	</span>
+	<i class="dropdown icon"></i>
+	<div class="menu">
+		<%= link_to motion_graphics_path, class: "item" do |lnk| %>
+			<i class="video play outline icon"></i>
+			<label>Motion Graphics</label>
+		<% end %>
+		<%= link_to songs_path, class: "item" do |lnk| %>
+			<i class="music icon"></i>
+			<label>Royalty Free Music</label>
+		<% end %>
+		<%= link_to articles_path, class: "item" do |lnk| %>
+			<i class="student icon"></i>
+			<label>Training Articles</label>
+		<% end %>
+		<%= link_to apps_path, class: "item" do |lnk| %>
+			<i class="lab icon"></i>
+			<label>Apps &amp; Tools</label>
+		<% end %>
+	</div>
+</div>

@@ -1,0 +1,53 @@
+<% @cc.each do |channel| %>
+<tr>
+ 	<td class="collapsing">
+    <%= image_tag channel.thumbdefault, class: 'ui tiny image' %>
+  </td>
+	<td>
+		<%= channel.name %>
+	</td>
+	<td>
+		<%= channel.channel_category.description %>
+	</td>
+	<% unless channel.apps_collaboration_pref.active? %>
+		<td colspan = "3">
+
+		Collaboration matcher paused for this channel.
+	<% else %>
+	<td class="collapsing">
+		
+	<%= channel.ytvaverage.blank? ? "collecting data" : channel.ytvaverage %>
+	</td>
+	<td class="collapsing">
+		<%= channel.subscribers.blank? ? "collecting data" : channel.subscribers %>
+	</td>
+
+	<td class="collapsing">
+
+		<%= channel.videos.count %>
+	</td>
+	<% end %>
+	</td>
+	<td>
+		<% if channel.apps_collaboration_pref.active? %>
+		
+		<a href="/apps/collab_disable_channel?id=<%=channel.id%>" class="ui positive fluid animated button">
+			<div class="visible content">Active</div>
+			<div class="hidden content">
+				Pause?
+			</div>
+		</a>
+		
+		<% else %>
+		
+		<a href="/apps/collab_activate_channel?id=<%=channel.id%>" class="ui yellow fluid animated button">
+			<div class="visible content">Paused</div>
+			<div class="hidden content">
+				Activate
+			</div>
+		</a>
+
+		<% end %>
+  </td>
+</tr>
+<% end %>

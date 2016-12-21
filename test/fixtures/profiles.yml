@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  fname: MyString
+  lname: MyString
+  birthday: 2015-06-17
+  category: 1
+  paypal: MyString
+  skype: MyString
+
+two:
+  user_id: 
+  fname: MyString
+  lname: MyString
+  birthday: 2015-06-17
+  category: 1
+  paypal: MyString
+  skype: MyString

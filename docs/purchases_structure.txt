@@ -1,0 +1,56 @@
+#### Products
+
+Product {
+  id: integer
+  # type: [MotionGraphicCustomization, ChannelReviewRequest, ...]
+  name: string
+  image: image
+  price: integer
+  description: text
+  custom: text
+  status: integer (enum: available, out-of-stock, discontinued, etc)
+}
+
+MotionGraphicCustomization => STI: Product {
+  
+}
+
+ChannelReviewRequest => STI: Product {
+  
+}
+
+#### Orders
+
+Order => has_many: OrderItem {
+  id: integer
+  type: ['Basket', 'Wishlist', 'Purchase']
+  user_id: => belongs_to: User
+  notes: text
+}
+
+Basket => STI: Order {
+  # user has one
+  # copy basket items to new Purchase (& empty basket)
+}
+
+Wishlist => STI: Order {
+  # user has many
+  # save basket for later
+  # move items to Basket
+}
+
+Purchase => STI: Order {
+  # user has many
+}
+  
+OrderItem {
+  id: integer
+  order_id: => belongs_to: Order
+  product_id: => has_one: Product
+  cost: integer # cost from product price at time of order
+  *** attachments: # associated objects, like motion_graphic_customization_id or channel_id
+  ordered: date # date ordered
+  requested: date # date of requests delivery
+  delivered: date # date actually delivered
+  custom: text # space for product customization (json)
+}

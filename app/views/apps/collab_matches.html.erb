@@ -1,0 +1,63 @@
+<h1 class="ui header">Potential Collaborators
+	<div class="sub header">from the Collaboration Machine</div>
+</h1>
+
+<div class="ui warning message">
+	<div class="header">
+		Nothing Found Yet
+	</div>
+	<div class="content">
+		<p>
+			Please check back later.
+		</p>
+	</div>
+</div>
+
+<% if current_user.staff? %>
+<div class="ui divider"></div>
+<p>This is the testing section, only visible only to staff</p>
+
+each channel
+<table class="ui blue selectable table">
+	<thead>
+		<th colspan="2">
+			Channel
+		</th>
+		<th>
+			Subscribers
+		</th>
+		<th>
+			Established
+		</th>
+		<th>
+			Average Views
+		</th>
+		<th>
+			Interested?
+		</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="collapsing">
+				<%= image_tag @channel.thumbdefault, class: 'ui tiny image' %>
+			</td>
+			<td>
+				<%= link_to @channel.name, @channel %>
+			</td>
+			<td>
+				12345
+			</td>
+			<td>
+				Last Year
+			</td>
+			<td>
+				124
+			</td>
+			<td>
+				<div class="ui checkbox">yes</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<% end %>

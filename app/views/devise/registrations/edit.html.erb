@@ -1,0 +1,64 @@
+<div class="ui one column center aligned stackable page grid">
+	<div class="column twelve wide">
+		<%= image_tag 'logoonly-512-matte-white.png', class: 'ui centered small image'%>
+		<h2>Change Email or Password</h2>
+
+		<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'ui form' }) do |f| %>
+			<%= devise_error_messages! %>
+
+			<div class="field">
+				<%= f.label :email %>
+					<br />
+					<%= f.email_field :email, autofocus: true %>
+			</div>
+
+			<% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+				<div>Currently waiting confirmation for:
+					<%= resource.unconfirmed_email %>
+				</div>
+			<% end %>
+
+			<div class="field">
+				<label>Change your password</label> <i>(leave blank if you don't want to change it)</i>
+					<br />
+					<%= f.password_field :password, autocomplete: "off" %>
+			</div>
+
+			<div class="field">
+				<%= f.label :password_confirmation %>
+					<br />
+					<%= f.password_field :password_confirmation, autocomplete: "off" %>
+			</div>
+
+			<div class="field">
+				<%= f.label :current_password %> <i>(we need your current password to authorize any account changes)</i>
+				<br />
+				<%= f.password_field :current_password, autocomplete: "off" %>
+			</div>
+			<div class="actions">
+				<div class="ui buttons">
+					<%= link_to dashboard_path, class: 'ui secondary labeled icon button' do |btn| %>
+						<i class="arrow left icon"></i>
+						Cancel
+					<% end %>
+					<div class="or"></div>
+					<%= button_tag(type: 'submit', class: 'ui positive right labeled icon button') do |btn| %>
+						<i class="save icon"></i>
+						Save
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		
+<!--
+			<div class="ui divider"></div>
+
+			<p>Unhappy?</p>
+
+			<%= link_to dashboard_cancellation_path, class: 'ui labeled icon tiny button' do |btn| %>
+				<i class="remove user icon"></i> Cancel my account
+			<% end %>
+-->
+
+	</div>
+</div>

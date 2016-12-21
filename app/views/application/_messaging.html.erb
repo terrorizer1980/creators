@@ -1,0 +1,41 @@
+<div class="global_message_container">
+  <div id="global_notice" class="ui floating large positive icon message global_message">
+    <i class="info circle icon"></i>
+    <div class="content">
+      <div class="header">Notice:</div>
+      <p class="message"></p>
+    </div>
+  </div>
+</div>
+<div class="global_message_container">
+  <div id="global_alert" class="ui floating large negative icon message global_message">
+    <i class="warning circle icon"></i>
+    <div class="content">
+      <div class="header">Error:</div>
+      <p class="message"></p>
+    </div>
+  </div>
+</div>
+
+<% if notice %>
+	<script type="application/javascript">
+		$(function() {
+			showNotice('<%= notice %>');
+		});
+	</script>
+<% end %>
+<% if alert %>
+	
+	<script type="application/javascript">
+		$(function() {
+			showAlert('<%= alert %>');
+		});
+	</script>
+<% end %>
+<% if instruction %>
+	<script type="application/javascript">
+		$(function() {
+          showModal('Instructions', '<%= instruction.html_safe %>', '/images/info-icon.png', 'OK, got it!', true);
+		});
+	</script>
+<% end %>

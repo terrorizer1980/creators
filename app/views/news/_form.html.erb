@@ -1,0 +1,63 @@
+<%= form_for(@news, html: {class: 'ui form'}) do |f| %>
+  <% if @news.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@news.errors.count, "error") %> prohibited this news from being saved:</h2>
+
+      <ul>
+      <% @news.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="two fields">
+    <div class="field">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <label>Category</label>
+      <%= f.select :category, News.categories.keys.to_a.map { |w| [w.titlecase, w] }, {}, {class: 'ui dropdown'} %>
+    </div>
+  </div>
+  <div class="field">
+    <%= f.label :content %>
+    <%= f.text_area :content %>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <label>Video URL</label>
+      <%= f.text_field :vidurl %>
+    </div>
+    <div class="field">
+      <label>Image URL</label>
+      <%= f.text_field :remote_thumburl_url %>
+    </div>
+  </div>
+  <div class="three fields">
+    <div class="field">
+      <label>Publish Date</label>
+      <%= f.text_field :publish_at, class: 'datetimepicker', required: true %><br/><br/>
+    </div>
+    <div class="field">
+      <label>Staff Only?</label>
+        <div class="ui toggle checkbox">
+          <%= f.check_box :staffonly %> 
+          <label>Publish Only to Staff?</label>
+        </div>
+    </div>
+    <div class="field">
+      <label>Approved?</label>
+      <div class="ui checkbox">
+        <div class="ui toggle checkbox">
+          <%= f.check_box :approved %>
+          <%= f.label :approved %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit class: 'ui positive button'%>
+  </div>
+<% end %>

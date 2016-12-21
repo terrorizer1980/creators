@@ -1,0 +1,7 @@
+<script>
+	$(function() {
+			showModal('<%= heading %>', '<%= message.html_safe %>', null, 'OK, take me there!', 'Nah, maybe later', false, function(modal) {
+			window.location.href = '<%= redirect_to %>';
+		});
+	});
+</script>

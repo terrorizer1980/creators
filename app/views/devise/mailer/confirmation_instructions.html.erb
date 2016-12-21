@@ -1,0 +1,23 @@
+
+<p>Welcome to network101, <%= @email %>!</p>
+
+<p>I appreciate you joining us here at network101, and I know you'll love it when you see how easy it is to pimp out your YouTube channel using our apps and services. </p>
+
+<p>We built network101 to help creators grow, and I hope that we can achieve that for you.</p>
+
+<p>If you wouldn't mind, I'd love it if you answered just one question for me: why did you sign up for network101?</p>
+
+<p>I'm asking because knowing what convinced you to give us a try is really helpful in making sure that we're delivering on what our users want. Just hit "reply" and let me know.</p>
+
+<p>By the way, over the next couple of weeks, we'll be sending you a few more emails to help you get the most out of network101.  We'll be sharing some tips, checking in with you and showing you how some of our clients use network101 to grow their YouTube channel.</p>
+
+<p>Many thanks,</p>
+
+<p>Rob<br>
+Channel Advisor 1, <br>
+network101</p>
+
+<p>To get started, please confirm your account email through the link below:</p>
+
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+

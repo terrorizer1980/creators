@@ -1,0 +1,81 @@
+
+<h1 class="ui header">My Videos
+<div class="sub header">on <%= link_to @channel.name, channel_path(@channel) %></div>
+</h1>
+
+<% if @channel.videos.count == 0 %>
+<div class="ui positive message">
+  <div class="header">
+      No Videos?
+  </div>
+  <p>
+    To get started, either click "New Video" or "Import from YouTube". It's not necessary to import your existing videos, but for your reference, it may be handy. Up 2 u.  
+  </p>
+  <p>
+    <b>Note:</b> YouTube's API returns a maximum of 500 results. If you have more than 500 videos, we will not be able to automatically import them all.
+  </p>
+
+</div>
+<% end %>
+
+<table class="ui blue selectable table">
+  <thead>
+    <tr>
+      <th class="ui collapsing"></th>
+      <th>Name</th>
+      
+      
+      <th>Status</th>
+      <th>Started</th>
+      <th>Published On</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @videos.each do |video| %>
+      <tr>
+        <td>
+          <%= link_to video do | lnk | %>
+            <%= image_tag video.thumbnail_best(:list) %>
+          <% end %>
+        <td><%= link_to video.name, video %></td>
+        
+      
+        <td><%= video.progress %></td>
+        <td><%= video.created_at.strftime('%Y-%m-%d')  %></td>
+        <td><%= video.published_at.strftime('%Y-%m-%d') if video.imported? %></td>
+        <td>
+			<div class="ui tiny icon buttons">
+		  		<%= link_to edit_video_path(video), class: 'ui orange button' do |btn| %>
+					<i class="edit icon"></i>
+				<% end %>
+			  	<%= link_to video, method: 'delete', data: { confirm: 'Are you sure you want to delete this video?' }, class: 'ui negative button' do |btn| %>
+					<i class="trash icon"></i>
+				<% end %>
+                <%= link_to apps_thumbnail_path(v: video.id), class: 'ui blue button' do |btn| %>
+                  <i class="unhide icon"></i>
+                <% end %>
+		  	</div>
+		</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @videos %>
+
+<div class="ui hidden divider"></div>
+<div class="ui buttons">
+	<%= link_to new_channel_video_path(@channel), class: 'ui positive labeled icon button' do |btn| %>
+		<i class="add icon"></i>
+		New
+	<% end %>
+	<% if @channel.platform == 'youtube' %>
+		<div class="or"></div>
+		<%= link_to channel_videos_ytimport_path(@channel), class: 'ui secondary right labeled icon button' do |btn| %>
+			<i class="youtube icon"></i>
+			Import
+		<% end %>
+	<% end %>
+</div>

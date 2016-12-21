@@ -1,0 +1,77 @@
+<% content_for :head do %>
+  <script>
+    $(function () {
+      $('.dashboard.feed .menu .item.manual').tab({
+        context: 'parent',
+        history: true,
+        auto: true,
+        evaluateScripts: true,
+        cache: true
+      });
+    });
+  </script>
+<% end %>
+
+<% if (current_user.client? && current_user.cancelled?) || (current_user.staff? && current_user.terminated?)  %>
+
+  <%= render 'access_denied' %>
+
+<% elsif current_user.staff? %>
+
+  <%= render 'staffpanel' %>
+  <div class="dashboard feed">
+    <div class="ui top attached secondary pointing tabular menu">
+      <a class="active manual item" data-tab="dashboard_news">
+        News
+      </a>
+      <a class="manual item" data-tab="dashboard_articles">
+        Articles
+      </a>
+    </div>
+    <div class="ui bottom attached active tab segment" data-tab="dashboard_news">
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="dashboard_articles">
+    </div>
+  </div>
+</div>
+
+<% else %>
+
+<div class="ui stackable grid">
+	<div class="ten wide column">
+		<h2 class="ui dividing header">Dashboard</h2>
+		<% if @obstep < @steps && current_user.client? %>
+			<%= render 'onboard' %>
+		<% end %>
+        <% if current_user.profile.present? && current_user.profile.recruitertos %>
+			<%= render 'recruiterpanel' %>
+		<% end %>
+      <div class="dashboard feed">
+        <div class="ui top attached secondary pointing tabular menu">
+          <a class="active manual item" data-tab="dashboard_news">
+            News
+          </a>
+          <a class="manual item" data-tab="dashboard_articles">
+            Articles
+          </a>
+        </div>
+        <div class="ui bottom attached active tab segment" data-tab="dashboard_news">
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="dashboard_articles">
+        </div>
+      </div>
+	</div>
+
+	<div class="six wide column">
+    <% if @obstep >= @steps %>
+      <%= render 'account_summary' %>
+    <% end %>
+    <% if @channels.where(managed: true).present? %>
+      <%= render 'reviewsummary' %>
+    <% end %>
+    <%= render 'advisors' %>
+    <%#= render 'feed' %>
+  </div>
+</div>
+
+<% end %>

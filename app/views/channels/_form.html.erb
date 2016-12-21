@@ -1,0 +1,105 @@
+<%= form_for(@channel, html: {multipart: true, class: 'ui form'}) do |f| %>
+	<% if @channel.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@channel.errors.count, "error") %> prohibited this channel from being saved:</h2>
+
+			<ul>
+				<% @channel.errors.full_messages.each do |message| %>
+					<li>
+						<%= message %>
+					</li>
+					<% end %>
+			</ul>
+		</div>
+	<% end %>
+
+	<div class="two fields">
+		<div class="field">
+		  <label>Channel Type</label>
+			<%= f.select :platform, Channel.platforms.keys.to_a.map { |w| [w.humanize, w] }, {}, {class: 'ui manual dropdown'} %>
+		</div>
+		<div class="youtube required field">
+			<label>YouTube Channel ID</label>
+			<%= f.text_field :url, placeholder: 'UCthYmmLbuANl6DDbUcN4A2A' %>
+		</div>
+		<div class="disabled nonyoutube required field" style="display: none">
+			<label>Channel Name</label>
+			<%= f.text_field :name, placeholder: 'Channel Name', disabled: 'disabled'  %>
+		</div>
+	</div>
+	<div class="two fields">
+		<div class="field">
+			<label>Category</label>
+			<%= f.collection_select :channel_category_id, ChannelCategory.all, :id, :description, {}, {class: 'ui dropdown'} %>
+		</div>
+		<div class="field">
+			<label>Plan</label>
+			<%= f.collection_select :plan_id, @myplans, :id, :description, {}, {class: 'ui dropdown'} %>
+		</div>
+		<div class="disabled nonyoutube field">
+		  <label>Thumbnail</label>
+			<%= f.file_field :thumbuploaded, disabled: 'disabled' %>
+		</div>
+	</div>
+	<div class="disabled nonyoutube field" style="display: none">
+		<label>Channel Description</label>
+		<%= f.text_area :notes, disabled: 'disabled' %>
+	</div>
+	<div class="youtube field">
+		<div class="ui message youtube">Additional fields will be imported from YouTube.</div>
+	</div>
+
+	<% if params[:r].present? || @channel.reffedby == current_user.id %>
+		<div class="field">
+			<%= f.hidden_field :reffedby, value: params[:r] %>
+		</div>
+		<div class="field">
+			<%= f.hidden_field :referral, value: true %>
+		</div>
+	<% else %>
+		<div class="field">
+			<%= f.hidden_field :user_id, value: current_user.id %>
+		</div>
+	<% end %>
+
+	<div class="actions">
+		<div class="ui buttons">
+			<%= link_to @channel.id.nil? ? channels_path : channel_path(@channel), class: 'ui secondary labeled icon button' do |btn| %>
+				<i class="arrow left icon"></i> Cancel
+			<% end %>
+			<div class="or"></div>
+			<%= button_tag(type: 'submit', class: 'ui positive right labeled icon button') do |btn| %>
+				<i class="save icon"></i> Save
+			<% end %>
+		</div>
+	</div>
+<% end %>
+
+<script>
+	$(function() {
+		function updateForm(val) {
+			$('.nonyoutube').transition(val == 'youtube' ? 'hide' : 'show');
+			$('.youtube').transition(val == 'youtube' ? 'show' : 'hide');
+
+			if(val == 'youtube') {
+				$('.nonyoutube.field input, .nonyoutube.field select, .nonyoutube.field textarea').attr('disabled', 'disabled');
+				$('.youtube.required.field input, .youtube.required.field select, .youtube.required.field textarea').attr('required', 'required');
+				$('.nonyoutube.required.field input, .nonyoutube.required.field select, .nonyoutube.required.field textarea').removeAttr('required');
+				$('.nonyoutube.field').addClass('disabled');
+			}
+			else {
+				$('.nonyoutube.field input, .nonyoutube.field select, .nonyoutube.field textarea').removeAttr('disabled');
+				$('.nonyoutube.required.field input, .nonyoutube.required.field select, .nonyoutube.required.field textarea').attr('required', 'required');
+				$('.youtube.required.field input, .youtube.required.field select, .youtube.required.field textarea').removeAttr('required');
+				$('.nonyoutube.field').removeClass('disabled');
+			}
+		}
+		
+		$('#channel_platform').dropdown({
+			onChange: function (val) {
+					updateForm(val);
+				}
+		});
+		updateForm($('#channel_platform').dropdown('get value')[0]);
+	});
+</script>

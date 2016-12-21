@@ -1,0 +1,55 @@
+<h1 class="ui dividing header">Training Articles and Videos</h1>
+<div class="ui grid">
+	<div class="three wide column">
+		<div class="ui styled fluid accordion">
+			<div class="<%= params[:category_id] != nil ? 'active ': '' %>title">
+				<i class="dropdown icon"></i>
+				Categories
+			</div>
+			<div class="ui <%= params[:category_id] != nil ? 'active ': '' %>content secondary vertical fluid menu">
+              <%= link_to "All", articles_path + "?category_id=-1", class: (params[:category_id] != nil && params[:category_id] == "-1") ? "active item" : "item" %>
+              <% Article.categories.keys.each do | key | %>
+                <%= link_to key.titlecase, articles_path + "?category_id=" + Article.categories[key].to_s, class: params[:category_id] != nil && params[:category_id].to_i == Article.categories[key] ? "active item" : "item" %>
+              <% end %>
+			</div>
+			<div class="<%= params[:collection_id] != nil ? 'active ': '' %>title">
+				<i class="dropdown icon"></i>
+				Collections
+			</div>
+			<div class="ui <%= params[:collection_id] != nil ? 'active ': '' %>content secondary vertical fluid menu">
+              <%= link_to "All", articles_path + "?collection_id=-1", class: (params[:collection_id] != nil && params[:collection_id] == "-1") ? "active item" : "item" %>
+              <% @article_collections.each do | article_collection | %>
+                <%= link_to article_collection.name, articles_path + "?collection_id=" + article_collection.id.to_s, class: params[:collection_id] != nil && params[:collection_id].to_i == article_collection.id ? "active item" : "item" %>
+			  <% end %>
+			</div>
+		</div>
+		<% if (can? :manage, @articles) || (can? :manage, @article_collections) %>
+			<div class="ui divider"></div>
+			<div class="ui icon labeled vertical fluid buttons">
+              <% if can? :manage, @articles %>
+                <%= link_to new_article_path, class: 'ui positive button' do |btn| %>
+                  <i class="browser icon"></i>
+                  New Article
+                <% end %>
+              <% end %>
+              <% if can? :manage, @article_collections %>
+              <%= link_to new_article_collection_path, class: 'ui positive button' do |btn| %>
+                  <i class="puzzle icon"></i>
+                  New Collection
+                <% end %>
+              <% end %>
+			</div>
+		<% end %>
+	</div>
+	<div class="thirteen wide column">
+      <div class="ui cards">
+        <% @articles.includes(:user).each do |article| %>
+          <%= render 'publishable_card', :card_publishable => article %>
+        <% end %>
+      </div>
+      <% if defined? @articles.total_pages %>
+        <div class="ui hidden divider"></div>
+        <%= will_paginate @articles %>
+      <% end %>
+  </div>
+</div>

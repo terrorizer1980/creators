@@ -1,0 +1,42 @@
+<%# if current_user.free? && current_user.channels.present? %>
+<!--
+  <h1 class="ui dividing header">Create a New Channel</h1>
+  <div class="ui message">
+    <p>Thanks for trying out network101!  You are currently a trial user, which gives you full access to all functionality and services, for a <b>single</b> channel.  If you are ready to unlock features for multiple channels, that's great! All you have to do is hit the magic button...</p>
+  </div>
+  <div class="ui buttons">
+    <%= link_to "Unlock the full network101", dashboard_subscribe_path, class: 'ui positive button'%>
+    <div class="or"></div>
+    <%= link_to "Stay on Free Tier", channels_path, class: 'ui negative button'%>
+  </div>
+-->
+<%# else %>
+  <% if @isref == 1 %>
+   <h1 class="ui dividing header">Refer a Channel
+   <div class="sub header"><%= @greeting %></div>
+   </h1>
+
+  <% elsif current_user.channels.present? %>
+
+    <h1 class="ui dividing header">Create a New Channel</h1>
+
+  <% else %>
+
+  	<h1 class="ui dividing header">Create your First Channel</h1>
+  	<div class="ui secondary raised segment">
+  		It's time to create your first channel.  You can think of a channel as any single or ongoing series of videos with a common look and feel.  For YouTube, it's likely that Channel is the right description. For a TV station, you can think of it as a series. For event producers, it could be a single event.
+      <div class="ui accordion">
+        <div class="title">
+          <i class="dropdown icon"></i>
+          How to find your YouTube Channel ID
+        </div>
+        <div class="content">
+          <p>Newer channels will have a URL like https://www.youtube.com/channel/xxxx.  We can work with that directly - just paste the URL below. But older channels use a URL like https://www.youtube.com/user/xxxx.  If you have one of these, please visit https://www.youtube.com/account_advanced. The Channel ID is in the Account Information section.</p>
+        </div>
+      </div>
+  	</div>
+  <% end %>
+
+  <div class="ui hidden divider"></div>
+  <%= render 'form' %>
+<%# end %>

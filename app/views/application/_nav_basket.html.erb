@@ -1,0 +1,9 @@
+<% if current_user.basket.order_items.count > 0 %>
+  <%= link_to(orders_basket_path, :class => 'toplevel item') do |lnk| %>
+    <i class="showable shopping cart icon"></i>
+    <label class="hideable">Basket</label>&nbsp;
+    <% if current_user.basket.order_items.count > 0 %>
+      <div class="ui teal pointing left label"><%= current_user.basket.order_items.count %></div>
+    <% end %>
+  <% end %>
+<% end %>

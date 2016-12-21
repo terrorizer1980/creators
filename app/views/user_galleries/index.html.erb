@@ -1,0 +1,29 @@
+<h1>User Galleries</h1>
+
+<table class="ui blue selectable table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Type</th>
+      <th>Channel</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @user_galleries.each do | user_gallery | %>
+      <tr>
+        <td><%= user_gallery.id %></td>
+        <td><%= user_gallery.gallery_type.pluralize.titlecase %></td>
+        <td><%= user_gallery.channel.nil? ? 'none' : user_gallery.channel.name %></td>
+        <td>
+          <div class="ui tiny icon buttons">
+            <%= link_to user_gallery, class: 'ui positive button' do |btn| %>
+                <i class="photo icon"></i>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%#= render 'reload_on_channel_change' %>

@@ -1,0 +1,24 @@
+<% if defined? card_gallery_image %>
+<div class="ui centered blue card">
+    <div class="content">
+      <div class="header">
+        <%= card_gallery_image.name.titlecase %>
+      </div>
+    </div>
+    <div class="image">
+      <%= image_tag card_gallery_image.url_url(:thumb_l) %>
+    </div>
+    <div class="extra content">
+      <div class="ui right floated mini icon buttons">
+        <% if can? :destroy, card_gallery_image %>
+          <%= link_to card_gallery_image, method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui red icon button' do |lnk| %>
+            <i class="trash icon"></i>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="meta">
+        Uploaded: <%= time_ago_in_words_suffix(card_gallery_image.created_at) %>
+      </div>
+    </div>
+  </div>
+<% end %>

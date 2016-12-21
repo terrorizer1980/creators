@@ -1,0 +1,2 @@
+class Basket < Order
+end

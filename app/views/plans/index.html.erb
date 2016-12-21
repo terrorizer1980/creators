@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Plans</h1>
+
+<table class="ui blue selectable table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price (cents)</th>
+      <th>Description
+      <th>Credits Included</th>
+      <th>Includes Review?</th>
+      <th>Period</th>
+      <th>Available?</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @plans.each do |plan| %>
+      <tr>
+        <td class="collapsing"><%= plan.name %></td>
+        <td class="collapsing"><%= plan.price %></td>
+        <td><%= plan.description %></td>
+        <td><%= plan.credits %></td>
+        <td><%= plan.includes_review? %></td>
+        <td><%= plan.period %></td>
+        <td><%= plan.available? %></td>
+        <td><%= link_to 'Show', plan %></td>
+        <td><%= link_to 'Edit', edit_plan_path(plan) %></td>
+        <td><%= link_to 'Destroy', plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Plan', new_plan_path %>

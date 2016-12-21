@@ -1,0 +1,20 @@
+<div class="ui one column center aligned stackable page grid">
+  <div class="column twelve wide">
+    <%= image_tag 'logoonly-512-matte-white.png', class: 'ui centered small image'%>
+    <h2 class="ui header">Join network101</h2>
+    <div class="ui center aligned container">
+      <div id="btnConvince" class="ui large orange button">Get the full pimp-out treatment for free!</div>
+    </div>
+  </div>
+</div>
+<div class="ui one column center aligned stackable page grid">
+  <div class="column ten wide">
+    <div class="ui divider"></div>
+    <%= render 'sign_up_form' %>
+    <center>
+      <div class="ui divider"></div>
+      <%= render "devise/shared/links" %>
+    </center>
+  </div>
+</div>
+<%= render 'sign_up_modal', :show_selector => '#btnConvince' %>

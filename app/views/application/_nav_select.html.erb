@@ -1,0 +1,21 @@
+<% if !defined?(navbarstyle) then navbarstyle = '' end %>
+
+<% if user_signed_in? %>
+	<% if current_user.staff? %>
+		<% if current_user.admin? %>
+			<%= render 'navadmin', :navbarstyle => navbarstyle %>
+		<% else %>
+			<%= render 'navstaff', :navbarstyle => navbarstyle %>
+		<% end %>
+	<% elsif current_user.profile.nil? %>
+		<%= render 'navnoprofile', :navbarstyle => navbarstyle %>
+	<%# elsif current_user.recruiter? %>
+		<%#= render 'navrecruiter', :navbarstyle => navbarstyle %>
+	<% else %>
+	  <%= render 'navclient', :navbarstyle => navbarstyle %>
+	<% end %>
+
+<% else %>
+	<%= render 'navguest', :navbarstyle => navbarstyle %>
+<% end %>
+

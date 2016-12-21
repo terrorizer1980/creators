@@ -1,0 +1,16 @@
+
+<h1 class="ui dividing header">network101 News</h1>
+<div class="ui cards">
+  <% @news.includes(:user).each do |news_item| %>
+    <%= render 'publishable_card', :card_publishable => news_item %>
+  <% end %>
+</div>
+<% if defined? @news.total_pages %>
+  <div class="ui hidden divider"></div>
+  <%= will_paginate @news %>
+<% end %>
+
+<% if can? :create, @news %>
+  <div class="ui hidden divider"></div>
+  <%= link_to 'New news item', new_news_path, class: 'ui positive button' %>
+<% end %>

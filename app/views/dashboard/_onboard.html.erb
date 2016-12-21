@@ -1,0 +1,78 @@
+<div class="ui top attached segment">
+  <h3>Get Started with network101 (Step <%= @obstep %>)</h3>
+	<p>Before we can help you, please follow through these steps.</p>
+</div>
+<div class="ui three bottom attached steps">
+
+<% if @obstep == 1 %>
+	  <div class="active step">
+		<i class="user icon"></i>
+	    <div class="content">
+	      <div class="title"><%= link_to "Member Profile", new_profile_path %></div>
+<% else %>
+		<div class="completed step">
+		<i class="user icon"></i>
+	    <div class="content">
+	      <div class="title">Member Profile</div>
+<% end %>
+	      <div class="description">Tell us a little about you.</div>
+	    </div>
+	  </div>
+	  
+
+<% if @obstep < 2 %>
+	  <div class="disabled step">
+		<i class="record icon"></i>
+	    <div class="content">
+	      <div class="title">Your First Channel</div>
+<% elsif @obstep == 2 %>
+	  <div class="active step">
+		<i class="record icon"></i>
+	    <div class="content">
+	      <div class="title"><%= link_to "Your First Channel", new_channel_path %></div>
+<% else %>
+	  <div class="completed step">
+		  <i class="record icon"></i>
+	    <div class="content">
+	      <div class="title">Your First Channel</div>
+<% end %>
+	      <div class="description">Create a Channel so you can keep track of your work.</div>
+	    </div>
+	  </div>
+
+
+
+<% if @obstep < 3 %>
+	  <div class="disabled step">
+		<i class="theme icon"></i>
+	    <div class="content">
+	      <div class="title">Explore our services</div>
+<% elsif @obstep == 3 %>
+	  <div class="active step">
+		<i class="theme icon"></i>
+	    <div class="content">
+          <div class="title">Explore our services<%#= link_to "Explore our services", new_channel_preset_path(current_user.channels.first) %></div>
+<% else %>
+	  <div class="completed step">
+	    <div class="content">
+	      <div class="title">Explore our services</div>
+<% end %>
+	      <div class="description">
+            Try out our 
+            <%= link_to dashboard_finish_onboarding_path :dest => 'mg' do %>
+              motion graphics
+            <% end %>
+            , 
+            <%= link_to dashboard_finish_onboarding_path :dest => 'apps' do %>
+              cool apps
+            <% end %>
+            , or 
+            <%= link_to dashboard_finish_onboarding_path :dest => 'art' do %>
+              hit the books
+            <% end %>
+            . We'll have your channel growing in no time!</div>
+	    </div>
+	  </div>
+
+
+	</div>

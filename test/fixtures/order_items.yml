@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product_id: 
+  custom: MyText
+  cost: 1
+  ordered: 2015-08-14 17:09:58
+  requested: 2015-08-14 17:09:58
+  delivered: 2015-08-14 17:09:58
+
+two:
+  product_id: 
+  custom: MyText
+  cost: 1
+  ordered: 2015-08-14 17:09:58
+  requested: 2015-08-14 17:09:58
+  delivered: 2015-08-14 17:09:58

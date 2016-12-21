@@ -1,0 +1,45 @@
+<h1 class="ui header"><%= @video.name %>
+	<div class="sub header">on <%= link_to @video.channel.name, channel_path(@video.channel) %></div>
+</h1>
+
+<div class="ui grid">
+	<div class="four wide column">
+      <%= image_tag @video.thumbnail_best(:card), class: 'ui image' %>
+	</div>
+	<div class="twelve wide column">
+		<p>
+		  <strong>Description:</strong>
+		  <%= @video.description %>
+		</p>
+
+		<p>
+		  <strong>Progress:</strong>
+		  <%= @video.progress %>
+		</p>
+		<% if @video.imported? %>
+		<p>
+		  <strong>YouTube ID:</strong>
+		  <a href="https://www.youtube.com/watch?v=<%= @video.ytvid %>" target="_blank"><%= @video.ytvid %></a>
+		</p>
+		<% end %>
+		<p>
+		  <strong>ID:</strong>
+		  <%= @video.slug %>
+		</p>
+		<div class="ui labeled icon buttons">
+			<%= link_to edit_video_path(@video), class: 'ui orange button' do |btn| %>
+				<i class="edit icon"></i>Edit
+			<% end %>
+			<%= link_to @video, method: 'delete', data: { confirm: 'Are you sure you want to delete this video?' }, class: 'ui negative button' do |btn| %>
+				<i class="trash icon"></i>Delete
+			<% end %>
+            <%= link_to apps_thumbnail_path(v: @video.id), class: 'ui blue button' do |btn| %>
+				<i class="unhide icon"></i>Edit Thumbnail
+			<% end %>
+		</div>
+	</div>
+</div>
+<div class="ui hidden divider"></div>
+<%= link_to channel_videos_path(@video.channel), class: 'ui secondary button' do |btn| %>
+	<i class="arrow left icon"></i>Video List
+<% end %>

@@ -1,0 +1,12 @@
+<% @nc.each do |channel| %>
+	
+<tr>
+	<td>
+		<%= channel.name %>
+	</td>
+	<td>
+		<%= link_to "Initialize", apps_collab_init_channel_path(id: channel.id), class: 'ui button' %>
+  </td>
+</tr>
+
+<% end %>

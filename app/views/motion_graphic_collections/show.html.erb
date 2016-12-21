@@ -1,0 +1,27 @@
+<div class="ui grid">
+	<div class="sixteen wide column">
+		<h1 class="ui header">
+			<%= @motion_graphic_collection.name %>
+      </h1>
+	</div>
+	<% if !@motion_graphic_collection.preview.blank? %>
+	<div class="eight wide column">
+      <img src="<%= @motion_graphic_collection.preview_url(:card).to_s %>">
+    </div>
+	<% end %>
+	<div class="eight wide column">
+		<p>
+        <strong>Tags:</strong>
+        <%= raw @motion_graphic_collection.tag_list.map { |tag| link_to tag, tag_path(tag)}.join(', ') %>
+      </p>
+		<p>
+			<strong>Description:</strong>
+			<%= @motion_graphic_collection.description %>
+		</p>
+
+		<% if can? :manage, MotionGraphicCollection %>
+			<%= link_to 'Edit', edit_motion_graphic_collection_path(@motion_graphic_collection) %> |
+		<% end %>
+		<%= link_to 'Back', motion_graphic_collections_path %>
+	</div>
+</div>

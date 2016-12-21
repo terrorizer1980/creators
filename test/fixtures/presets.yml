@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  channel_id: 
+  name: MyString
+  intro_template_id: 1
+  customizeintropervideo: false
+  background_template_id: 1
+  l3_template_id: 1
+  endcard_template_id: 1
+
+two:
+  channel_id: 
+  name: MyString
+  intro_template_id: 1
+  customizeintropervideo: false
+  background_template_id: 1
+  l3_template_id: 1
+  endcard_template_id: 1

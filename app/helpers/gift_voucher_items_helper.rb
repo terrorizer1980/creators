@@ -1,0 +1,2 @@
+module GiftVoucherItemsHelper
+end

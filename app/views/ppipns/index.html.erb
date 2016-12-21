@@ -1,0 +1,21 @@
+<h1>Instant Payment Notifications</h1>
+
+<table class="ui table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Params</th>
+      <th class="collapsing">Received</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ppipns.each do |ppipn| %>
+      <tr>
+        <td><%= ppipn.id %></td>
+        <td><%= ppipn.params %></td>
+        <td><%= ppipn.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

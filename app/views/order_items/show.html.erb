@@ -1,0 +1,49 @@
+<h1>Showing <%= @purchasable.product.type.titlecase %> Preset</h1>
+<div class="ui stackable grid">
+  <div class="eight wide column">
+    <p>
+      <strong>Product:</strong>
+      <%= @purchasable.product.name %>
+    </p>
+    <p>
+      <strong>Selection:</strong>
+      <%= @purchasable.title %>
+    </p>
+    <%= image_tag @purchasable.thumburl_url(:card).to_s %>
+    <p>
+      <strong>Credits:</strong>
+      <%= @purchasable.product.price %>
+    </p>
+  </div>
+  <div class="eight wide column">
+      <p>
+        <strong>Template Name:</strong>
+        <%= @order_item.name %>
+      </p>
+      <strong>Customizations:</strong>
+      <%= render 'customizable_fields', :cust => @order_item.custom %>
+      <div class="ui hidden divider"></div>  
+    <% if @order_item.order.blank? || (!@order_item.order.blank? && !@order_item.order.to_subclass.locked) %>
+        <%= link_to [:edit, @purchasable, @order_item], class: 'ui orange button' do | btn | %>
+          <i class="edit icon"></i>
+          Edit
+        <% end %>
+        <%= link_to [@purchasable, @order_item], class: 'ui negative button', method: :delete, data: { confirm: 'Are you sure?' } do |btn| %>
+            <i class="trash icon"></i>
+            Delete
+        <% end %>
+      <% end %>
+  </div>
+</div>
+<div class="ui hidden divider"></div>
+<%= link_to @parent, class: 'ui secondary button' do | btn | %>
+  <i class="left arrow icon"></i>
+  Back
+<% end %>
+<% if @order_item.order.nil? %>
+  <%= link_to [:add_to_basket, @purchasable, @order_item], class: 'ui positive button' do | btn | %>
+    <i class="shopping cart icon"></i>
+    Add to basket
+  <% end %>
+<% end %>
+<%= render 'reload_on_channel_change' %>

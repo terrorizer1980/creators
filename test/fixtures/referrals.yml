@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: MyString
+  channel_type: 1
+  channel_id: MyString
+  status: 1
+  notes: MyText
+  user_id: 
+
+two:
+  email: MyString
+  channel_type: 1
+  channel_id: MyString
+  status: 1
+  notes: MyText
+  user_id: 

@@ -1,0 +1,71 @@
+@import "spectrum";
+@import "rangeslider";
+@import "jquery.fileupload";
+@import "jquery.fileupload-ui";
+@import "gallery";
+
+#appcontainer {
+	padding: 0;
+	margin: 0;
+}
+body > .ui.segment {
+	position: absolute;
+	top: 48px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	padding: 0;
+}
+.ui.form .inline.field {
+	white-space: nowrap;
+}
+.ui.form .inline.field .message{
+	white-space: normal;
+}
+.ui.form .inline.field > label {
+	width: 65px;
+}
+.ui.form .inline.field.text-input > input[type=text],
+.ui.form .inline.field.panel-input > input[type=text] {
+	width: 140px;
+}
+.sp-replacer {
+	padding: 2px;
+	height: 35.625px;
+	width: 36px;
+	vertical-align: central;
+	border-radius: .2857rem;
+	border: 1px solid rgba(39, 41, 43, .15);
+	background-color: #fff;
+}
+.sp-preview {
+	height: 29.625px;
+	width: 29.625px;
+	border: 1px solid #bbb;
+}
+.sp-dd {
+	position: relative;
+	top: 16px;
+}
+.ui.tiny.progress {
+	display: block;
+	margin-left: 80px;
+	width: 225px;
+}
+.rangeslider {
+	display: block;
+	margin-top: 6px;
+	margin-left: 80px;
+	width: 225px;
+	height: 10px;
+}
+.rangeslider__fill {
+	background: #b1deff;
+	width: 225px;
+	height: 10px;
+}
+.rangeslider__handle {
+	width: 15px;
+	height: 15px;
+	margin-top: 8px;
+}

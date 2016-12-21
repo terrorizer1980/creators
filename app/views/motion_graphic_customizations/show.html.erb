@@ -1,0 +1,17 @@
+<p>
+  <strong>User:</strong>
+  <%= @motion_graphic_customization.user %>
+</p>
+
+<p>
+  <strong>Motion graphic:</strong>
+  <%= @motion_graphic_customization.motion_graphic_id %>
+</p>
+
+<p>
+  <strong>Custom field data:</strong>
+  <%= @motion_graphic_customization.custom_field_data %>
+</p>
+
+<%= link_to 'Edit', edit_motion_graphic_customization_path(@motion_graphic_customization) %> |
+<%= link_to 'Back', motion_graphic_customizations_path %>

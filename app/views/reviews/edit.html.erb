@@ -1,0 +1,165 @@
+<h1 class="ui dividing header">Channel Review</h1>
+<div class="ui stackable grid">
+	<div class="ten wide column">
+<h2>Current Review</h2>
+	<%= form_for([@channel, @review], html: {class: 'ui form'}) do |f| %>
+	  <% if @review.errors.any? %>
+	    <div id="error_explanation">
+	      <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+
+	      <ul>
+	      <% @review.errors.full_messages.each do |message| %>
+	        <li><%= message %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+	    
+  <div class="field">
+    <label>Advisor</label>    
+    <%= f.collection_select :user_id, @staff, :id, :email, {}, {class:"ui dropdown"} %>
+  </div>
+
+	
+
+	<h3 class="ui dividing header">Content</h3>
+
+	<div class="field">
+		<label>Score (out of 10)</label>
+		<%= f.number_field :content_score %>
+	</div>
+	<div class="ui message">
+		<div class="header">What to Cover</div>
+		<pre>	
+    add_column :reviews, :subscribers, :integer, default: 0
+    add_column :reviews, :channel_views, :integer, default: 0
+    add_column :reviews, :videos, :integer, default: 0
+
+the basics
+views
+subs
+videos #
+avg views / v
+
+length avg
+top 5 vids
+% of channel views
+
+top vid categories
+		</pre>
+	</div>
+
+	<div class="field">
+		<label>Notes</label>
+		<%= f.text_area :content_notes %>
+	</div>
+
+
+	<h3 class="ui dividing header">Optimization</h3>
+
+	<div class="field">
+		<label>Score (out of 10)</label>
+		<%= f.number_field :optimization_score %>
+	</div>
+	<div class="ui message">
+		<div class="header">What to Cover</div>
+		<pre>
+		optimization
+		metadata
+		titles
+		descriptions
+		tags
+		consistent between videos
+
+		thumbnails
+		custom
+		template
+
+		variations for popular categories
+		</pre>
+	</div>
+
+	<div class="field">
+		<label>Notes</label>
+		<%= f.text_area :optimization_notes %>
+	</div>
+
+
+	<h3 class="ui dividing header">Promotion</h3>
+
+	<div class="field">
+		<label>Score (out of 10)</label>
+		<%= f.number_field :promotion_score %>
+	</div>
+	<div class="ui message">
+		<div class="header">What to Cover</div>
+<pre>
+  endcard
+consistent
+subscribe button
+
+
+subscribe trailer
+personal welcome
+best stuff
+click the button
+
+playlists
+
+</pre>
+	</div>
+
+	<div class="field">
+		<label>Notes</label>
+		<%= f.text_area :promotion_notes %>
+	</div>
+
+
+	<h3 class="ui dividing header">Engagement</h3>
+
+	<div class="field">
+		<label>Score (out of 10)</label>
+		<%= f.number_field :engagement_score %>
+	</div>
+	<div class="ui message">
+		<div class="header">What to Cover</div>
+<pre>
+  comments per vid
+comment responses? 
+most comments
+
+participation
+
+
+</pre>
+	</div>
+	<div class="field">
+		<label>Notes</label>
+		<%= f.text_area :engagement_notes %>
+	</div>
+
+	<h3 class="ui dividing header">Summary</h3>
+	<div class="field">
+		<label>Notes</label>
+		<%= f.text_area :summary %>
+	</div>
+
+	 	<div class="two fields">
+			<div class="field">
+	    
+	      <%= f.select :status, Review.statuses.keys.to_a.map { |w| [w.humanize, w] }, {}, {class: 'ui  dropdown'} %>
+		    </div>
+
+		  <div class="actions field">
+
+		    <%= f.submit class: 'ui green button'%>
+		  </div>
+
+		</div>
+	<% end %>
+	</div>
+
+	<div class="six wide column">
+		<%= render 'previous' %>
+	</div>
+</div>

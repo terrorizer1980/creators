@@ -1,0 +1,48 @@
+<div id="ddlSelectedChannel" class="ui top right dropdown labeled item">
+  <input type="hidden" name="selected_channel" value="<%= current_user.profile.selected_channel.blank? ? '' : current_user.profile.selected_channel.name %>">
+  <span class="toplevel text">
+	  <i class="showable record icon"></i>
+	  <label class="hideable">Select Channel</label>
+  </span>
+  <i class="dropdown icon"></i>
+  <div class="menu">
+	  <%= link_to channels_path, class: "noaction item" do |btn| %>
+		<i class="showable arrow circle right icon"></i>
+		<label class="hideable">My Channels</label>
+	  <% end %>
+	  <div class="divider"></div>
+	  <% unless current_user.channels.blank? %>
+		  <% current_user.channels.each do |channel| %>
+		  <%= link_to profile_path(current_user.profile, format: :json), class: "item", data: { remote: true, method: :put, value: channel.name, params: { profile: { selected_channel_id: channel.id } }.to_param } do |lnk|%> 
+				<i class="showable record icon"></i>
+				<label class="hideable"><%=channel.name%></label>
+			<% end %>
+		  <% end %>
+	  <% else %>
+		<div class="item disabled">
+			<i class="showable record icon"></i>
+			<label class="hideable">No channels found!</label>
+		</div>
+	  <% end %>
+  </div>
+</div>
+
+<script>
+	$(function () {
+		$('.noaction.item').click(function (e) {
+			$('#ddlSelectedChannel').dropdown('setting', 'action', 'hide');
+		});
+		
+		$('#ddlSelectedChannel a')
+			.on('ajax:success',function(e, data, status, xhr) {
+				showNotice('Selected channel changed.');
+		  		$(document).trigger({
+					type: 'channel:change',
+					selected_channel: $('#ddlSelectedChannel').dropdown('get value')
+				});
+			})
+			.on('ajax:error',function(e, xhr, status, error) {
+		  		showAlert('Could not change channel.');
+			});
+	});
+</script>

@@ -1,0 +1,34 @@
+<h1 class="ui dividing header">Manage Users</h1> 
+
+<table class="ui blue selectable table">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Nickname</th>
+      <th>First Name</th>
+      <th>Surname</th>
+      <th>Role</th>
+      <th>Member Since</th>
+      <th>Last Seen</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.email, admin_user_path(user) %> </td>
+        <td><%= user.nickname%></td>
+        <td><%= user.fname%></td>
+        <td><%= user.lname%></td>
+        <td><%= user.baserole.humanize + '/' + (user.staff? ? user.staffrole.humanize : user.clientstatus.humanize) %></td>
+        <td><%= time_ago_in_words_suffix(user.created_at) %></td>
+        <td><%= time_ago_in_words_suffix(user.last_seen_at) %></td>
+        <td>Actions</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% if defined? @users.total_pages %>
+  <div class="ui hidden divider"></div>
+  <%= will_paginate @users %>
+<% end %>

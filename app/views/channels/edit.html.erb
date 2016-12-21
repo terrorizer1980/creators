@@ -1,0 +1,30 @@
+<% if @channel.user_id.blank? %>
+	<h1>Claim Channel</h1>
+	<div class="ui error message">
+		Please clarify: Code <b><%= params[:clarify] %></b>
+	</div>
+	<div class="ui warning message">
+		<% if params[:clarify] == "match" %>
+			TODO: warning text
+		<% elsif params[:clarify] == "nomatch" %>
+			TODO: warning text
+		<% elsif params[:clarify] == "invalidref" %>
+			TODO: warning text
+		<% elsif params[:clarify] == "nouref" %>
+			Your channel "<%= @channel.name %>" is listed in our system as a referral, but you did not sign up using a referral code (or it didn't match the referral code we have for you).  This is no big deal, but to ensure our affiliates aren't cheating, we thought we would bring this to your attention.  If you did not join network101 as the result of an email from <b><%= @reffedby.email %></b>, please let us know. Please click "update" to continue. 
+		<% else %>
+			TODO: Generic Clarification
+		<% end %>
+	</div>
+
+<% else %>
+
+	<h1>Edit/Refresh Channel</h1>
+
+<% end %>
+
+<%= render 'form' %>
+
+<% if Rails.env.development? %>
+	<%= console %>
+<% end %>

@@ -1,0 +1,58 @@
+<%# TODO: do something with that cool blurring effect one day... but for now... %>
+<% if defined? card_profile && !card_profile.nil? %>
+  <% if !defined? hyperlink then hyperlink = true end %>
+    <%# This is the blurring effect "chat" prompt... disabled for now, but would be nice someday %>
+    <% if false  %>
+      <div class="ui centered special card">
+        <div class="blurring dimmable image">
+          <div class="ui dimmer">
+            <div class="content">
+              <div class="center">
+                <div class="ui labeled icon inverted button comingsoon">
+                  <i class="comment icon"></i>
+                  Chat
+                </div>
+              </div>
+            </div>
+          </div>
+    <% else %>
+      <div class="ui centered card">
+        <div class="image">
+    <% end %>
+      <% unless card_profile.avatar_url.nil? %>
+        <%= image_tag card_profile.avatar_url(:sidebar).nil? ? '/images/unknown-person1.gif' : card_profile.avatar_url(:sidebar) %>
+      <% end %>
+    </div>
+    <div class="content">
+      <%= card_profile.user_id == current_user.profile.advisor ? 'Advisor: <br/>'.html_safe : '' %>
+      <%= card_profile.user_id == current_user.profile.artist ? 'Artist: <br/>'.html_safe : '' %>
+      <div class="header">
+        <%= hyperlink ? link_to(card_profile.fname + ' ' + card_profile.lname, profile_path(card_profile)) : (card_profile.fname + ' ' + card_profile.lname).titlecase %>
+      </div>
+      <div class="description">
+        <%= card_profile.bio %>
+      </div>
+      <br />
+      <div class="meta">
+        Joined <%= time_ago_in_words_suffix(card_profile.user.created_at.to_s) %>
+      </div>
+      <div class="meta">
+        Last seen <%= time_ago_in_words_suffix(card_profile.user.last_seen_at) %>
+      </div>
+    </div>
+    <% if card_profile.user == current_user || card_profile.user_id == current_user.profile.advisor || card_profile.user_id == current_user.profile.artist || current_user.staff? %>
+      <div class="extra content">
+          <span class="right floated">
+              Contact: <a href="skype:<%= card_profile.skype %>?chat"><i class="skype icon"></i></a>
+              <a href="mailto:<%= card_profile.user.email %>"><i class="mail icon"></i></a>
+          </span>
+      </div>
+    <% end %>
+    <% if can? :edit, card_profile || current_user.staff? %>
+      <%= link_to edit_profile_path(card_profile), class: 'ui orange bottom attached labeled icon button' do |lnk| %>
+        <i class="edit icon"></i>
+        Edit Profile
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

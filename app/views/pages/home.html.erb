@@ -1,0 +1,87 @@
+<%#= @ref %>
+<section id="header" class="light section header">
+    <div class="container">
+        <div class="center-aligned row">
+            <div class="one-third column">
+                <h1><em>Free Tools</em> for YouTube Creators</h1>
+                <h4>Your Content<br/>Our Tools and Services</h4>
+                <h4>Go Pro on YouTube Now!<br/> No MCN Required</h4>
+                <%= link_to "Read the Manifesto", manifesto_path, class: 'ui blue button button-primary' %>
+            </div>
+            <div class="two-thirds column">
+                <div class='ui video' data-source='youtube' data-id='XAyRCl7Y1L4' data-image='/images/explainerthumb.jpg'></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="features" class="dark section features">
+    <div class="container">
+        <h2>network101: The Creators' Back Office</h2>
+        <div class="row">
+            <div class="one-third column">
+                <div class="icon-image centered lock grow"></div>
+                <h5 class="heading">Tools for Success on YouTube</h5>
+                <p class="description">Need help with Promo? Collaboration? Want to save hours on thumnails, descriptions, transcriptions? network101 is your secret weapon.</p>
+            </div>
+            <div class="one-third column">
+                <div class="icon-image centered rev grow"></div>
+                <h5 class="heading">Professional Channel Reviews</h5>
+                <p class="description">We've seen it, and we know what works.  Regular reviews keep you focused on building the best possible channel.</p>
+            </div>
+            <div class="one-third column">
+                <div class="icon-image centered bulb grow"></div>
+                <h5 class="heading">Motion Graphics and Royalty Free Music</h5>
+                <p class="description">Don't waste time with After Effects or other complicated and expensive programs. Our team of Graphics Pros can put the finishing touches on your Video Masterpieces.</p>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<section id="status" class="light section status">
+    <div class="container">
+        <div class="icon-image centered logo101 grow"></div>
+        <h2 class="heading">Ready to kick some ass?</h2>
+        <p class="medium description"><%= link_to "Sign up", new_user_registration_path, rel: "nofollow" %> for our public beta and we'll pimp up your channel for free. Try us out, we think you'll be impressed.</p>
+        <p class="medium description">Got questions? Get in on the ground level - your comments and suggestions will help us build an awesome service.</p>
+        <a class="ui blue button button-primary" target="_blank" href="http://forum.101.net">Join The Discussion</a>
+    </div>
+</section>
+<section id="how-to-help" class="dark section help">
+    <div class="container">
+        <h3 class="heading">Support Us</h3>
+        <p class="medium description">Why? Well, we're trying to do something cool here and put an end to MCNs ripping off talented creators.</p>
+        <p class="medium description">But we can't do it without you. Here are a few things you can do to help us out:</p>
+        <div class="row">
+            <div class="one-third column">
+                <div class="icon-image centered spread-the-word grow"></div>
+                <h5 class="heading">Spread the Word</h5>
+                <p class="description">Share our vids, tell your friends, spray paint subway walls -- anything to help us get the word out.</p>
+            </div>
+            <div class="one-third column">
+                <div class="icon-image centered keep-us-posted grow"></div>
+                <h5 class="heading">Keep Us Posted</h5>
+                <p class="description"><a href="http://forum.101.net">Join the forum</a> and let us know what you want, and how we're doing. We'll be trolling on there everyday.
+                </p>
+            </div>
+            <div class="one-third column">
+              <div class="icon-image centered subscribe-watch grow"></div>
+              <h5 class="heading">Sub and Watch</h5>
+              <p class="description">We all need views, subs and likes! So check out <a target="_blank" href="https://www.youtube.com/channel/UCthYmmLbuANl6DDbUcN4A2A">our YouTube channel</a>, and 
+                <a target="_blank" href="https://www.youtube.com/channel/UCthYmmLbuANl6DDbUcN4A2A?sub_confirmation=1">Subscribe</a> if we're worthy!
+              </p>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="footer" class="light section footer">
+    <div class="container">
+        <p class="small description">
+            <a href="http://forum.101.net/t/privacy-policy/6/1">Privacy</a> |
+            <a href="http://forum.101.net/t/terms-of-service/">Terms of Service</a> | 
+            <a href="http://forum.101.net/about">Contact</a>
+            <br/> &copy; 2015 network101 Ltd., All Rights Reserved.
+        </p>
+        <script src="https://apis.google.com/js/platform.js"></script>
+        <div class="g-ytsubscribe" data-channelid="UCthYmmLbuANl6DDbUcN4A2A" data-layout="full" data-count="default"></div>
+    </div>
+</section>

@@ -1,0 +1,12 @@
+<p>
+  <strong>Channel:</strong>
+  <%= @channel_category.slug %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @channel_category.description %>
+</p>
+
+<%= link_to 'Edit', edit_channel_category_path(@channel_category) %> |
+<%= link_to 'Back', channel_categories_path %>

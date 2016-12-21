@@ -1,0 +1,29 @@
+<div class="ui dropdown item">
+	<span class="toplevel">
+		<i class="showable wait icon"></i>
+		<label class="hideable">Staff</label>
+	</span>
+	<i class="dropdown icon"></i>
+	<div class="menu">
+		<%= link_to motion_graphics_path, class: "item" do |lnk| %>
+			<i class="video play outline icon"></i>
+			<label>Motion Graphics</label>
+		<% end %>
+		<%= link_to songs_path, class: "item" do |lnk| %>
+			<i class="music icon"></i>
+			<label>Royalty Free Music</label>
+		<% end %>
+		<%= link_to articles_path, class: "item" do |lnk| %>
+			<i class="student icon"></i>
+			<label>Training Articles</label>
+		<% end %>
+        <%= link_to channels_path, class: "noaction item" do |btn| %>
+          <i class="showable arrow circle right icon"></i>
+          <label class="hideable">Manage Channels</label>
+        <% end %>
+		<%= link_to dashboard_path, class: "item" do |lnk| %>
+			<i class="area chart icon"></i>
+			<label>My Statistics</label>
+		<% end %>
+	</div>
+</div>

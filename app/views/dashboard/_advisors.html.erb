@@ -1,0 +1,28 @@
+<h2 class="ui dividing header">My Team</h2>
+<% if current_user.profile.present? %>
+  <div class="ui two special doubling blue cards">
+    <% unless @artist.nil? %>
+      <%= render 'profile_card', :card_profile => @artist.profile %>
+    <% else %>
+    <% end %>
+    <% unless @advisor.nil? %>
+      <%= render 'profile_card', :card_profile => @advisor.profile %>
+    <% else %>
+    <% end %>
+  </div>
+  <div class="ui accordion icon">
+    <div class="title">
+      <i class="question icon"></i>
+      Wait? Aren't these two clowns the founders?
+    </div>
+    <div class="content">
+      <div class="ui positive message">
+        <p> Yup, while we build and train our team, we're overseeing all client services. You'll get a much better-looking team assigned once our beta is complete.</p>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="ui blue message">
+    Please fill out <%= link_to 'your profile', new_profile_path %> to get a creative team assigned to your account.
+  </div>
+<% end %>

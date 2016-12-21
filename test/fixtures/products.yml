@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  name: MyString
+  preview: MyString
+  price: 1
+  description: MyText
+  custom: MyText
+  status: 1
+
+two:
+  type: 
+  name: MyString
+  preview: MyString
+  price: 1
+  description: MyText
+  custom: MyText
+  status: 1

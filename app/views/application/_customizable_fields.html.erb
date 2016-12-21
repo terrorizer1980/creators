@@ -1,0 +1,24 @@
+<% unless !defined? cust || cust.nil? %>
+  <% begin %>
+    <% custom_fields = JSON.parse(cust) %>
+  <% rescue JSON::ParserError => e %>
+    [none]
+  <% else %>
+      <% input_fields = custom_fields['input_fields'] %>
+      <% i = 0 %>
+      <table class="ui very basic compact collapsing table" style="margin-left: auto; margin-right: auto;">
+        <tbody>
+          <% while i < input_fields.length do %>
+              <% field = input_fields[i] %>
+              <tr>
+                <td><%= field['name'] %></td>
+                <td><%= field['value'].nil? ? (field['default'].nil? ? '' : field['default']) : field['value']  %></td>
+              </tr>
+              <% i = i + 1 %>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+<% else %>
+    [none]
+<% end %>

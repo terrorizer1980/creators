@@ -1,0 +1,29 @@
+<%= form_for(@request, html: {class: 'ui form'}) do |f| %>
+  <% if @request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@request.errors.count, "error") %> prohibited this request from being saved:</h2>
+
+      <ul>
+      <% @request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+  <label>Channel</label>
+    <%= f.collection_select :channel_id, current_user.channels.all, :id, :name, {}, {class: 'ui dropdown'} %>
+  </div>
+  <div class="field">
+    <label>Request Type</label>
+    <%= f.select :reqtype, Request.reqtypes.keys.to_a, {}, {class: 'ui dropdown'} %>
+  </div>
+  <div class="field">
+    <label>Status</label>
+    <%= f.select :status, Request.statuses.keys.to_a, {}, {class: 'ui dropdown'} %>
+  </div>
+  <div class="actions">
+    <%= f.submit class: 'ui positive button' %>
+  </div>
+<% end %>

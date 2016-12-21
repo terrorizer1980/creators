@@ -1,0 +1,35 @@
+<%= form_for([@channel, @video], html: {class: 'ui form'}) do |f| %>
+  <% if @video.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@video.errors.count, "error") %> prohibited this video from being saved:</h2>
+
+      <ul>
+      <% @video.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="required field">
+    <%= f.label :name %>
+	  <%= f.text_field :name, required: true %>
+  </div>
+  <div class="field">
+    <%= f.label :progress %>
+     <%= f.select :progress, Video.progresses.keys.to_a, {}, {class: 'ui dropdown'} %>
+  </div>
+	<div class="actions">
+	  <div class="ui buttons">
+		  <%= link_to @video.new_record? ? :back : channel_videos_path(@video.channel), class: 'ui secondary labeled icon button' do |btn| %>
+		<i class="arrow left icon"></i>
+		Cancel
+	  <% end %>
+	  <div class="or"></div>
+	  <%= button_tag(type: 'submit', class: 'ui positive right labeled icon button') do |btn| %>
+		<i class="save icon"></i>
+		Save
+	  <% end %>
+	</div>
+  </div>
+<% end %>

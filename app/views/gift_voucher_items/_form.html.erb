@@ -1,0 +1,45 @@
+<%= form_for(@gift_voucher_item) do |f| %>
+  <% if @gift_voucher_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@gift_voucher_item.errors.count, "error") %> prohibited this gift_voucher_item from being saved:</h2>
+
+      <ul>
+      <% @gift_voucher_item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :gift_voucher_id %><br>
+    <%= f.text_field :gift_voucher_id %>
+  </div>
+  <div class="field">
+    <%= f.label :product_id %><br>
+    <%= f.text_field :product_id %>
+  </div>
+  <div class="field">
+    <%= f.label :discount %><br>
+    <%= f.number_field :discount %>
+  </div>
+  <div class="field">
+    <%= f.label :quantity %><br>
+    <%= f.number_field :quantity %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br>
+    <%= f.number_field :status %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

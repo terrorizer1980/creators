@@ -1,0 +1,103 @@
+<h1>Channel Reviews</h1>
+
+<% if @overdue.present? %>
+<h3>Overdue!</h3>
+<table class="ui red selectable table">
+  <thead>
+    <tr>
+      <th>Channel</th>
+      <th>Advisor</th>
+      <th>Scheduled for</th>
+      <th>Completed at</th>
+      <th>Status</th>
+      <th colspan="2">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @overdue.each do |review| %>
+      <tr>
+        <td><%= link_to review.slug, edit_review_path(review)  %></td>
+        <td><%= review.user.email.split('@').first if review.user %></td>
+        <td><%= review.scheduled_for.strftime("%Y/%m/%d") if review.scheduled_for %></td>
+        <td><%= review.completed_at.strftime("%Y/%m/%d") if review.completed_at %></td>
+        <td><%= review.status.humanize %></td>
+        <td class="collapsing"><%= link_to 'Show', review, class: 'ui tiny blue button' %></td>
+        <td class="collapsing"><%= link_to 'Review', edit_review_path(review), class: 'ui tiny orange button' %></td>
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+<br>
+
+<% if @duetoday.present? %>
+<h3>Due Today</h3>
+<table class="ui green selectable table">
+  <thead>
+    <tr>
+      <th>Channel</th>
+      <th>Advisor</th>
+      <th>Scheduled for</th>
+      <th>Completed at</th>
+      <th>Status</th>
+      <th colspan="2">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @duetoday.each do |review| %>
+      <tr>
+        <td><%= link_to 'Do it!', edit_review_path(review)  %></td>
+        <td><%= review.user.profile.nickname.to_s if review.user %></td>
+        <td><%= review.scheduled_for.strftime("%Y/%m/%d") if review.scheduled_for %></td>
+        <td><%= review.completed_at.strftime("%Y/%m/%d") if review.completed_at %></td>
+        <td><%= review.status.humanize %></td>
+        <td><%= link_to 'Show', review, class: 'ui tiny blue button' %></td>
+        <td><%= link_to 'Review', edit_review_path(review), class: 'ui tiny orange button' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+Nothing left to do today. Go home!
+<% end %>
+
+<br>
+<% if @duenwd.present? %>
+
+<% if Date.tomorrow.sunday? %>
+<h3>Coming Up on Monday</h3>
+<% else %>
+<h3>Coming Up Tomorrow</h3>
+<% end %>
+
+<table class="ui yellow selectable table">
+  <thead>
+    <tr>
+      <th>Channel</th>
+      <th>Advisor</th>
+      <th>Scheduled for</th>
+      <th>Completed at</th>
+      <th>Status</th>
+      <th colspan="2">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @duenwd.each do |review| %>
+      <tr>
+        <td><%= review.channel.slug if review.channel %></td>
+        <td><%= review.user.profile.nickname.to_s if review.user %></td>
+        <td><%= review.scheduled_for.strftime("%Y/%m/%d") if review.scheduled_for %></td>
+        <td><%= review.completed_at.strftime("%Y/%m/%d") if review.completed_at %></td>
+        <td><%= review.status.humanize %></td>
+        <td><%= link_to 'Show', review %></td>
+        <td><%= link_to 'Edit', edit_review_path(review) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>

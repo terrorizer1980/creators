@@ -1,0 +1,59 @@
+<h1 class="ui dividing header">Motion Graphic Templates</h1>
+<div class="ui grid">
+	<div class="three wide column">
+		<div class="ui styled fluid accordion">
+			<div class="<%= params[:category_id] != nil ? 'active ': '' %>title">
+				<i class="dropdown icon"></i>
+				Categories
+			</div>
+			<div class="ui <%= params[:category_id] != nil ? 'active ': '' %>content secondary vertical fluid menu">
+				<%= link_to "All", motion_graphics_path + "?category_id=-1", class: (params[:category_id] != nil && params[:category_id] == "-1") ? "active item" : "item" %>
+				<%= link_to "Intros", motion_graphics_path + "?category_id=" + MotionGraphic.categories['intros'].to_s, class: params[:category_id] != nil && params[:category_id].to_i == MotionGraphic.categories['intros'] ? "active item" : "item" %>
+				<%= link_to "Lower Thirds", motion_graphics_path + "?category_id=" + MotionGraphic.categories['lower_thirds'].to_s, class: params[:category_id] != nil && params[:category_id].to_i == MotionGraphic.categories['lower_thirds'] ? "active item" : "item" %>
+				<%= link_to "Backgrounds", motion_graphics_path + "?category_id=" + MotionGraphic.categories['backgrounds'].to_s, class: params[:category_id] != nil && params[:category_id].to_i == MotionGraphic.categories['backgrounds'] ? "active item" : "item" %>
+				<%= link_to "Title Cards", motion_graphics_path + "?category_id=" + MotionGraphic.categories['title_cards'].to_s, class: params[:category_id] != nil && params[:category_id].to_i == MotionGraphic.categories['title_cards'] ? "active item" : "item" %>
+				<%= link_to "End Cards", motion_graphics_path + "?category_id=" + MotionGraphic.categories['end_cards'].to_s, class: params[:category_id] != nil && params[:category_id].to_i == MotionGraphic.categories['end_cards'] ? "active item" : "item" %>
+			</div>
+			
+			<div class="<%= params[:collection_id] != nil ? 'active ': '' %>title">
+				<i class="dropdown icon"></i>
+				Collections
+			</div>
+			<div class="ui <%= params[:collection_id] != nil ? 'active ': '' %>content secondary vertical fluid menu">
+				<%= link_to "All", motion_graphics_path + "?collection_id=-1", class: (params[:collection_id] != nil && params[:collection_id] == "-1") ? "active item" : "item" %>
+				<% MotionGraphicCollection.all.each do |motion_graphic_collection| %>
+					<%= link_to motion_graphic_collection.name, motion_graphics_path + "?collection_id=" + motion_graphic_collection.id.to_s, class: params[:collection_id] != nil && params[:collection_id].to_i == motion_graphic_collection.id ? "active item" : "item" %>
+				<% end %>
+			</div>
+          <% if 1==2 %>
+			<div class="title">
+				<i class="dropdown icon"></i>
+				Tags
+			</div>
+			<div class="content">
+				<%#= render 'tagcloud' %>
+			</div>
+          <% end %>
+		</div>
+		<% if (can? :manage, @motion_graphics) || (can? :manage, @motion_graphic_collections) %>
+			<div class="ui divider"></div>
+			<div class="ui icon labeled vertical fluid buttons">
+				<% if can? :manage, @motion_graphics  %>
+					<%= link_to new_motion_graphic_path, class: 'ui button' do %>
+						<i class="record icon"></i>
+						New Graphic
+					<% end %>
+				<% end %>
+				<% if can? :manage, @motion_graphic_collections  %>
+				<%= link_to new_motion_graphic_collection_path, class: 'ui button' do %>
+						<i class="puzzle icon"></i>
+						New Collection
+					<% end %>
+				<% end %>
+			</div>
+		<% end %>
+	</div>
+	<div class="thirteen wide column">
+		<%= render 'mgcards' %>
+	</div>
+</div>

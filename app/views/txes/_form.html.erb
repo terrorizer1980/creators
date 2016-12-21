@@ -1,0 +1,48 @@
+<%= form_for(@tx, html: {class: 'ui form'}) do |f| %>
+  <% if @tx.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tx.errors.count, "error") %> prohibited this tx from being saved:</h2>
+
+      <ul>
+      <% @tx.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="three fields">
+    <div class="field">
+      <%= f.label :txtype %><br>
+      <%= f.select :txtype, Tx.txtypes.keys.to_a, {}, {class: 'ui dropdown'} %>
+      
+    </div>
+    <div class="field">
+      <%= f.label :currency %><br>
+      <%= f.select :currency, Tx.currencies.keys.to_a, {}, {class: 'ui dropdown'} %>
+    </div>
+    <div class="field">
+      <%= f.label :direction %><br>
+      <%= f.select :direction, Tx.directions.keys, {}, {class: 'ui dropdown'} %>
+    </div>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <%= f.label :amount_cents %><br>
+      <%= f.number_field :amount_cents %>
+    </div>
+    <div class="field">
+      <%= f.label :amount_credits %><br>
+      <%= f.number_field :amount_credits %>
+    </div>
+  
+
+    <div class="field">
+      <%= f.label :notes %><br>
+      <%= f.text_field :notes %>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit class: 'ui button' %>
+  </div>
+<% end %>

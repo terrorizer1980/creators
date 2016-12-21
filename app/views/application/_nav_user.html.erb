@@ -1,0 +1,35 @@
+<div class="ui top right dropdown item">
+	<span class="toplevel">
+		<i class="showable user icon"></i>
+		<label class="hideable"><%= current_user.profile.nil? ? current_user.email : current_user.profile.nickname  %></label>
+	</span>
+	<i class="dropdown icon"></i>
+
+	<div class="menu">
+		<% if current_user.profile.nil? %>
+			<%= link_to new_profile_path, class: "item" do |lnk| %>
+				<i class="write square icon"></i>
+				<label>Create Profile</label>
+			<% end %>
+		<% else %>
+			<%= link_to profile_path(current_user.profile.slug), class: "item" do |lnk| %>
+				<i class="write square icon"></i>
+				<label>My Profile</label>
+			<% end %>
+		<% end %>
+        <%= link_to orders_path, class: 'noaction item' do | lnk | %>
+            <i class="ticket icon"></i>
+            <label class="hideable">Purchases</label>
+        <% end %>
+		<% if !current_user.staff? %>
+          <%= link_to referrals_path, class: "noaction item" do |lnk|%> 
+              <i class="showable money icon"></i>
+              <label class="hideable">Recruitment</label>
+          <% end %>
+        <% end %>
+        <%= link_to(destroy_user_session_path, :method => :delete, :class => 'item') do |lnk| %>
+            <i class="showable sign out icon"></i>
+            <label class="hideable">Sign Out</label>
+        <% end %>
+	</div>
+</div>

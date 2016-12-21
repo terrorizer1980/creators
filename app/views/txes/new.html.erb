@@ -1,0 +1,37 @@
+<h1>New Tx</h1>
+
+<%= render 'form' %>
+<pre>
+subscription / regular putchase -> payment notification received from webhook
+  - record payment tx, run buy_credits tx
+manual purchase
+  - record payment tx, run buy_credits tx
+
+payment (currency: usd, direction: credit)
+  - paypal auto
+  - paypal manual
+  - cc auto monthly
+  - cc manual
+
+buy credits (currency: transfer, direction: purchase)
+  credit credit balance
+  debit payment method  Notes: associated payment tx
+be given credits
+  credit credit balance
+  - coupon
+  - complimentary (staff override)
+spend credits (currency: credits, direction: debit)
+  debit credit balance
+  - spend_credits
+expire credits (currency: credits, direction: debit)
+  debit credit balance
+  - expire_credits
+  TODO: credit expiration task
+
+refund (currency: transfer, direction: refund)
+  debit credit balance
+  credit payment method  Notes: associated payment tx
+  close account!
+
+  </pre>
+<%= link_to 'Back', txes_path %>

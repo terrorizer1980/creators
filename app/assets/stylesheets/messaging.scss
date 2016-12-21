@@ -1,0 +1,25 @@
+.global_message_container {
+  position: absolute;
+  width: 100%;
+}
+
+.ui.message.global_message {
+  position: relative;
+  text-align: center;
+  margin-top: -250px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.25;
+  width: 50%;
+  min-width: 300px;
+  max-height: 250px;
+  z-index: 255;
+  transition: 
+      all 1s ease;
+}
+.ui.message.global_message.popin {
+  margin-top: 0px;
+  opacity: 1;
+  transition: 
+      all 0.5s ease;
+}

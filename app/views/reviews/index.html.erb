@@ -1,0 +1,49 @@
+<h1 class="ui header">My Reviews
+	<div class="sub header">for <%= link_to @channel.name, channel_path(@channel) %></div>
+</h1>
+<% if @channel.platform == 'youtube' %>
+	<table class="ui blue selectable table">
+	  <thead>
+		<tr>
+		  <th>Review</th>
+		  <th>Advisor</th>
+		  <th>Scheduled for</th>
+		  <th>Completed at</th>
+		  <th>Status</th>
+		  <th class="collapsing">Score</th>
+		  <th class="collapsing">C</th>
+		  <th class="collapsing">O</th>
+		  <th class="collapsing">P</th>
+		  <th class="collapsing">E</th>
+		</tr>
+	  </thead>
+
+	  <tbody>
+        <% @reviews.includes(:user).each do |review| %>
+		  <tr>
+			<td><%= link_to review.slug, review%></td>
+			<td><%= review.user.profile.nickname.to_s if review.user %></td>
+			<td><%= review.scheduled_for.strftime("%Y/%m/%d") if review.scheduled_for %></td>
+			<td><%= review.completed_at.strftime("%Y/%m/%d") if review.completed_at %></td>
+			<td><%= review.status.humanize %></td>
+			<td><%= review.total_score if review.completed_at %></td>
+			<td><%= review.content_score if review.completed_at %></td>
+			<td><%= review.optimization_score if review.completed_at %></td>
+			<td><%= review.promotion_score if review.completed_at %></td>
+			<td><%= review.engagement_score if review.completed_at %></td>
+		  </tr>
+		<% end %>
+	  </tbody>
+	</table>
+
+	<br>
+
+	<%= link_to 'Request Channel Review', new_channel_review_path(@channel), class: 'ui positive button' %>
+
+<% else %>
+
+<div class="ui warning message">
+	Sorry, at present, channel reviews are only available for YouTube channels. We are heavily geared toward helping YouTube creators, but if you think we limiting ourselves, drop us a line!
+</div>
+
+<% end %>

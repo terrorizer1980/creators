@@ -1,0 +1,45 @@
+<% if defined? card_publishable %>
+  <div class="ui card">
+      <% if !card_publishable.thumburl_url(:card).nil? %>
+        <%= link_to card_publishable, class: 'ui image' do |lnk| %>
+          <%= image_tag card_publishable.thumburl_url(:card) %>
+        <% end %>
+      <% elsif card_publishable.vidurl? %>
+        <div class="ui video image" data-source="youtube" data-id="<%= card_publishable.vidurl %>" ></div>
+      <% end %>
+    <div class="content">
+      <div class="header">
+        <%= link_to card_publishable.title, card_publishable %>
+      </div>
+      <div class="description">
+        <%= card_publishable.get_summary_safe %>
+      </div>
+    </div>
+    <div class="extra content">
+      <div class="right floated meta">
+        Posted by: <%= card_publishable.user.profile.nickname %>
+      </div>
+      <div class="meta">
+        Filed in:
+      </div>
+      <div class="right floated meta">
+        <%= time_ago_in_words_suffix(card_publishable.publish_at.to_s) %>
+      </div>
+      <div class="meta">
+        <%= card_publishable.category.titlecase %>
+      </div>
+    </div>
+    <% if can? :manage, card_publishable %>
+      <div class="extra content">
+        <div class="ui right floated mini icon buttons">
+          <%= link_to [:edit, card_publishable], class: 'ui orange icon button' do |lnk| %>
+            <i class="edit icon"></i>
+          <% end %>
+          <%= link_to card_publishable, method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui red icon button' do |lnk| %>
+            <i class="trash icon"></i>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

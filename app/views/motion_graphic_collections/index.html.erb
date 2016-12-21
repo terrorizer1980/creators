@@ -1,0 +1,23 @@
+<h1>Listing Motion Graphic Collections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @motion_graphic_collections.each do |motion_graphic_collection| %>
+      <tr>
+        <td><%= link_to 'Show', motion_graphic_collection %></td>
+        <td><%= link_to 'Edit', edit_motion_graphic_collection_path(motion_graphic_collection) %></td>
+        <td><%= link_to 'Destroy', motion_graphic_collection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Motion graphic collection', new_motion_graphic_collection_path %>

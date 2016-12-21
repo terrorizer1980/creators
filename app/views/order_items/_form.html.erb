@@ -1,0 +1,266 @@
+<% content_for :head do %>
+	<%= stylesheet_link_tag    'purchasable_customize',  media: 'all' %>
+	<%= javascript_include_tag 'purchasable_customize' %>
+<% end %>
+
+<%= form_for([@order, @purchasable, @order_item], html: {id: 'frmCustomize', class: 'ui form'}) do |f| %>
+  <% if @order_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order_item.errors.count, "error") %> prohibited this order_item from being saved:</h2>
+      <ul>
+      <% @order_item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <label><%= f.label :name %></label>
+    <%= f.text_field :name %>
+  </div>
+  <div class="disabled field" style="display: none">
+      <label>Preset Data</label>
+    <%= f.text_area :custom, id: 'hdnCustom' %>
+  </div>
+  <%= f.hidden_field :product_id, :value => @purchasable.product.id, id: 'hdnProduct' %>
+  <%= f.hidden_field :purchasable, :value => @purchasable.id, id: 'hdnPurchasable' %>
+<% end %>
+<div class="eight wide column">
+  <div class="ui aligned form">
+    <div class="two fields">
+      <div class="field">
+          <%= @order_item.purchasable.nil? ? '' : (image_tag @order_item.purchasable.thumburl_url, width: '100%') %>
+      </div>
+      <div id="galleryDropzone" class="dropzone field">
+        <% if @purchasable.product.can_customize %>
+          <div id="divCustomForm" class="ui aligned form">
+          </div>
+        <% end %>
+        <% if @purchasable.product.has_gallery %>
+          <% user_gallery_cust = UserGallery.motion_graphic_customization_gallery(current_user, current_user.selected_channel) %>
+          <%= form_for([user_gallery_cust, GalleryImage.new], :format => "json", :html => {multipart: true, class: 'ui aligned form'}) do |f| %>
+            <div class="inline field">
+              <label>Upload Image: </label>
+              <div class = "ui buttons">
+                <div id="divGalleryDropDown" class="ui icon buttons">
+                    <div class="ui icon button fileinput-button">
+                        <i class="add icon"></i>
+                        <%= f.file_field :url, :id => 'fupGalleryImage', :multiple => true, :name => 'gallery_image[url]', style: 'width: 38px; height: 38px; overflow: hidden;' %>
+                        <%= f.hidden_field :gallery_type, :value => '2' %>
+                    </div>
+                </div>
+                <%= link_to user_gallery_cust, class: 'popupsource ui icon button', target: '_blank', data: {content: "Click to manage this image gallery -- will open new window"} do | lnk | %>
+                  <i class="external icon"></i>
+                <% end %>
+              </div>
+              <div id="prgGalleryImage" class="ui bottom attached tiny progress" data-percent="0" style="display: none;">
+                <div class="bar" style="width: 0%"></div>
+              </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+    <div class="actions">
+      <div class="ui buttons">
+        <%= link_to @parent, class: 'ui secondary labeled icon button' do |btn| %>
+              <i class="arrow left icon"></i> Cancel
+          <% end %>
+          <div class="or"></div>
+          <button id="btnSaveCustomization" type="submit" name="commit" value="Save Customization" form="frmCustomize" class="ui positive right labeled icon button">
+            <i class="save icon"></i>
+            Save
+          </button>
+      </div>
+    </div> 
+  </div>
+</div>
+<% if @purchasable.product.can_customize %>
+<script type="application/javascript">
+	
+	// when dom ready
+	$(function () {
+		var purchasable_path = '<%= url_for @purchasable %>';
+        var current_form_data = null;
+		
+		$('#fupGalleryImage')
+			.fileupload({
+				dropZone: $('#galleryDropzone'),
+				add: function(e, data) {
+					try {
+						$('#prgGalleryImage').progress({
+							percent: 0
+						}).show();
+						
+						$('.ui.form').addClass('loading');
+						
+						console.log('uploading image');
+						data.submit();
+					}
+					catch(e) {
+						console.log('error: ' + e);
+						showAlert(e);
+					}
+					
+				},
+				done: function(e, data) {
+					try {
+						console.log('image upload done');
+						
+						$('#prgGalleryImage').progress({
+							percent: 0
+						}).hide();
+
+						loadGalleryList('gallerydropdown', 2, function () {
+							$('.ui.form').removeClass('loading');
+						});
+					}
+					catch(e) {
+						showAlert(e);
+					}
+				},
+				progressall: function (e, data) {
+					try {
+						var progress = parseInt(data.loaded / data.total * 100, 10);
+						
+						console.log('progress: ' + progress);
+						
+						$('#prgGalleryImage').progress({
+							percent: progress
+						});
+					}
+					catch(e) {
+						console.log(e);
+					}
+				}
+		});
+		
+		$('#prgGalleryImage').progress({
+			percent: 0
+		});
+      
+		updateForm(purchasable_path);
+      
+        $('#btnSaveCustomization').click(function(e) {
+          saveForm($('#hdnCustom'));
+        });
+	});
+	
+	// utility functions
+  
+    function saveForm($el) {
+      if(current_form_data != null) {
+        for (i=0; i<current_form_data.input_fields.length; i++) {
+              currentField = current_form_data.input_fields[i];
+              currentField.value = readCustomFieldValue(currentField.type, $('#divCustomForm .inline.field').get(i));
+          }
+        $el.val(JSON.stringify(current_form_data));
+      }
+    }
+  
+  function readCustomFieldValue(type, el) {
+		switch(type) {
+			case 'color':
+				return $(el).find('.colorPicker').spectrum("get").toHexString();
+			case 'slider':
+				return $(el).find('.rangeSlider').val();
+			case 'text':
+				return $(el).find('input').val();
+			case 'image':
+				return $(el).find('.gallerydropdown').dropdown('get value');
+			default:
+				return '#err';
+		}
+	}
+	
+	function renderCustomFieldInputColor(value, parameters) {
+		return '<input class="colorPicker" type="text" value="' + value + '" />';
+	}
+	
+	function renderCustomFieldInputSlider(value, parameters) {
+		return '<input class="rangeSlider" type="range" value="' + value + '" min="' + parameters.min + '" max="' + parameters.max + '" />';
+	}
+	
+	function renderCustomFieldInputText(value, parameters) {
+		return '<input type="text" value="' + value + '" />';
+	}
+	
+	function renderCustomFieldInputImage(value, parameters) {
+		return '<div class="gallerydropdown" data-selected="' + value + '"></div>';
+	}
+	
+	function renderCustomFieldInput(type, value, parameters) {
+		switch(type) {
+			case 'color':
+				return renderCustomFieldInputColor(value, parameters);
+			case 'slider':
+				return renderCustomFieldInputSlider(value, parameters);
+			case 'text':
+				return renderCustomFieldInputText(value, parameters);
+			case 'image':
+				return renderCustomFieldInputImage(value, parameters);
+			default:
+				return '<div>Unknown Type</div>';
+		}
+	}
+	
+	function createCustomizedForm() {
+		var i, currentField;
+		$('#divCustomForm').empty();
+        if(current_form_data != null) {
+          for (i=0; i<current_form_data.input_fields.length; i++) {
+              currentField = current_form_data.input_fields[i];
+
+              $('#divCustomForm').append(
+                  '<div class="inline field">' +
+                  '<label>' + 
+                      currentField.name + ': ' +
+                  '</label>' + 
+                  renderCustomFieldInput(currentField.type, (currentField.value == null || currentField.value == '') ? currentField.default : currentField.value, currentField.parameters) + 
+                  '</div>'
+              );
+		  }
+        }
+		
+		renderGalleryDropDowns('gallerydropdown', 2, 'ddlGalleryImage');
+		$('.colorPicker').spectrum();
+		$('.rangeSlider').rangeslider({
+			polyfill: false
+		})
+	}
+	
+	function updateForm(purchasable_path) {
+        form_data = $('#hdnCustom').val();
+        if(form_data != null && form_data != '') {
+          current_form_data = JSON.parse(form_data);
+          createCustomizedForm();
+        }
+        else {
+          $('.ui.form').addClass('loading');
+          
+          var urlGetCustomFields = purchasable_path + '/get_custom_fields.json';
+          console.log('fetching custom data: ' + urlGetCustomFields);
+          $.ajax({
+                  url : urlGetCustomFields,
+                  type: 'GET',
+                  success: function(response, status) {
+                      try {
+                          current_form_data = response;
+                          createCustomizedForm();
+                      }
+                      catch(e) {
+                          showAlert(e);
+                      }
+                  },
+                  error: function(response, status, err) {
+                    if(status != 'parsererror')
+                      showAlert(status + ': ' + err);
+                  },
+                  complete: function(response, status) {
+                      $('.ui.form').removeClass('loading');
+                  }
+          });
+        }
+	}
+</script>
+<% end %>

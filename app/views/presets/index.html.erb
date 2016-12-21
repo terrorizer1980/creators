@@ -1,0 +1,37 @@
+<h1>My Presets</h1>
+
+<table class="ui blue selectable table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Channel</th>
+      <th>Intro template</th>
+      <th>Customizeintropervideo</th>
+      <th>Background template</th>
+      <th>L3 template</th>
+      <th>Endcard template</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @presets.each do |preset| %>
+      <tr>
+        <td><%= link_to preset.name, preset %></td>
+        <td><%= preset.channel.name %></td>
+        <td><%= preset.intro_template_id %></td>
+        <td><%= preset.customizeintropervideo %></td>
+        <td><%= preset.background_template_id %></td>
+        <td><%= preset.l3_template_id %></td>
+        <td><%= preset.endcard_template_id %></td>
+        
+        <td><%= link_to 'Edit', edit_preset_path(preset) %></td>
+        <td><%= link_to 'Destroy', preset, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Preset', new_channel_preset_path, class: 'ui positive button' %>

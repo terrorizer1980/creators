@@ -1,0 +1,32 @@
+<p>
+	<strong>Name:</strong>
+	<%= @referral.name %>
+</p>
+
+<p>
+	<strong>Email:</strong>
+	<%= @referral.email %>
+</p>
+
+<p>
+	<strong>Channel type:</strong>
+	<%= @referral.channel_type.humanize %>
+</p>
+
+<p>
+	<strong>Channel:</strong>
+	<%= @referral.channel_id %>
+</p>
+
+<p>
+	<strong>Status:</strong>
+	<%= @referral.status.humanize %>
+</p>
+
+<p>
+	<strong>Notes:</strong>
+	<%= @referral.notes %>
+</p>
+
+<%= link_to 'Edit', edit_referral_path(@referral) %> |
+<%= link_to 'Back', referrals_path %>

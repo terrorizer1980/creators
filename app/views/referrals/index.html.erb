@@ -1,0 +1,123 @@
+<h2 class="ui dividing header">Referrals</h2>
+<% if current_user.profile.blank? || !current_user.profile.recruitertos %>
+  <div class="ui positive large icon message">
+    <i class="money icon"></i>
+    <div class="content">
+      <div class="header">Referral Program</div>
+      <p>
+        network101's referral program offers a fantastic opportunity for you to gain free membership and other rewards, just for recommending us to your friends!
+      </p>
+      <p>
+        However, you have not yet agreed to the recruiter TOS. Please <%=link_to current_user.profile.nil? ? new_profile_path : edit_profile_path(current_user.profile) do %>update your profile<% end %>.
+      </p>
+    </div>
+  </div>
+<% else %>
+  <div class="right floated">
+    My Referral Link: https://creators.101.net/?ref=<%= current_user.profile.slug %>
+  </div>
+  <table class="ui blue selectable table">
+    <thead class="ui inverted">
+      <tr>
+        <th>Notes</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Link</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @referrals.each do |referral| %>
+        <tr>
+          <td class="popup"  data-title="<%= referral.name %>" data-content="<%= referral.notes.html_safe %>" data-position="right center">
+            <span class="ui tiny inverted blue icon button">
+              <i class="info circle icon"></i>
+            </span>
+          </td>
+          <td>
+            <%= referral.name %>
+          </td>
+          <td><%= referral.email %></td>
+          <td><%= referral.channel_type.humanize %></td>
+          <td>
+              <div class="ui tiny icon buttons">
+                <%= link_to decrement_status_referral_path(referral, format: :json), data: { remote: true, method: :put }, class: 'ui referral_status decrementing ' + get_referral_status_color(referral.status) + ' icon button' do |lnk|%>
+                  <i class="arrow circle left icon"></i>
+                <% end %>
+                <div class="ui <%=get_referal_status_color(referral.status) %> button" style="width: 120px;">
+                    <%= referral.status.humanize %>
+                </div>
+                <%= link_to increment_status_referral_path(referral, format: :json), data: { remote: true, method: :put }, class: 'ui referral_status incrementing  ' + get_referral_status_color(referral.status) + ' icon button' do |lnk|%>
+                  <i class="arrow circle right icon"></i>
+                <% end %>
+              </div>
+          </td>
+          <td><%= referral.channel_id %></td>
+          <td>
+              <div class="ui tiny icon buttons">
+                <%= link_to edit_referral_path(referral), class: 'ui orange button' do |btn| %>
+                    <i class="edit icon"></i>
+                <% end %>
+                <%= link_to referral, method: 'delete', data: { confirm: 'Are you sure you want to delete this referral?' }, class: 'ui negative button' do |btn| %>
+                    <i class="trash icon"></i>
+                <% end %>
+             </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% if defined? @referrals.total_pages %>
+<div class="ui hidden divider"></div>
+  <%= will_paginate @referrals %>
+<% end %>
+
+<div class="ui hidden divider"></div>
+
+  <%= link_to new_referral_path, class: 'ui positive button' do |btn| %>
+      <i class="add icon"></i>
+<!--
+      <i class="icons">
+        <i class="money icon"></i>
+        <i class="inverted corner add icon"></i>
+      </i>
+-->
+      New Referral
+  <% end %>
+
+  <script>
+      $(function () {
+          $('.referral_status')
+              .on('ajax:success',function(e, data, status, xhr) {
+                  response = JSON.parse(xhr.responseText)
+                  var 
+                      $this = $(this),
+                      $current = $this.hasClass('incrementing') ? $this.prev() : $this.next(),
+                      $left = $this.hasClass('incrementing') ? $this.prev().prev() : $this,
+                      $right = $this.hasClass('incrementing') ? $this : $this.next().next(),
+                      transition = 'vertical flip';
+
+                  $current
+                    .transition(transition, 250, function() {
+                      $current
+                        .html(response.curr_status)
+                        .removeClass('green olive yellow orange red violet blue')
+                        .addClass(response.curr_color);
+                      $left
+                        .removeClass('green olive yellow orange red violet blue')
+                        .addClass(response.curr_color);
+                      $right
+                        .removeClass('green olive yellow orange red violet blue')
+                        .addClass(response.curr_color);
+                    })
+                    .transition(transition, 250);
+
+              })
+              .on('ajax:error',function(e, xhr, status, error) {
+              });
+      });
+  </script>
+<% end %>

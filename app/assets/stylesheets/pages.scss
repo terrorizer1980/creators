@@ -1,0 +1,307 @@
+@import "site";
+
+body {
+	font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1.05rem;
+	line-height: 1.6;
+	font-weight: 400;
+}
+body > .ui.segment {
+	padding: 0;
+}
+#mainMenuBar a:not(.button), #mainMenuBar a:hover:not(.button) {
+  color: rgba(0, 0, 0, 0.87);
+}
+.section .container > .large.description {
+  font-size: 1.3em;
+}
+.section .container > .medium.description {
+  font-size: 1.15em;
+}
+.section .container > .small.description {
+  font-size: 1em;
+}
+
+.light .description a {
+	color: #f25d07;
+}
+
+.light .description a:hover {
+  border-bottom: 1px #f25d07 dotted;
+}
+
+.dark .description a {
+	color: lightgoldenrodyellow;
+}
+.dark .description a:hover {
+	border-bottom: 1px lightgoldenrodyellow dotted;
+}
+#mainMenuBar .logo.item,
+{
+	background-image: image-url('logoonly-512-matte-white.png');
+}
+.ui.segment.attached {
+	top: 0px;
+	bottom: 0px;
+	margin: 0;
+	width: 100%;
+	max-width: 100%;
+}
+.container {
+	position: relative;
+	width: 99%;
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0 20px;
+	box-sizing: border-box;
+}
+.column,
+.columns {
+	width: 100%;
+	float: left;
+	box-sizing: border-box;
+	margin-bottom: 2.5rem;
+}
+
+/* Typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin-top: 0;
+	margin-bottom: 1rem;
+	font-weight: 300;
+}
+h1 {
+	font-size: 2.65rem;
+	line-height: 1.2;
+	letter-spacing: -.1rem;
+}
+h2 {
+	font-size: 2.5rem;
+	line-height: 1.25;
+	letter-spacing: -.1rem;
+}
+h3 {
+	font-size: 2.25rem;
+	line-height: 1.3;
+	letter-spacing: -.1rem;
+}
+h4 {
+	font-size: 1.6rem;
+	line-height: 1.25;
+	letter-spacing: -.05rem;
+}
+h5 {
+	font-size: 1.125rem;
+	line-height: 1.5;
+	letter-spacing: -.05rem;
+}
+h6 {
+	font-size: 0.9375rem;
+	line-height: 1.6;
+	letter-spacing: 0;
+}
+.section {
+	padding: 5rem 0 7rem;
+	text-align: center;
+}
+.section .heading,
+.section .description {
+	margin-bottom: 1.2rem;
+}
+.one-third.column .heading {
+	font-size: 1.8rem;
+	margin-bottom: .3rem;
+}
+.one-third.column .description {
+	font-size: 1.1rem;
+	line-height: 1.6;
+	opacity: .8;
+}
+.section .container > .description {
+	max-width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 1.3rem;
+	//	margin-bottom: 4rem;
+}
+.features {
+	background-image: image-url('b7b1ab06.jpg');
+	color: #fff;
+}
+.help {
+	background-image: image-url('fe02c87d.jpg');
+	color: #fff;
+}
+.footer {
+	border-bottom: 1px solid #ddd;
+}
+.ui.blue.button.button-primary {
+	background-color: rgb(0, 64, 101);
+	border-radius: 100px;
+	font-size: 0.8rem;
+	font-weight: 600;
+	letter-spacing: 1px;
+	line-height: 3.45;
+	padding-bottom: 0px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 0px;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	white-space: nowrap;
+	-moz-transition: all .2s linear;
+	-o-transition: all .2s linear;
+	-webkit-transition: all .2s linear;
+	transition: all .2s linear;
+}
+.ui.blue.button.button-primary:hover {
+	background-color: #1EAEDB;
+}
+.grow {
+	-webkit-backface-visibility: hidden;
+	transition: all .2s ease-out;
+}
+.grow:hover {
+	transform: scale(1.1);
+}
+.icon-image {
+	width: 96px;
+	height: 96px;
+	background-size: 96px 96px;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin: 16px;
+}
+.icon-image.centered {
+	margin: 16px auto 16px;
+}
+.icon-image.logo101 {
+	background-image: image-url('logoonly-512-matte-white.png');
+}
+.icon-image.bulb {
+	background-image: image-url('secicon-blue-creator.png');
+}
+.icon-image.rev {
+	background-image: image-url('secicon-blue-rev-share.png');
+}
+.icon-image.lock {
+	background-image: image-url('secicon-blue-no-lock-in.png');
+}
+.icon-image.keep-us-posted {
+	background-image: image-url('secicon-orange-posted.png');
+}
+.icon-image.spread-the-word {
+	background-image: image-url('secicon-orange-spread-the-word.png');
+}
+.icon-image.subscribe-watch {
+	background-image: image-url('secicon-orange-watch-sub.png');
+}
+
+/* For devices larger than 400px */
+
+@media (min-width: 400px) {
+	.section .container > .description {
+		max-width: 80%;
+	}
+	.container {
+		width: 90%;
+		padding: 0;
+	}
+	.icon-image {
+		width: 128px;
+		height: 128px;
+		background-size: 128px 128px;
+	}
+}
+
+/* Bigger than 750 */
+
+@media (min-width: 750px) {
+	.section .container > .description {
+		max-width: 60%;
+	}
+	.center-aligned.row {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.container {
+		width: 80%;
+	}
+	.column,
+	.columns {
+		margin-left: 4%;
+		margin-bottom: 0rem;
+	}
+	.column:first-child,
+	.columns:first-child {
+		margin-left: 0;
+	}
+	.one.column,
+	.one.columns {
+		width: 4.66666666667%;
+	}
+	.two.columns {
+		width: 13.3333333333%;
+	}
+	.three.columns {
+		width: 22%;
+	}
+	.four.columns {
+		width: 30.6666666667%;
+	}
+	.five.columns {
+		width: 39.3333333333%;
+	}
+	.six.columns {
+		width: 48%;
+	}
+	.one-third.column {
+		width: 30.6666666667%;
+	}
+	.two-thirds.column {
+		width: 65.3333333333%;
+	}
+	.one-half.column {
+		width: 48%;
+	}
+	.section {
+		//		padding: 13rem 0 11rem;
+	}
+}
+
+/* Bigger than 1000 */
+
+@media (min-width: 1000px) {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-top: 0;
+		margin-bottom: 2rem;
+		font-weight: 300;
+	}
+}
+@media (min-width: 1366px) {
+	.icon-image {
+		width: 192px;
+		height: 192px;
+		background-size: 192px 192px;
+	}
+}

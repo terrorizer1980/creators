@@ -1,0 +1,58 @@
+<div class="ui segment">
+	<%= form_for(@referral, html: {class: 'ui form'}) do |f| %>
+		<% if @referral.errors.any? %>
+			<div id="error_explanation">
+				<h2><%= pluralize(@referral.errors.count, "error") %> prohibited this referral from being saved:</h2>
+				<ul>
+					<% @referral.errors.full_messages.each do |message| %>
+						<li>
+							<%= message %>
+						</li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+		<div class="field">
+			<%= f.label :name %>
+			<%= f.text_field :name, required: true %>
+		</div>
+		<div class="two fields">
+			<div class="field">
+				<label>Channel Type</label>
+				<%= f.select :channel_type, Channel.platforms.keys.to_a.map { |w| [w.humanize, w] }, { class: 'ui dropdown' } %>
+			</div>
+			<div class="field">
+				<%= f.label 'Channel id' %>
+				<%= f.text_field :channel_id %>
+			</div>
+		</div>
+		<div class="two fields">
+			<div class="field">
+				<%= f.label :email %>
+				<%= f.text_field :email, required: true %>
+			</div>
+			<div class="field">
+				<%= f.label :status %>
+				<%= f.select :status, Referral.statuses.keys.to_a.map { |w| [w.humanize, w] }, {class: 'ui dropdown'} %>
+			</div>
+
+		</div>
+		<div class="field">
+			<%= f.label :notes %>
+			<%= f.text_area :notes %>
+		</div>
+		<div class="actions">
+			<div class="ui buttons">
+				<%= link_to referrals_path, class: 'ui secondary labeled icon button' do |btn| %>
+					<i class="arrow left icon"></i>
+					Cancel
+				<% end %>
+				<div class="or"></div>
+				<%= button_tag(type: 'submit', class: 'ui positive right labeled icon button') do |btn| %>
+					<i class="save icon"></i>
+					Save
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+</div>

@@ -1,0 +1,124 @@
+@import "semantic-ui";
+@import "messaging";
+
+html {
+		font-size: 75%;
+	}
+
+body > .ui.menu,
+body > .ui.menu .item {
+	font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#mainMenuBar a>label {
+	cursor: pointer;
+}
+#mainMenuBar .toplevel .showable {
+	display: inline;
+}
+#mainMenuBar .toplevel .hideable {
+	display: none;
+}
+#mainMenuBar .logo.item,
+{
+	font-weight: bold;
+	padding-left: 50px;
+	background-image: image-url('logoonly-white.png');
+	background-size: 35px 35px;
+    background-repeat: no-repeat;
+	background-position: 8px 8px;
+}
+.ui.menu:not(.vertical) .item > .button {
+	padding-bottom: 0.5rem;
+	padding-top: 0.5rem;
+}
+
+.ui.button {
+	white-space: nowrap;
+}
+
+.ui.disabled.cards > .card, 
+.ui.disabled.card {
+  background-color: #f8f8f9;
+  color: #888;
+}
+
+.ui.disabled.cards > .card > .image:not(.ui) > img, 
+.ui.disabled.card > .image:not(.ui) > img {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+}
+
+/* Self Clearing Goodness */
+
+.container:after,
+.row:after,
+.u-cf {
+	content: "";
+	display: table;
+	clear: both;
+}
+.ui.menu {
+	margin: 0;
+	border-radius: 0;
+}
+.ui.segment {
+	margin: 0;
+}
+#tag_cloud {
+	.s {
+		font-size: 0.8em;
+	}
+	.m {
+		font-size: 1.2em;
+	}
+	.l {
+		font-size: 1.6em;
+	}
+}
+@media (min-width: 400px) {
+	html {
+		font-size: 85%;
+	}
+}
+
+/* Bigger than 550 */
+
+@media (min-width: 550px) {
+	html {
+		font-size: 90%;
+	}
+}
+
+/* Bigger than 850 */
+
+@media (min-width: 850px) {
+	html {
+		font-size: 95%;
+	}
+	#mainMenuBar .toplevel .showable {
+		display: none;
+	}
+	#mainMenuBar .toplevel .hideable {
+		display: inline;
+	}
+}
+
+/* Bigger than 1000 */
+
+@media (min-width: 1000px) {
+	html {
+		font-size: 100%;
+	}
+	#mainMenuBar .toplevel .showable {
+		display: inline;
+	}
+	#mainMenuBar .toplevel .hideable {
+		display: inline;
+	}
+}
+@media (min-width: 1366px) {
+	html {
+		font-size: 100%;
+	}
+}

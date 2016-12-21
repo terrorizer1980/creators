@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @article_collection.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @article_collection.description %>
+</p>
+
+<p>
+  <strong>Picture:</strong>
+  <%= @article_collection.picture %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @article_collection.slug %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @article_collection.category %>
+</p>
+
+<%= link_to 'Edit', edit_article_collection_path(@article_collection) %> |
+<%= link_to 'Back', article_collections_path %>

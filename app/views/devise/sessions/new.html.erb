@@ -1,0 +1,42 @@
+<% @title = "network101 | login" %>
+
+<div class="ui one column center aligned stackable page grid">
+  <div class="column twelve wide">
+    <%= image_tag 'logoonly-512-matte-white.png', class: 'ui centered small image'%>
+
+    <h2>Log in to network101</h2>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'ui form'}) do |f| %>
+    <div class="required field">
+      <label>Email Address</label>
+      <div class="ui icon input">
+        <%= f.email_field :email, autofocus: true %>
+        <i class="user icon"></i>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <div class="ui icon input">
+        <%= f.password_field :password, autocomplete: "off" %>
+        <i class="lock icon"></i>
+      </div>
+    </div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div class="field">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
+    </div>
+  <% end -%>
+
+    <div class="actions">
+      <%= f.submit "Log in", class: 'ui positive button' %>
+    </div>
+  <% end %>
+    <div class="ui divider"></div>
+    <%= render "devise/shared/links" %>
+
+  </div>
+</div>
+

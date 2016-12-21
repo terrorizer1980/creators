@@ -1,0 +1,42 @@
+<h2 class="ui dividing header">Latest <%= feed_publishable_class.to_s %></h2>
+<% if feed_publishables.present? %>
+    <div class="ui feed">
+      <% feed_publishables.each do |publishable_item| %>
+        <div class="event">
+          <div class="label">
+            <i class="<%= publishable_item.feed_icon %> icon"></i>
+          </div>
+          <div class="content">
+            <div class="summary">
+              Posted by <%= link_to publishable_item.user.profile.nickname, publishable_item.user.profile %> to public 
+              <div class="date">
+                <%= time_ago_in_words_suffix(publishable_item.publish_at) %>
+              </div>
+            </div>
+            <div class="extra text">
+              <h3 class="ui header">
+                <%= link_to publishable_item.title, publishable_item %>
+              </h3>
+              <%= publishable_item.get_summary_safe %>
+              <% if publishable_item.vidurl? %>
+                <div class="extra videos">
+                  <div class="ui video manual feeditem" data-source="youtube" data-id="<%= publishable_item.vidurl%>" data-image="<%= publishable_item.thumburl_url(:card).nil? ? '' : publishable_item.thumburl_url(:card).to_s %>"></div>
+                </div>
+              <% elsif !publishable_item.thumburl_url(:card).nil? %>
+                <%= link_to publishable_item, class: 'ui image' do |lnk| %>
+                  <%= image_tag publishable_item.thumburl_url(:card) %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <%= link_to 'Read all ' + feed_publishable_class.to_s.pluralize.titlecase, feed_publishable_class %>
+<% end %>
+
+<script>
+  $(function () {
+    $('.ui.video.manual.feeditem').video();
+  });
+</script>
